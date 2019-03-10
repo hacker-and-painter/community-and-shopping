@@ -7,6 +7,7 @@ import com.beautifulsoup.chengfeng.service.CommunityService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -18,6 +19,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityMapper communityMapper;
 
+    @Cacheable(value = "community")
     @Override
     public List<CommunityVo> getAllCommunities() {
         List<CommunityVo> communityVos= Lists.newArrayList();
