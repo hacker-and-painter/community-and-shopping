@@ -1,0 +1,12 @@
+server:
+  port: 8115
+
+spring:
+  datasource:
+    username: root
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.95.244.237:3306/chengfeng?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.beautifulsoup.chengfeng.pojo
