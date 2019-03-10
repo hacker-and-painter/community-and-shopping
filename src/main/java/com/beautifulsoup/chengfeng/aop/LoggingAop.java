@@ -31,6 +31,6 @@ public class LoggingAop {
     public void doAfterReturn(Object ret){
         ServletRequestAttributes attributes= (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        log.info(request.getRequestURL().append(" 耗时: ").append(System.currentTimeMillis()-startTime.get()).toString());
+        log.debug(request.getRequestURL().append(" 耗时: ").append(System.currentTimeMillis()-startTime.get()).toString());
     }
 }
