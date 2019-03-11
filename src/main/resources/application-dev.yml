@@ -21,6 +21,10 @@ spring:
       stat-view-servlet:
         login-username: admin
         login-password: admin
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:/ehcache.xml
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
