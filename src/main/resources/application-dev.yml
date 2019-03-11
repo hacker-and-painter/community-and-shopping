@@ -45,11 +45,16 @@ spring:
     virtual-host: /
     username: guest
     password: guest
+    listener:
+      simple:
+        acknowledge-mode: manual  #手动解决未ack的消息
 
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.beautifulsoup.chengfeng.pojo
+  configuration:
+    map-underscore-to-camel-case: true
 
 logging:
   level:
@@ -61,3 +66,4 @@ memcached:
   poolSize: 10
   #操作超时时间
   opTimeout: 6000
+

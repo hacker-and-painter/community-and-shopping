@@ -3,3 +3,6 @@ spring:
     active: dev
   thymeleaf:
     cache: false
+server:
+  servlet:
+    context-path: /chengfeng

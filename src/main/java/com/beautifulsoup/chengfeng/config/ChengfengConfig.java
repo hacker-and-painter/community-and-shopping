@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(value = {SwaggerConfig.class,RabbitmqConfig.class,MemcachedConfig.class,SessionConfig.class})
+@Import(value = {SwaggerConfig.class,RabbitmqConfig.class,MemcachedConfig.class,SessionConfig.class,CorsConfig.class,RedisConfig.class})
 public class ChengfengConfig {
 
 
