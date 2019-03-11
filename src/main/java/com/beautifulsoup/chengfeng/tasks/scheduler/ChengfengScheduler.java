@@ -1,4 +1,4 @@
-package com.beautifulsoup.chengfeng.tasks;
+package com.beautifulsoup.chengfeng.tasks.scheduler;
 
 import com.beautifulsoup.chengfeng.tasks.job.ChengfengJob;
 import org.quartz.*;
@@ -16,12 +16,10 @@ public class ChengfengScheduler {
 
     @Bean
     public Trigger trigger(){
-//        SimpleScheduleBuilder scheduleBuilder=SimpleScheduleBuilder.simpleSchedule()
-//                .withIntervalInSeconds(2).repeatForever();
-        CronScheduleBuilder cronScheduleBuilder=CronScheduleBuilder.cronSchedule("0/5 * * * * ?");
-//        CronTrigger cronTrigger=TriggerBuilder.newTrigger()
+        SimpleScheduleBuilder scheduleBuilder=SimpleScheduleBuilder.simpleSchedule()
+                .withIntervalInSeconds(5).repeatForever();
         return TriggerBuilder.newTrigger().forJob(jobDetail())
-                .withIdentity("chengfengTrigger").withSchedule(cronScheduleBuilder).build();
+                .withIdentity("chengfengTrigger").withSchedule(scheduleBuilder).build();
     }
 
 
