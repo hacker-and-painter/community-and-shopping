@@ -38,7 +38,8 @@ spring:
         max-active: 8
         max-wait: -1
         max-idle: 8
-        min-idle: 3
+        min-idle: 0
+      shutdown-timeout: 100
   rabbitmq:
     addresses: 123.207.157.129
     virtual-host: /

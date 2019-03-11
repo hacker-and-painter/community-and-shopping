@@ -6,19 +6,20 @@
 1. SpringBoot 2.1.3
 2. Spring Security+JWT
 3. Spring Cache+Ehcache
-4. MyBatis+PageHelper
-5. MySQL+Druid
-6. Redis+Codis+Redisson
-7. RabbitMQ
-8. ElasticSearch
-9. Kafka
-10. Memcached
-11. FastDFS
-12. Quartz
-13. Thymeleaf
-14. Spring Boot Mail
-15. Hibernate Validator
-16. Guava+apache commons+jackson+joda time
-17. Swagger
-18. Tomcat+Nginx
-19. CentOS 7 
+4. Spring Session
+5. Spring Boot Mail
+6. MyBatis+PageHelper
+7. MySQL+Druid
+8. Redis+Codis+Redisson
+9. RabbitMQ
+10. ElasticSearch
+11. Kafka
+12. Memcached
+13. FastDFS
+14. Quartz
+15. Thymeleaf 
+16. Hibernate Validator
+17. Guava+apache commons+jackson+joda time
+18. Swagger
+19. Tomcat+Nginx
+20. CentOS 7 
