@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResponseCode {
-	SUCCESS(2,"请求成功"),
-	ERROR(0,"请求失败"),
+	SUCCESS(10001,"请求成功"),
+	ERROR(10000,"请求失败"),
 	ILLEGAL_ARGUMENTS(1,"请求参数不合法")
 	;
 	

@@ -6,7 +6,7 @@ spring:
     username: root
     password: password
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.95.244.237:3306/chengfeng?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true
+    url: jdbc:mysql://127.0.0.1:3306/chengfeng1_5?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 3
@@ -20,15 +20,31 @@ spring:
       stat-view-servlet:
         login-username: admin
         login-password: admin
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   cache:
     type: ehcache
     ehcache:
       config: classpath:/ehcache.xml
+  redis:
+    database: 0
+    host: 123.207.157.129
+    port: 6379
+    password: password
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 3
   rabbitmq:
     addresses: 123.207.157.129
     virtual-host: /
     username: guest
     password: guest
+
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
