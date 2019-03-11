@@ -19,7 +19,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityMapper communityMapper;
 
-//    @Cacheable(value = "community",key = "#getall")
+    @Cacheable(value = "community")
     @Override
     public List<CommunityVo> getAllCommunities() {
         List<CommunityVo> communityVos= Lists.newArrayList();

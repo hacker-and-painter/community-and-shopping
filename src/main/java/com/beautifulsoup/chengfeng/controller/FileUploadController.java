@@ -4,6 +4,8 @@ import com.beautifulsoup.chengfeng.common.FastDfsFile;
 import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.constant.ErrorConstant;
 import com.beautifulsoup.chengfeng.utils.FastDfsClient;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Api(tags = "/file",description = "文件上传",protocols = "http")
 @Controller
 @RequestMapping("/file")
 @Slf4j
@@ -23,6 +26,8 @@ public class FileUploadController {
         return "upload";
     }
 
+    @ApiOperation(value = "文件上传",notes = "上传文件",produces = "multipart/form-data",
+            response = ResponseResult.class,httpMethod = "POST")
 
     @PostMapping("/upload")
     @ResponseBody

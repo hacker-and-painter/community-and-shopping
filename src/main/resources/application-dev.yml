@@ -53,3 +53,10 @@ mybatis:
 logging:
   level:
     org.springframework.web: DEBUG
+
+memcached:
+  servers: 123.207.157.129:9999
+  # 连接池
+  poolSize: 10
+  #操作超时时间
+  opTimeout: 6000

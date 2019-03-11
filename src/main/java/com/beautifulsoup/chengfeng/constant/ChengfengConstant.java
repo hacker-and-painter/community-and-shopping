@@ -6,4 +6,7 @@ public class ChengfengConstant {
         String ORDER_QUEUE_NAME="order";
         String TOPIC_EXCHANGE="topicExchange";
     }
+    public interface MEMCACHED{
+        Integer CAS_RETRIES=3;
+    }
 }
