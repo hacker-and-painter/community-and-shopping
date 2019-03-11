@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(value = {SwaggerConfig.class})
+@Import(value = {SwaggerConfig.class,RabbitmqConfig.class})
 @EnableCaching
 public class ChengfengConfig {
 
