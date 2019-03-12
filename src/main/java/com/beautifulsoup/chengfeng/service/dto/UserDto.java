@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
@@ -25,12 +26,13 @@ public class UserDto {
     @Length(min = 5,max = 20,message = "密码长度在5-20之间")
     private String password;
 
-    @Pattern(regexp = ChengfengConstant.PHONE_REGEX,message = "手机号格式不正确")
+    @NotBlank(message = "手机号不能为空")
+    @Pattern(regexp = ChengfengConstant.Validation.PHONE_REGEX,message = "手机号格式不正确")
     private String phone;
 
-    private String idcard;
-
     private Integer communityId;
+
+    private String idcard;
 
     private String email;
 

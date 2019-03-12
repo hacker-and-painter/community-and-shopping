@@ -17,7 +17,7 @@ public class PatternTest  {
 
 
     @Test
-    public void patternTest(){
+    public void patternPhoneTest(){
         String rules="^[1](([3][0-9])|([4][5,7,9])|([5][4,6,9])|([6][6])|([7][3,5,6,7,8])|([8][0-9])|([9][8,9]))[0-9]{8}$";
         Pattern pattern = Pattern.compile(rules);
         Matcher matcher = pattern.matcher("15910062234");
@@ -27,4 +27,18 @@ public class PatternTest  {
             log.error("手机号校验失败");
         }
     }
+
+    @Test
+    public void patternNumberTest(){
+        String rules="^[0-9]*[1-9][0-9]*$";
+        Pattern pattern=Pattern.compile(rules);
+        Matcher matcher=pattern.matcher("");
+        if (matcher.matches()){
+            log.info("数字校验成功");
+        }else{
+            log.error("数字校验失败");
+        }
+    }
+
+
 }

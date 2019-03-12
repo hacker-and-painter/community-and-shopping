@@ -6,7 +6,6 @@
 1. SpringBoot 2.1.3
 2. Spring Security+JWT
 3. Spring Cache+Ehcache
-4. Spring Session
 5. Spring Boot Mail
 6. MyBatis+PageHelper
 7. MySQL+Druid

@@ -2,7 +2,11 @@ package com.beautifulsoup.chengfeng.constant;
 
 public class ChengfengConstant {
 
-    public static final String PHONE_REGEX="^[1](([3][0-9])|([4][5,7,9])|([5][4,6,9])|([6][6])|([7][3,5,6,7,8])|([8][0-9])|([9][8,9]))[0-9]{8}$";
+    public interface Validation{
+        String PHONE_REGEX="^[1](([3][0-9])|([4][5,7,9])|([5][4,6,9])|([6][6])|([7][3,5,6,7,8])|([8][0-9])|([9][8,9]))[0-9]{8}$";
+        String NUMBER_REGEX="^[0-9]*[1-9][0-9]*$";
+    }
+
 
     public interface RabbitMQ{
         String CHENGFENG_QUEUE_NAME="chengfeng";

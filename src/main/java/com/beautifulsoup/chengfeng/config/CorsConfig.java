@@ -1,10 +1,12 @@
 package com.beautifulsoup.chengfeng.config;
 
+import com.beautifulsoup.chengfeng.annotation.NotUsed;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+@NotUsed
 public class CorsConfig {
 
 

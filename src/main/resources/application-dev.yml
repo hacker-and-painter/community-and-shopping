@@ -58,7 +58,8 @@ mybatis:
 
 logging:
   level:
-    org.springframework.web: DEBUG
+    com.beautifulsoup.chengfeng.dao: DEBUG
+    com.beautifulsoup.chengfeng.service.impl: DEBUG
 
 memcached:
   servers: 47.95.244.237:9999

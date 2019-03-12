@@ -5,10 +5,7 @@ import com.beautifulsoup.chengfeng.controller.vo.UserVo;
 import com.beautifulsoup.chengfeng.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -27,6 +24,11 @@ public class UserController {
             return ResponseResult.createBySuccess(userVo);
         }
 
+        return null;
+    }
+
+    @PostMapping
+    public ResponseResult login(){
         return null;
     }
 }
