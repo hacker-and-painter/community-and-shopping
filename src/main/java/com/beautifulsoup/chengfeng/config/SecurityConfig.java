@@ -1,13 +1,12 @@
 package com.beautifulsoup.chengfeng.config;
 
-import com.beautifulsoup.chengfeng.filter.OptionsRequestFilter;
-import com.beautifulsoup.chengfeng.handler.ChengfengLoginSuccessHandler;
-import com.beautifulsoup.chengfeng.handler.JwtRefreshSuccessHandler;
+import com.beautifulsoup.chengfeng.handler.UserLoginSuccessHandler;
+import com.beautifulsoup.chengfeng.handler.TokenRefreshSuccessHandler;
 import com.beautifulsoup.chengfeng.handler.TokenClearLogoutHandler;
-import com.beautifulsoup.chengfeng.security.JwtUserService;
-import com.beautifulsoup.chengfeng.security.configurer.ChengfengLoginConfigurer;
-import com.beautifulsoup.chengfeng.security.configurer.JwtLoginConfigurer;
-import com.beautifulsoup.chengfeng.security.provider.JwtAuthenticationProvider;
+import com.beautifulsoup.chengfeng.security.UserInfoService;
+import com.beautifulsoup.chengfeng.security.configurer.UserLoginConfigurer;
+import com.beautifulsoup.chengfeng.security.configurer.TokenLoginConfigurer;
+import com.beautifulsoup.chengfeng.security.provider.TokenAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,49 +16,37 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.web.header.Header;
-import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();//默认生成b
-    }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/image/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/article/**").hasRole("USER")
-                .antMatchers("/community/listall").permitAll()
+                .antMatchers("/image/**").permitAll()//设置静态资源无权限限制
+                .antMatchers("/community/listall").permitAll()//指定可以直接访问的url
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement().disable()
-                .cors()
+                //登录请求的过滤
+                .apply(new UserLoginConfigurer<>()).loginSuccessHandler(userLoginSuccessHandler())
                 .and()
-                .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
-                new Header("Access-Control-Allow-Origin","*"),
-                new Header("Access-Control-Expose-Headers","Authorization"))))
+                //token请求的过滤
+                .apply(new TokenLoginConfigurer<>())
+                .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
+                .permissiveRequestUrls("/logout","/user/find")
                 .and()
-                .addFilterAfter(new OptionsRequestFilter(), CorsFilter.class)
-                .apply(new ChengfengLoginConfigurer<>()).loginSuccessHandler(jsonLoginSuccessHandler())
-                .and()
-                .apply(new JwtLoginConfigurer<>()).tokenValidSuccessHandler(jwtRefreshSuccessHandler()).permissiveRequestUrls("/logout")
-                .and()
+                //登出的过滤器
                 .logout()
-//		        .logoutUrl("/logout")   //默认就是"/logout"
                 .addLogoutHandler(tokenClearLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
@@ -69,7 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider()).authenticationProvider(jwtAuthenticationProvider());
+        auth.authenticationProvider(daoAuthenticationProvider()).authenticationProvider(tokenAuthenticationProvider());
+    }
+
+    @Override
+    protected UserDetailsService userDetailsService() {
+        return new UserInfoService();
     }
 
     @Bean
@@ -77,42 +69,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean("jwtAuthenticationProvider")
-    protected AuthenticationProvider jwtAuthenticationProvider() {
-        return new JwtAuthenticationProvider(jwtUserService());
+    @Bean("tokenAuthenticationProvider")
+    protected AuthenticationProvider tokenAuthenticationProvider() {
+        return new TokenAuthenticationProvider(userInfoService());
     }
 
     @Bean("daoAuthenticationProvider")
     protected AuthenticationProvider daoAuthenticationProvider() throws Exception{
-        //这里会默认使用BCryptPasswordEncoder比对加密后的密码，注意要跟createUser时保持一致
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
+        daoProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         daoProvider.setUserDetailsService(userDetailsService());
         return daoProvider;
     }
 
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return new JwtUserService();
-    }
-
-    @Bean("jwtUserService")
-    protected JwtUserService jwtUserService() {
-        return new JwtUserService();
+    @Bean("userInfoService")
+    protected UserInfoService userInfoService() {
+        return new UserInfoService();
     }
 
     @Bean
-    protected ChengfengLoginSuccessHandler jsonLoginSuccessHandler() {
-        return new ChengfengLoginSuccessHandler(jwtUserService());
+    protected UserLoginSuccessHandler userLoginSuccessHandler() {
+        return new UserLoginSuccessHandler(userInfoService());
     }
 
     @Bean
-    protected JwtRefreshSuccessHandler jwtRefreshSuccessHandler() {
-        return new JwtRefreshSuccessHandler(jwtUserService());
+    protected TokenRefreshSuccessHandler tokenRefreshSuccessHandler() {
+        return new TokenRefreshSuccessHandler(userInfoService());
     }
 
     @Bean
     protected TokenClearLogoutHandler tokenClearLogoutHandler() {
-        return new TokenClearLogoutHandler(jwtUserService());
+        return new TokenClearLogoutHandler(userInfoService());
     }
 
     @Bean
@@ -126,4 +113,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
+
+//.cors()
+//.and()
+//.headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
+//new Header("Access-Control-Allow-Origin","*"),
+//new Header("Access-Control-Expose-Headers","Authorization"))))//设置支持跨域请求
+//.and()
+//.addFilterAfter(new OptionsRequestFilter(), CorsFilter.class)

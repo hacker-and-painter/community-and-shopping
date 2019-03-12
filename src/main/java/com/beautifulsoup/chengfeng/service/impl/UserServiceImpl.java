@@ -8,6 +8,7 @@ import com.beautifulsoup.chengfeng.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Cacheable(value = "user",key = "#nickname")
     @Override
     public UserVo findUserByNickname(String nickname) {
         if(StringUtils.isBlank(nickname)){

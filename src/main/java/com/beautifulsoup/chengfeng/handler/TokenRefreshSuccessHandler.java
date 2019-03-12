@@ -9,31 +9,31 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.beautifulsoup.chengfeng.security.JwtAuthenticationToken;
-import com.beautifulsoup.chengfeng.security.JwtUserService;
+import com.beautifulsoup.chengfeng.security.UserToken;
+import com.beautifulsoup.chengfeng.security.UserInfoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-public class JwtRefreshSuccessHandler implements AuthenticationSuccessHandler{
+public class TokenRefreshSuccessHandler implements AuthenticationSuccessHandler{
 	
-	private static final int tokenRefreshInterval = 300;  //刷新间隔5分钟
+	private static final int tokenRefreshInterval = 20;  //刷新间隔5分钟
 	
-	private JwtUserService jwtUserService;
+	private UserInfoService userInfoService;
 	
-	public JwtRefreshSuccessHandler(JwtUserService jwtUserService) {
-		this.jwtUserService = jwtUserService;
+	public TokenRefreshSuccessHandler(UserInfoService userInfoService) {
+		this.userInfoService = userInfoService;
 	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		DecodedJWT jwt = ((JwtAuthenticationToken)authentication).getToken();
+		DecodedJWT jwt = ((UserToken)authentication).getToken();
 		boolean shouldRefresh = shouldTokenRefresh(jwt.getIssuedAt());
 		if(shouldRefresh) {
-            String newToken = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
+            String newToken = userInfoService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
             response.setHeader("Authorization", newToken);
         }	
 	}

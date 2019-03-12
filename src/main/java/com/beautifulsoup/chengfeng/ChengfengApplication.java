@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @MapperScan("com.beautifulsoup.chengfeng.dao")
 public class ChengfengApplication extends SpringBootServletInitializer {
 
+    //tomcat war支持
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(ChengfengApplication.class);

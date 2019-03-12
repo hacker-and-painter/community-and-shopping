@@ -7,14 +7,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 
-public class JwtUserService implements UserDetailsService {
+public class UserInfoService implements UserDetailsService {
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public UserInfoService() {
+        this.passwordEncoder=new BCryptPasswordEncoder();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,7 +44,7 @@ public class JwtUserService implements UserDetailsService {
          * redisTemplate.opsForValue().set("token:"+username, salt, 3600, TimeUnit.SECONDS);
          */
         Algorithm algorithm = Algorithm.HMAC256(salt);
-        Date date = new Date(System.currentTimeMillis()+3600*1000);  //设置1小时后过期
+        Date date = new Date(System.currentTimeMillis()+5000);  //设置5秒后过期
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(date)
