@@ -23,7 +23,7 @@ public class CommunityController {
 
     @ApiOperation(value = "查询社区信息",notes = "列出所有的社区",produces = "application/json;charset=UTF-8",
             response = List.class,httpMethod = "GET")
-    @GetMapping("/listall")
+    @GetMapping(value = "/listall",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseResult<List<CommunityVo>> getAllCommunities(){
         List<CommunityVo> communityVos = communityService.getAllCommunities();

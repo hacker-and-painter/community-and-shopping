@@ -30,9 +30,9 @@ spring:
       config: classpath:/ehcache.xml
   redis:
     database: 0
-    host: 123.207.157.129
+    host: 47.95.244.237
     port: 6379
-    password: password
+    password:
     lettuce:
       pool:
         max-active: 8
@@ -41,7 +41,7 @@ spring:
         min-idle: 0
       shutdown-timeout: 100
   rabbitmq:
-    addresses: 123.207.157.129
+    addresses: 47.95.244.237
     virtual-host: /
     username: guest
     password: guest
@@ -61,7 +61,7 @@ logging:
     org.springframework.web: DEBUG
 
 memcached:
-  servers: 123.207.157.129:9999
+  servers: 47.95.244.237:9999
   # 连接池
   poolSize: 10
   #操作超时时间
