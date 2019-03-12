@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
-public class FastDfsClient {
+public class FastDfsClientUtil {
 
     static {
         try {

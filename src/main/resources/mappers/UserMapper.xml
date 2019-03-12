@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.beautifulsoup.chengfeng.mapper.UserMapper" >
+<mapper namespace="com.beautifulsoup.chengfeng.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
@@ -209,4 +209,11 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByNickname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where nickname = #{nickname,jdbcType=VARCHAR}
+  </select>
 </mapper>

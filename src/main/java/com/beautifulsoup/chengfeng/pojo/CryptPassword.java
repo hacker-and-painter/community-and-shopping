@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-public class CryptPassword {
+import java.io.Serializable;
+
+public class CryptPassword implements Serializable {
     private Integer id;
 
     private String cryptPassword;

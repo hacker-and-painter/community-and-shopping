@@ -3,7 +3,7 @@ package com.beautifulsoup.chengfeng.controller;
 import com.beautifulsoup.chengfeng.common.FastDfsFile;
 import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.constant.ErrorConstant;
-import com.beautifulsoup.chengfeng.utils.FastDfsClient;
+import com.beautifulsoup.chengfeng.utils.FastDfsClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -57,14 +57,14 @@ public class FileUploadController {
         inputStream.close();
         FastDfsFile file = new FastDfsFile(fileName, file_buff, ext);
         try {
-            fileAbsolutePath = FastDfsClient.upload(file);  //upload to fastdfs
+            fileAbsolutePath = FastDfsClientUtil.upload(file);  //upload to fastdfs
         } catch (Exception e) {
             log.error("upload file Exception!",e);
         }
         if (fileAbsolutePath==null) {
             log.error("upload file failed,please upload again!");
         }
-        String path=FastDfsClient.getTrackerUrl()+fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
+        String path= FastDfsClientUtil.getTrackerUrl()+fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
         return path;
     }
 }

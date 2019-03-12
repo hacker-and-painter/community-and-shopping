@@ -14,6 +14,6 @@ public class ChengfengJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        log.warn(String.format("Hello %s!",this.name));
+//        log.warn(String.format("Hello %s!",this.name));
     }
 }
