@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.exception;
 
-public class TokenException extends Exception{
+import org.springframework.security.web.authentication.www.NonceExpiredException;
+
+public class TokenException extends NonceExpiredException {
     public TokenException(String message) {
         super(message);
     }

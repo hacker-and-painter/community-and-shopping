@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UserLoginFailureHandler implements AuthenticationFailureHandler {
+public class TokenRefreshFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
-        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),"用户认证失败");
+        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),e.getMessage());
 
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);

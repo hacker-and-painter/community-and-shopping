@@ -9,8 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.beautifulsoup.chengfeng.common.ResponseResult;
+import com.beautifulsoup.chengfeng.controller.vo.TokenVo;
 import com.beautifulsoup.chengfeng.security.UserToken;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
+import com.beautifulsoup.chengfeng.utils.TokenConferUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -34,8 +38,7 @@ public class TokenRefreshSuccessHandler implements AuthenticationSuccessHandler{
 		boolean shouldRefresh = shouldTokenRefresh(jwt.getIssuedAt());
 		if(shouldRefresh) {
             String newToken = userInfoService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
-            response.setHeader("Authorization", newToken);
-        }	
+        }
 	}
 	
 	protected boolean shouldTokenRefresh(Date issueAt){

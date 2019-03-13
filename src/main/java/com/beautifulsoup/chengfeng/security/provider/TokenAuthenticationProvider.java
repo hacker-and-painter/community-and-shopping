@@ -1,9 +1,12 @@
 package com.beautifulsoup.chengfeng.security.provider;
 
-import java.util.Calendar;
 
+import java.util.Date;
+
+import com.beautifulsoup.chengfeng.exception.TokenException;
 import com.beautifulsoup.chengfeng.security.UserToken;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -16,6 +19,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+@Slf4j
 public class TokenAuthenticationProvider implements AuthenticationProvider{
 	
 	private UserInfoService userService;
@@ -26,15 +30,22 @@ public class TokenAuthenticationProvider implements AuthenticationProvider{
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
 		DecodedJWT jwt = ((UserToken)authentication).getToken();
 
-		if(jwt.getExpiresAt().before(Calendar.getInstance().getTime()))
-			throw new NonceExpiredException("Token 已经失效");
+
+
+		boolean expire=jwt.getExpiresAt().before(new Date());
+
+		if(expire)
+			throw new TokenException("Token 已经失效");
 
 		String username = jwt.getSubject();
+
 		UserDetails user = userService.getUserLoginInfo(username);
+
 		if(user == null || user.getPassword()==null)
-			throw new NonceExpiredException("Token 已经失效");
+			throw new TokenException("Token 已经失效");
 		String encryptSalt = user.getPassword();
 		try {
             Algorithm algorithm = Algorithm.HMAC256(encryptSalt);

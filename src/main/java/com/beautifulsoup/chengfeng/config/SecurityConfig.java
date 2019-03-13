@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //token请求的过滤
                 .apply(new TokenLoginConfigurer<>())
                 .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
-                .permissiveRequestUrls("/logout","/user/find")
+                .permissiveRequestUrls("/logout")
                 .and()
                 //登出的过滤器
                 .logout()

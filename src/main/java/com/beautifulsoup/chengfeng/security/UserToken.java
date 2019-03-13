@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+/**
+ * jwt 解析之后的token
+ */
 public class UserToken extends AbstractAuthenticationToken {
 	private static final long serialVersionUID = 3981518947978158945L;
 	
@@ -21,7 +24,8 @@ public class UserToken extends AbstractAuthenticationToken {
 		this.token = token;
 	}
 	
-	public UserToken(UserDetails principal, DecodedJWT token, Collection<? extends GrantedAuthority> authorities) {
+	public UserToken(UserDetails principal, DecodedJWT token,
+					 Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
 		this.token = token;

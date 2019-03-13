@@ -1,10 +1,11 @@
 package com.beautifulsoup.chengfeng.handler;
 
 import com.beautifulsoup.chengfeng.exception.BaseException;
+import com.beautifulsoup.chengfeng.exception.TokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.web.authentication.www.NonceExpiredException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
@@ -22,8 +23,8 @@ public class ChengfengExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
-    @ExceptionHandler(NonceExpiredException.class)
-    public ResponseEntity tokenExpiredExceptionHandler(NonceExpiredException e){
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity tokenExpiredExceptionHandler(TokenException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
@@ -31,4 +32,10 @@ public class ChengfengExceptionHandler {
     public ResponseEntity badcredentialsExceptionHandler(BadCredentialsException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity authenticationExceptionHandler(AuthenticationException e){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
 }

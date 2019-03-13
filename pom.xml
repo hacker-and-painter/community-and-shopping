@@ -91,6 +91,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+            <scope>runtime</scope>
         </dependency>
         <!--第三方-->
         <dependency>

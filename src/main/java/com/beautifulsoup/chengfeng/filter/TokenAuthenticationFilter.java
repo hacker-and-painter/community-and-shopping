@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.beautifulsoup.chengfeng.exception.TokenException;
 import com.beautifulsoup.chengfeng.security.UserToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -30,6 +32,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter{
 	
 	private RequestMatcher requiresAuthenticationRequestMatcher;
@@ -47,7 +50,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		if (!requiresAuthentication(request, response)) {
-			filterChain.doFilter(request, response);
+			filterChain.doFilter(request, response);//此处为何通过？
 			return;
 		}
 		Authentication authResult = null;
@@ -59,18 +62,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 				UserToken authToken = new UserToken(JWT.decode(token));
 			    authResult = this.getAuthenticationManager().authenticate(authToken);
 			} else {
-				failed = new InsufficientAuthenticationException("Token is Empty");
+				failed = new InsufficientAuthenticationException("Token 为空");
 			}
 		} catch(JWTDecodeException e) {
-			logger.error("JWT format error", e);
-			failed = new InsufficientAuthenticationException("JWT format error", failed);
+			log.error("JWT 解析失败", e);
+			failed = new InsufficientAuthenticationException("JWT 格式错误", e);
 		}catch (InternalAuthenticationServiceException e) {
-			logger.error(
-					"An internal error occurred while trying to authenticate the user.",
-					failed);
+			log.error("认证用户的过程中出错",e);
 			failed = e;
 		}catch (AuthenticationException e) {
-			// Authentication failed			
 			failed = e;
 		}
 		//认证成功的逻辑
@@ -91,7 +91,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 		Assert.notNull(failureHandler, "AuthenticationFailureHandler must be specified");
 	}
 
-	//判断header中是否含有token,含有token返回true,否则返回false
+	//判断header中是否含有指定的头部信息,判断header中是否含有指定的头部信息,否则返回false
 	protected boolean requiresAuthentication(HttpServletRequest request,
 											 HttpServletResponse response) {
 		return requiresAuthenticationRequestMatcher.matches(request);
@@ -140,7 +140,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 		}		
 		return false;
 	}
-	
+	//将指定url添加到免权限列表
 	public void setPermissiveUrl(String... urls) {
 		if(permissiveRequestMatchers == null)
 			permissiveRequestMatchers = new ArrayList<>();

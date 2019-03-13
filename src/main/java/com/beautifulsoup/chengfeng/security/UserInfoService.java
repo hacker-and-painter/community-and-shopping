@@ -2,17 +2,34 @@ package com.beautifulsoup.chengfeng.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.beautifulsoup.chengfeng.constant.RedisConstant;
+import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.Serializable;
 import java.util.Date;
 
+@Slf4j
 public class UserInfoService implements UserDetailsService {
+
+    @Autowired
+    private RedisTemplate<String, Serializable> redisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     private PasswordEncoder passwordEncoder;
 
@@ -27,41 +44,36 @@ public class UserInfoService implements UserDetailsService {
     }
 
     public UserDetails getUserLoginInfo(String username) {
-        String salt = "123456ef";
-        /**
-         * @todo 从数据库或者缓存中取出jwt token生成时用的salt
-         * salt = redisTemplate.opsForValue().get("token:"+username);
-         */
+        String salt = stringRedisTemplate.opsForValue().get(RedisConstant.TOKEN_SALT + username);
+        if (StringUtils.isBlank(salt)){
+            log.error("salt失效");
+            return null;
+        }
         UserDetails user = loadUserByUsername(username);
-        //将salt放到password字段返回
         return User.builder().username(user.getUsername()).password(salt).authorities(user.getAuthorities()).build();
     }
 
     public String saveUserLoginInfo(UserDetails user) {
-        String salt = "123456ef"; //BCrypt.gensalt();  正式开发时可以调用该方法实时生成加密的salt
-        /**
-         * @todo 将salt保存到数据库或者缓存中
-         * redisTemplate.opsForValue().set("token:"+username, salt, 3600, TimeUnit.SECONDS);
-         */
-        Algorithm algorithm = Algorithm.HMAC256(salt);
-        Date date = new Date(System.currentTimeMillis()+5000);  //设置5秒后过期
-        return JWT.create()
+        String salt = BCrypt.gensalt();
+        stringRedisTemplate.opsForValue().set(RedisConstant.TOKEN_SALT+user.getUsername(),salt);
+        Algorithm algorithm = Algorithm.HMAC256(salt);//首先指定加密算法
+        Date date = new Date(System.currentTimeMillis()+1000*300);  //设置5分钟后过期
+        String jwtToken = JWT.create()
                 .withSubject(user.getUsername())
+                .withIssuer("auth0")
                 .withExpiresAt(date)
                 .withIssuedAt(new Date())
                 .sign(algorithm);
+        return  jwtToken;
     }
 
     public void createUser(String username, String password) {
         String encryptPwd = passwordEncoder.encode(password);
-        /**
-         * @todo 保存用户名和加密后密码到数据库
-         */
+        //保存用户名和加密后的密码到数据库
     }
 
     public void deleteUserLoginInfo(String username) {
-        /**
-         * @todo 清除数据库或者缓存中登录salt
-         */
+       //清除缓存的salt
+        stringRedisTemplate.delete(RedisConstant.TOKEN_SALT+username);
     }
 }

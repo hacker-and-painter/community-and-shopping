@@ -1,7 +1,7 @@
 package com.beautifulsoup.chengfeng.security.configurer;
 
 import com.beautifulsoup.chengfeng.filter.TokenAuthenticationFilter;
-import com.beautifulsoup.chengfeng.handler.UserLoginFailureHandler;
+import com.beautifulsoup.chengfeng.handler.TokenRefreshFailureHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,7 +19,7 @@ public class TokenLoginConfigurer<T extends TokenLoginConfigurer<T, B>, B extend
 	@Override
 	public void configure(B http) throws Exception {
 		authFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-		authFilter.setAuthenticationFailureHandler(new UserLoginFailureHandler());
+		authFilter.setAuthenticationFailureHandler(new TokenRefreshFailureHandler());
 
 		TokenAuthenticationFilter filter = postProcess(authFilter);
 		http.addFilterBefore(filter, LogoutFilter.class);
