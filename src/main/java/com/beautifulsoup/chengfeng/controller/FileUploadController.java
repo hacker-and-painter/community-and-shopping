@@ -28,7 +28,6 @@ public class FileUploadController {
 
     @ApiOperation(value = "文件上传",notes = "上传文件",produces = "multipart/form-data",
             response = ResponseResult.class,httpMethod = "POST")
-
     @PostMapping("/upload")
     @ResponseBody
     public ResponseResult uploadFile(@RequestParam("file") MultipartFile file){

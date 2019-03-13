@@ -18,6 +18,27 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="DetailResultMap" type="user">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="INTEGER" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="motto" property="motto" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="community_id" property="communityId" jdbcType="INTEGER" />
+    <result column="sign_up" property="signUp" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <association property="cryptPassword" javaType="cryptPassword">
+        <id column="p_id" property="id"></id>
+        <result column="p_cryptPassword" property="cryptPassword"></result>
+    </association>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, username, nickname, idcard, integral, gender, birthday, avatar, motto, email, 
     phone, community_id, sign_up, create_time, update_time
@@ -216,4 +237,16 @@
     from tb_user
     where nickname = #{nickname,jdbcType=VARCHAR}
   </select>
+
+
+  <select id="selectByNicknameAndPassword" resultMap="DetailResultMap" parameterType="java.lang.String" >
+    select
+      u.username,u.nickname,u.idcard,u.integral,u.gender,u.birthday,u.avatar,u.motto,u.email,u.phone,u.community_id,
+      u.sign_up,u.create_time,u.update_time,p.id p_id,p.crypt_password p_cryptPassword
+    from tb_user u
+    left JOIN tb_crypt_password p
+    on u.id=p.user_id
+    where u.nickname = #{nickname}
+  </select>
+
 </mapper>

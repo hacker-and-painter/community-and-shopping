@@ -18,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.header.Header;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,20 +32,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/image/**").permitAll()//设置静态资源无权限限制
-                .antMatchers("/community/listall").permitAll()//指定可以直接访问的url
+                .antMatchers("/image/**","/swagger-ui/**").permitAll()//设置静态资源无权限限制
+                .antMatchers("/community/listall","/user/registry").permitAll()//指定可以直接访问的url
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement().disable()
+                .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
+                new Header("Access-control-Allow-Origin","*"),
+                new Header("Access-Control-Expose-Headers","Authorization"))))
+                .and()
                 //登录请求的过滤
                 .apply(new UserLoginConfigurer<>()).loginSuccessHandler(userLoginSuccessHandler())
                 .and()
                 //token请求的过滤
                 .apply(new TokenLoginConfigurer<>())
                 .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
-                .permissiveRequestUrls("/logout")
+                .permissiveRequestUrls("/logout","/community/listall","/user/registry")
                 .and()
                 //登出的过滤器
                 .logout()
@@ -69,17 +75,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean("tokenAuthenticationProvider")
-    protected AuthenticationProvider tokenAuthenticationProvider() {
-        return new TokenAuthenticationProvider(userInfoService());
-    }
-
     @Bean("daoAuthenticationProvider")
     protected AuthenticationProvider daoAuthenticationProvider() throws Exception{
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
         daoProvider.setPasswordEncoder(new BCryptPasswordEncoder());
-        daoProvider.setUserDetailsService(userDetailsService());
+        daoProvider.setUserDetailsService(userInfoService());
         return daoProvider;
+    }
+    @Bean("tokenAuthenticationProvider")
+    protected AuthenticationProvider tokenAuthenticationProvider() {
+        return new TokenAuthenticationProvider(userInfoService());
     }
 
     @Bean("userInfoService")

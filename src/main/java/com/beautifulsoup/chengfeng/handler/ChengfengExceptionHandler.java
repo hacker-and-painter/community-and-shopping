@@ -1,7 +1,9 @@
 package com.beautifulsoup.chengfeng.handler;
 
 import com.beautifulsoup.chengfeng.exception.BaseException;
+import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.exception.TokenException;
+import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,7 +27,7 @@ public class ChengfengExceptionHandler {
 
     @ExceptionHandler(TokenException.class)
     public ResponseEntity tokenExpiredExceptionHandler(TokenException e){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -33,8 +35,13 @@ public class ChengfengExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity authenticationExceptionHandler(AuthenticationException e){
+    @ExceptionHandler(UserAuthenticationException.class)
+    public ResponseEntity authenticationExceptionHandler(UserAuthenticationException e){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ParamException.class)
+    public ResponseEntity paramExceptionHandler(ParamException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 

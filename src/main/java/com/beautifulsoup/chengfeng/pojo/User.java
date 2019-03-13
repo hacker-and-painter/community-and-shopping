@@ -28,6 +28,8 @@ public class User implements Serializable {
 
     private Integer communityId;
 
+    private CryptPassword cryptPassword;
+
     private Date signUp;
 
     private Date createTime;
@@ -128,6 +130,14 @@ public class User implements Serializable {
 
     public void setCommunityId(Integer communityId) {
         this.communityId = communityId;
+    }
+
+    public CryptPassword getCryptPassword() {
+        return cryptPassword;
+    }
+
+    public void setCryptPassword(CryptPassword cryptPassword) {
+        this.cryptPassword = cryptPassword;
     }
 
     public Date getSignUp() {
