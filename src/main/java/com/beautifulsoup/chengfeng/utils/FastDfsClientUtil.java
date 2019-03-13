@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,6 +21,31 @@ public class FastDfsClientUtil {
         } catch (Exception e) {
             log.error("FastDFS Client Init Fail!",e);
         }
+    }
+
+    public static String saveFile(MultipartFile multipartFile) throws IOException {
+        String[] fileAbsolutePath={};
+        String fileName=multipartFile.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        byte[] file_buff = null;
+        InputStream inputStream=multipartFile.getInputStream();
+        if(inputStream!=null){
+            int len1 = inputStream.available();
+            file_buff = new byte[len1];
+            inputStream.read(file_buff);
+        }
+        inputStream.close();
+        FastDfsFile file = new FastDfsFile(fileName, file_buff, ext);
+        try {
+            fileAbsolutePath = FastDfsClientUtil.upload(file);  //upload to fastdfs
+        } catch (Exception e) {
+            log.error("upload file Exception!",e);
+        }
+        if (fileAbsolutePath==null) {
+            log.error("upload file failed,please upload again!");
+        }
+        String path= FastDfsClientUtil.getTrackerUrl()+fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
+        return path;
     }
 
     public static String[] upload(FastDfsFile file) {

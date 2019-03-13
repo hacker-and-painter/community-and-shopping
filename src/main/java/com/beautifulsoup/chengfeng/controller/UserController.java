@@ -42,12 +42,41 @@ public class UserController {
         return null;
     }
 
+
     @PostMapping(value = "/registry",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult registryUserInfo(@Valid @RequestBody UserDto userDto, MultipartFile[] files, BindingResult result){
+    public ResponseResult registryUserInfo(@Valid @RequestBody UserDto userDto,
+                                           @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
         ParamValidatorUtil.valiteBindingResult(result);
+        UserVo userVo = userService.registryUserInfo(userDto, files);
+        if (null!=userVo){
+            return ResponseResult.createBySuccess("用户注册成功",userVo);
+        }
+        return ResponseResult.createByErrorMessage("用户注册失败");
+    }
 
-        return null;
+    @PutMapping(value = "/update",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseResult updateUserInfo(@Valid @RequestBody UserDto userDto,
+                                         @RequestParam(value = "images",required = false) MultipartFile[] files,
+                                         BindingResult result){
+        ParamValidatorUtil.valiteBindingResult(result);
+        UserVo userVo = userService.updateUserInfo(userDto, files);
+        if (null!=userVo){
+            return ResponseResult.createBySuccess("用户注册成功",userVo);
+        }
+        return ResponseResult.createByErrorMessage("用户注册失败");
+    }
+
+    @PostMapping(value = "/password/reset",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseResult resetPassword(@RequestParam("nickname")String nickname,@RequestParam("rawpassword")String rawpassword
+            ,@RequestParam("newpassword")String newPassword,@RequestParam("phone")String phone,@RequestParam(value = "email",required = false)String email){
+        UserVo userVo = userService.resetPassword(nickname,rawpassword,newPassword,phone,email);
+        if (null!=userVo){
+            return ResponseResult.createBySuccess("用户注册成功",userVo);
+        }
+        return ResponseResult.createByErrorMessage("用户注册失败");
     }
 
     @GetMapping(value = "/token",produces = "application/json;charset=UTF-8")
@@ -65,5 +94,4 @@ public class UserController {
 //        Multimap<String,Object> stringObjectMultimap=Multimaps.new
         return ResponseResult.createBySuccess(tokenInfo);
     }
-
 }

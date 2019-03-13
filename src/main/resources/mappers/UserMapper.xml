@@ -239,6 +239,13 @@
   </select>
 
 
+  <select id="selectAllUsers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+  </select>
+
+
   <select id="selectByNicknameAndPassword" resultMap="DetailResultMap" parameterType="java.lang.String" >
     select
       u.username,u.nickname,u.idcard,u.integral,u.gender,u.birthday,u.avatar,u.motto,u.email,u.phone,u.community_id,

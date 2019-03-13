@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.User;
 
+import java.util.List;
+
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +20,7 @@ public interface UserMapper {
     User selectByNickname(String nickname);
 
     User selectByNicknameAndPassword(String nickname);
+
+    List<User> selectAllUsers();
+
 }

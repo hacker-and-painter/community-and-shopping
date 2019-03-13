@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
+
 @Api(tags = "/file",description = "文件上传",protocols = "http")
 @Controller
 @RequestMapping("/file")
@@ -42,28 +44,29 @@ public class FileUploadController {
         }
     }
 
-    public String saveFile(MultipartFile multipartFile) throws IOException {
-        String[] fileAbsolutePath={};
-        String fileName=multipartFile.getOriginalFilename();
-        String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-        byte[] file_buff = null;
-        InputStream inputStream=multipartFile.getInputStream();
-        if(inputStream!=null){
-            int len1 = inputStream.available();
-            file_buff = new byte[len1];
-            inputStream.read(file_buff);
+    @ApiOperation(value = "文件上传",notes = "批量上传文件",produces = "multipart/form-data",
+            response = ResponseResult.class,httpMethod = "POST")
+    @PostMapping("/uploads")
+    @ResponseBody
+    public ResponseResult uploadFiles(@RequestParam("files") MultipartFile[] files){
+        if(files==null||files.length<1){
+            throw new MultipartException(ErrorConstant.UPLOAD_EMPTY_ERROR);
         }
-        inputStream.close();
-        FastDfsFile file = new FastDfsFile(fileName, file_buff, ext);
         try {
-            fileAbsolutePath = FastDfsClientUtil.upload(file);  //upload to fastdfs
-        } catch (Exception e) {
-            log.error("upload file Exception!",e);
+            StringBuffer stringBuffer=new StringBuffer();
+            for (int i=0;i<files.length;i++){
+                if (i!=files.length-1){
+                    stringBuffer.append(saveFile(files[i])).append(",");
+                }else{
+                    stringBuffer.append(saveFile(files[i]));
+                }
+            }
+            return ResponseResult.createBySuccess("图片上传成功",stringBuffer.toString());
+        } catch (IOException e) {
+            throw new MultipartException(ErrorConstant.UPLOAD_FAILURE);
         }
-        if (fileAbsolutePath==null) {
-            log.error("upload file failed,please upload again!");
-        }
-        String path= FastDfsClientUtil.getTrackerUrl()+fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
-        return path;
     }
+
+
+
 }
