@@ -1,9 +1,14 @@
 package com.beautifulsoup.chengfeng.exception;
 
+import lombok.Getter;
 import org.springframework.security.core.AuthenticationException;
 
+@Getter
 public class UserAuthenticationException extends AuthenticationException {
-    public UserAuthenticationException(String msg) {
-        super(msg);
+    private String errorMsg;
+    public UserAuthenticationException(String errorMsg) {
+        super(errorMsg);
+        this.errorMsg=errorMsg;
     }
+
 }

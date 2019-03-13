@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = {"com.beautifulsoup.chengfeng"})
 public class ChengfengExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
@@ -37,7 +37,7 @@ public class ChengfengExceptionHandler {
 
     @ExceptionHandler(UserAuthenticationException.class)
     public ResponseEntity authenticationExceptionHandler(UserAuthenticationException e){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getErrorMsg());
     }
 
     @ExceptionHandler(ParamException.class)

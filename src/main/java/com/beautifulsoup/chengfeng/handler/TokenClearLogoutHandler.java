@@ -8,6 +8,7 @@ import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
@@ -43,9 +44,11 @@ public class TokenClearLogoutHandler implements LogoutHandler {
 	protected void clearToken(Authentication authentication) {
 		if(authentication == null)
 			return;
+		SecurityContextHolder.getContext().setAuthentication(null);
 		UserDetails user = (UserDetails)authentication.getPrincipal();
 		if(user!=null && user.getUsername()!=null)
 		    userInfoService.deleteUserLoginInfo(user.getUsername());
+
 	}
 
 }

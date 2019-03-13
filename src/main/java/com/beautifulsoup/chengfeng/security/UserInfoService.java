@@ -6,6 +6,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
 import com.beautifulsoup.chengfeng.exception.ParamException;
+import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -77,6 +79,7 @@ public class UserInfoService implements UserDetailsService {
                 .withExpiresAt(date)
                 .withIssuedAt(new Date())
                 .sign(algorithm);
+
         return  jwtToken;
     }
 

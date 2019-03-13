@@ -18,4 +18,13 @@ public class TokenConferUtil {
         response.getWriter().flush();
 //        response.reset();
     }
+
+    public static void warningAuthentication(HttpServletResponse response,String warningMsg) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        ResponseResult responseResult=ResponseResult.createByErrorMessage(warningMsg);
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.writeValue(response.getWriter(),responseResult);
+        response.getWriter().flush();
+    }
 }

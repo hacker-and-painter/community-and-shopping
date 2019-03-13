@@ -31,7 +31,7 @@ public class TokenRefreshSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		DecodedJWT jwt = ((UserToken)authentication).getToken();
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+
 	}
 	
 	protected boolean shouldTokenRefresh(Date issueAt){
