@@ -8,6 +8,7 @@ import com.beautifulsoup.chengfeng.service.dto.UserDto;
 import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.Map;
 
+@Api(value="用户信息",tags= {"用户信息Controller"},description = "用户信息",protocols = "http")
 @Slf4j
 @Controller
 @RequestMapping(value = "/user")

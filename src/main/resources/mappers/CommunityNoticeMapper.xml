@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beautifulsoup.chengfeng.dao.CommunityNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="notice" property="notice" jdbcType="VARCHAR" />
+    <result column="showtime" property="showtime" jdbcType="TIMESTAMP" />
+    <result column="community_id" property="communityId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.beautifulsoup.chengfeng.pojo.CommunityNotice" extends="BaseResultMap" >
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, notice, showtime, community_id, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_notice_community
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_notice_community
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    insert into tb_notice_community (id, notice, showtime, 
+      community_id, create_time, update_time, 
+      description)
+    values (#{id,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, #{showtime,jdbcType=TIMESTAMP}, 
+      #{communityId,jdbcType=INTEGER}, now(), now(),
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    insert into tb_notice_community
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="notice != null" >
+        notice,
+      </if>
+      <if test="showtime != null" >
+        showtime,
+      </if>
+      <if test="communityId != null" >
+        community_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="notice != null" >
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="showtime != null" >
+        #{showtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communityId != null" >
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        now(),
+      </if>
+      <if test="updateTime != null" >
+        now(),
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    update tb_notice_community
+    <set >
+      <if test="notice != null" >
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="showtime != null" >
+        showtime = #{showtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communityId != null" >
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    update tb_notice_community
+    set notice = #{notice,jdbcType=VARCHAR},
+      showtime = #{showtime,jdbcType=TIMESTAMP},
+      community_id = #{communityId,jdbcType=INTEGER},
+      create_time = now(),
+      update_time = now(),
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.CommunityNotice" >
+    update tb_notice_community
+    set notice = #{notice,jdbcType=VARCHAR},
+      showtime = #{showtime,jdbcType=TIMESTAMP},
+      community_id = #{communityId,jdbcType=INTEGER},
+      create_time = now(),
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -33,7 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/image/**","/swagger-ui/**").permitAll()//设置静态资源无权限限制
+                .antMatchers("/images/**").permitAll()//设置静态资源无权限限制
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/configuration/ui").permitAll()
+                .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/community/listall","/user/registry").permitAll()//指定可以直接访问的url
                 .anyRequest().authenticated()
                 .and()
@@ -50,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //token请求的过滤
                 .apply(new TokenLoginConfigurer<>())
                 .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
-                .permissiveRequestUrls("/logout","/community/listall","/user/registry")
+                .permissiveRequestUrls("/logout","/community/listall","/images/**","/user/registry","/swagger-resources/**","/swagger-ui.html")
+                .permissiveRequestUrls("/webjars/**","/v2/api-docs","/configuration/ui","/configuration/security")
                 .and()
                 //登出的过滤器
                 .logout()
@@ -105,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected TokenRefreshSuccessHandler tokenRefreshSuccessHandler() {
-        return new TokenRefreshSuccessHandler(userInfoService());
+        return new TokenRefreshSuccessHandler();
     }
 
     @Bean

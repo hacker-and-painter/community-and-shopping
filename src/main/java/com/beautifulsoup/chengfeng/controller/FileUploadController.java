@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
 
-@Api(tags = "/file",description = "文件上传",protocols = "http")
+@Api(value="文件上传",tags= {"文件上传Controller"},description = "文件上传",protocols = "http")
 @Controller
 @RequestMapping("/file")
 @Slf4j
