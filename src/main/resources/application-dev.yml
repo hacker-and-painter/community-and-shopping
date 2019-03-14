@@ -48,6 +48,11 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual  #手动解决未ack的消息
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 127.0.0.1:9300
+
 
 
 mybatis:

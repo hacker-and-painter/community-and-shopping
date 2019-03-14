@@ -13,6 +13,8 @@ public class Product {
 
     private String mainImage;
 
+    private Integer sales;
+
     private BigDecimal price;
 
     private Integer stock;
@@ -20,6 +22,10 @@ public class Product {
     private Integer status;
 
     private BigDecimal spellPrice;
+
+    private Integer evaluationNums;
+
+    private String subImages;
 
     public Integer getId() {
         return id;
@@ -61,6 +67,14 @@ public class Product {
         this.mainImage = mainImage == null ? null : mainImage.trim();
     }
 
+    public Integer getSales() {
+        return sales;
+    }
+
+    public void setSales(Integer sales) {
+        this.sales = sales;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -91,5 +105,21 @@ public class Product {
 
     public void setSpellPrice(BigDecimal spellPrice) {
         this.spellPrice = spellPrice;
+    }
+
+    public Integer getEvaluationNums() {
+        return evaluationNums;
+    }
+
+    public void setEvaluationNums(Integer evaluationNums) {
+        this.evaluationNums = evaluationNums;
+    }
+
+    public String getSubImages() {
+        return subImages;
+    }
+
+    public void setSubImages(String subImages) {
+        this.subImages = subImages == null ? null : subImages.trim();
     }
 }

@@ -68,4 +68,18 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllParentCategories" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_category
+    where parent_id = 0
+  </select>
+
+  <select id="selectAllChildrenCategories" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_category
+    where parent_id != 0
+  </select>
 </mapper>
