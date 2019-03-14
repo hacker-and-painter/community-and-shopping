@@ -14,4 +14,6 @@ public interface CryptPasswordMapper {
     int updateByPrimaryKeySelective(CryptPassword record);
 
     int updateByPrimaryKey(CryptPassword record);
+
+    CryptPassword selectByUserId(Integer userId);
 }

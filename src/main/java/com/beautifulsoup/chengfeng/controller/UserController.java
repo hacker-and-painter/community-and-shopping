@@ -57,12 +57,12 @@ public class UserController {
 
     @PutMapping(value = "/update",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult updateUserInfo(@Valid @RequestBody UserDto userDto,
+    public ResponseResult updateUserInfo(@Valid @RequestBody UserVo userVo,
                                          @RequestParam(value = "images",required = false) MultipartFile[] files,
                                          BindingResult result){
         ParamValidatorUtil.valiteBindingResult(result);
-        UserVo userVo = userService.updateUserInfo(userDto, files);
-        if (null!=userVo){
+        UserVo resultVo = userService.updateUserInfo(userVo, files);
+        if (null!=resultVo){
             return ResponseResult.createBySuccess("用户注册成功",userVo);
         }
         return ResponseResult.createByErrorMessage("用户注册失败");
@@ -72,11 +72,8 @@ public class UserController {
     @ResponseBody
     public ResponseResult resetPassword(@RequestParam("nickname")String nickname,@RequestParam("rawpassword")String rawpassword
             ,@RequestParam("newpassword")String newPassword,@RequestParam("phone")String phone,@RequestParam(value = "email",required = false)String email){
-        UserVo userVo = userService.resetPassword(nickname,rawpassword,newPassword,phone,email);
-        if (null!=userVo){
-            return ResponseResult.createBySuccess("用户注册成功",userVo);
-        }
-        return ResponseResult.createByErrorMessage("用户注册失败");
+        String result = userService.resetPassword(nickname,rawpassword,newPassword,phone,email);
+        return ResponseResult.createBySuccess(result);
     }
 
     @GetMapping(value = "/token",produces = "application/json;charset=UTF-8")

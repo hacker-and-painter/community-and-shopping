@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
     UserVo findUserByNickname(String nickname);
     UserVo registryUserInfo(UserDto userDto, MultipartFile[] files);
-    UserVo updateUserInfo(UserDto userDto, MultipartFile[] files);
-    UserVo resetPassword(String nickname,String rawPassword,String newPassword,String phone,String email);
+    UserVo updateUserInfo(UserVo userVo, MultipartFile[] files);
+    String resetPassword(String nickname,String rawPassword,String newPassword,String phone,String email);
 }
