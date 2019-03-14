@@ -138,4 +138,14 @@
     <include refid="Blob_Column_List" />
     from tb_notice_proper
   </select>
+
+  <select id="selectByUserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_notice_proper
+    where user_id = #{userId,jdbcType=INTEGER}
+    ORDER BY showtime desc
+  </select>
 </mapper>

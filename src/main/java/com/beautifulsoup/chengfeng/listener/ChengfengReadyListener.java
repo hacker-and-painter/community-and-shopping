@@ -33,16 +33,16 @@ public class ChengfengReadyListener implements ApplicationListener<ApplicationRe
         HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
         communityNotices.parallelStream()
                 .forEach(communityNotice ->{
-                    zset.add(RedisConstant.COMMUNITY_NOTICE_ORDER,RedisConstant.COMMUNITY_NOTICE_PREFIX+communityNotice.getId(),
+                    zset.add(RedisConstant.COMMUNITY_NOTICE_ORDER+communityNotice.getCommunityId(),RedisConstant.COMMUNITY_NOTICE_PREFIX+communityNotice.getId(),
                             new DateTime(communityNotice.getShowtime()).getMillis());
-                    hash.put(RedisConstant.COMMUNITY_NOTICES,RedisConstant.COMMUNITY_NOTICE_PREFIX+communityNotice.getId(),
+                    hash.put(RedisConstant.COMMUNITY_NOTICES+communityNotice.getCommunityId(),RedisConstant.COMMUNITY_NOTICE_PREFIX+communityNotice.getId(),
                             JsonSerializableUtil.obj2String(communityNotice));
                 });
         properNotices.parallelStream()
                 .forEach(properNotice -> {
-                    zset.add(RedisConstant.PROPER_NOTICE_ORDER,RedisConstant.PROPER_NOTICE_PREFIX+properNotice.getId(),
+                    zset.add(RedisConstant.PROPER_NOTICE_ORDER+properNotice.getUserId(),RedisConstant.PROPER_NOTICE_PREFIX+properNotice.getId(),
                             new DateTime(properNotice.getShowtime()).getMillis());
-                    hash.put(RedisConstant.PROPER_NOTICES,RedisConstant.PROPER_NOTICE_PREFIX+properNotice.getId(),
+                    hash.put(RedisConstant.PROPER_NOTICES+properNotice.getUserId(),RedisConstant.PROPER_NOTICE_PREFIX+properNotice.getId(),
                             JsonSerializableUtil.obj2String(properNotice));
                 });
     }

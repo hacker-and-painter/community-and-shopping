@@ -34,20 +34,27 @@ public class PortalController {
 
     @GetMapping(value = "/notice/proper/all",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<List<ProperNoticeVo>> getAllProperNotices(){
-        return null;
+    public ResponseResult<List<ProperNoticeVo>> getAllProperNotices(
+            @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "3",required = false)Integer pageSize){
+        List<ProperNoticeVo> properNoticeVos=portalService.findAllProperNoticeVos(pageNum,pageSize);
+        return ResponseResult.createBySuccess(properNoticeVos);
     }
 
     @GetMapping(value = "/notice/community/latest",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<List<CommunityNoticeVo>> getLatestCommunityNotices(){
-        return null;
+    public ResponseResult<List<CommunityNoticeVo>> getLatestCommunityNotices(
+            @RequestParam(value = "limit",required = false,defaultValue = "3")Integer limit){
+        List<CommunityNoticeVo> latestCommunityNoticeVos = portalService.findLatestCommunityNoticeVos(limit);
+        return ResponseResult.createBySuccess(latestCommunityNoticeVos);
     }
 
     @GetMapping(value = "/notice/proper/latest",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<List<ProperNoticeVo>> getLatestProperNotices(){
-        return null;
+    public ResponseResult<List<ProperNoticeVo>> getLatestProperNotices(
+            @RequestParam(value = "limit",required = false,defaultValue = "3")Integer limit){
+        List<ProperNoticeVo> latestProperNoticeVos = portalService.findLatestProperNoticeVos(limit);
+        return ResponseResult.createBySuccess(latestProperNoticeVos);
     }
 
 

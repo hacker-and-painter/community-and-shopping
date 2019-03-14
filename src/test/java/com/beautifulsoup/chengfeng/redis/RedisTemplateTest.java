@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.redis;
 
 import com.beautifulsoup.chengfeng.ChengfengApplicationTests;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
+import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.pojo.Community;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,12 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 public class RedisTemplateTest extends ChengfengApplicationTests {
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Autowired
@@ -21,7 +24,7 @@ public class RedisTemplateTest extends ChengfengApplicationTests {
 
     @Test
     public void setValueTest(){
-        redisTemplate.opsForValue().set("name","SpringBoot");
+        stringRedisTemplate.opsForValue().set("name","SpringBoot");
     }
 
     @Test
@@ -34,5 +37,16 @@ public class RedisTemplateTest extends ChengfengApplicationTests {
         community.setAdmin("赵钱孙");
         redisSerializableTemplate.opsForValue().set("community",community);
     }
+
+    @Test
+    public void getReverseRangeByScore() {
+        Set<String> set = stringRedisTemplate.opsForZSet().reverseRange(RedisConstant.PROPER_NOTICE_ORDER+1,
+                0,3);
+        set.stream().forEach(value->{
+            Object object = stringRedisTemplate.opsForHash().get(RedisConstant.PROPER_NOTICES+1, value);
+            System.out.println(object);
+        });
+    }
+
 
 }
