@@ -18,25 +18,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class TokenRefreshSuccessHandler implements AuthenticationSuccessHandler{
-	
-	private static final int tokenRefreshInterval = 20;  //刷新间隔5分钟
-	
-	private UserInfoService userInfoService;
-	
-	public TokenRefreshSuccessHandler(UserInfoService userInfoService) {
-		this.userInfoService = userInfoService;
-	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		DecodedJWT jwt = ((UserToken)authentication).getToken();
 
 	}
-	
-	protected boolean shouldTokenRefresh(Date issueAt){
-        LocalDateTime issueTime = LocalDateTime.ofInstant(issueAt.toInstant(), ZoneId.systemDefault());
-        return LocalDateTime.now().minusSeconds(tokenRefreshInterval).isAfter(issueTime);
-    }
-
 }

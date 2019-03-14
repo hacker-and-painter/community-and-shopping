@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -78,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean("daoAuthenticationProvider")
     protected AuthenticationProvider daoAuthenticationProvider() throws Exception{
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
-        daoProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        daoProvider.setPasswordEncoder(passwordEncoder());
         daoProvider.setUserDetailsService(userInfoService());
         return daoProvider;
     }
@@ -90,6 +91,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean("userInfoService")
     protected UserInfoService userInfoService() {
         return new UserInfoService();
+    }
+
+    @Bean("passwordEncoder")
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

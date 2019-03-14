@@ -17,7 +17,7 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
-        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),"用户认证失败");
+        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),"用户认证失败,"+e.getMessage());
 
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);

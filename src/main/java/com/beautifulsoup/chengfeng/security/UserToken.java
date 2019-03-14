@@ -16,7 +16,6 @@ public class UserToken extends AbstractAuthenticationToken {
 	private static final long serialVersionUID = 3981518947978158945L;
 	
 	private UserDetails principal;
-	private String credentials;
 	private DecodedJWT token;
 	
 	public UserToken(DecodedJWT token) {
@@ -37,9 +36,10 @@ public class UserToken extends AbstractAuthenticationToken {
 		this.setAuthenticated(true);
 	}
 
+
 	@Override
 	public Object getCredentials() {
-		return credentials;
+		return null;
 	}
 
 	@Override

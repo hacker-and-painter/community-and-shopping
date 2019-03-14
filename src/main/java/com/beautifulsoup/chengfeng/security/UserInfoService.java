@@ -38,11 +38,10 @@ public class UserInfoService implements UserDetailsService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserInfoService() {
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

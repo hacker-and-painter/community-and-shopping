@@ -50,7 +50,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		if (!requiresAuthentication(request, response)) {
-			filterChain.doFilter(request, response);//此处为何通过？
+			filterChain.doFilter(request, response);
 			return;
 		}
 		Authentication authResult = null;

@@ -53,7 +53,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider{
                     .build();
             verifier.verify(jwt.getToken());
         } catch (Exception e) {
-            throw new BadCredentialsException("Token 校验错误", e);
+            throw new BadCredentialsException("Token 认证失败", e);
         }
 		UserToken token = new UserToken(user, jwt, user.getAuthorities());
 
