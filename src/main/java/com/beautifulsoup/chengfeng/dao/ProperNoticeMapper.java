@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.ProperNotice;
 
+import java.util.List;
+
 public interface ProperNoticeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface ProperNoticeMapper {
     int updateByPrimaryKeyWithBLOBs(ProperNotice record);
 
     int updateByPrimaryKey(ProperNotice record);
+
+    List<ProperNotice> selectAllPropers();
 }

@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.CommunityNotice;
 
+import java.util.List;
+
 public interface CommunityNoticeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,8 @@ public interface CommunityNoticeMapper {
     int updateByPrimaryKeyWithBLOBs(CommunityNotice record);
 
     int updateByPrimaryKey(CommunityNotice record);
+
+    List<CommunityNotice> selectAllCommunities();
+
+    List<CommunityNotice> selectByCommunityId(Integer communityId);
 }

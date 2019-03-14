@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.controller.vo;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
+import com.beautifulsoup.chengfeng.security.UserGrantedAuthority;
 import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -49,4 +51,6 @@ public class UserVo implements Serializable {
 
     @JsonSerialize(using = Date2LongSerializer.class)
     private Date signUp;
+
+    private List<UserGrantedAuthority> grantedAuthorities;
 }

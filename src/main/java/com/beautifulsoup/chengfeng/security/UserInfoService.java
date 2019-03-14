@@ -3,12 +3,17 @@ package com.beautifulsoup.chengfeng.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
 import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
+import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,6 +33,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 public class UserInfoService implements UserDetailsService {
@@ -41,7 +47,8 @@ public class UserInfoService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -53,8 +60,8 @@ public class UserInfoService implements UserDetailsService {
             throw new ParamException("用户不存在,登陆失败");
         }
 
-        return  User.builder().username("BeautifulSoup")
-                .password(passwordEncoder.encode("password")).authorities("/dada","/dasda").build();
+        return  User.builder().username(user.getNickname())
+                .password(passwordEncoder.encode(user.getCryptPassword().getCryptPassword())).authorities("/admin").build();
     }
 
     public UserDetails getUserLoginInfo(String username) {
@@ -78,7 +85,17 @@ public class UserInfoService implements UserDetailsService {
                 .withExpiresAt(date)
                 .withIssuedAt(new Date())
                 .sign(algorithm);
+        com.beautifulsoup.chengfeng.pojo.User user1 = userMapper.selectByNickname(user.getUsername());
 
+        try {
+            memcachedClient.set(user.getUsername(), ChengfengConstant.Memcached.USER_EXPIRE, JsonSerializableUtil.obj2String(user1));
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        }
         return  jwtToken;
     }
 
@@ -87,4 +104,5 @@ public class UserInfoService implements UserDetailsService {
        //清除缓存的salt
         stringRedisTemplate.delete(RedisConstant.TOKEN_SALT+username);
     }
+
 }

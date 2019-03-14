@@ -1,9 +1,7 @@
 package com.beautifulsoup.chengfeng.controller;
 
-import com.beautifulsoup.chengfeng.common.FastDfsFile;
 import com.beautifulsoup.chengfeng.common.ResponseResult;
-import com.beautifulsoup.chengfeng.constant.ErrorConstant;
-import com.beautifulsoup.chengfeng.utils.FastDfsClientUtil;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,6 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
 
@@ -34,13 +31,13 @@ public class FileUploadController {
     @ResponseBody
     public ResponseResult uploadFile(@RequestParam("file") MultipartFile file){
         if(file.isEmpty()){
-            throw new MultipartException(ErrorConstant.UPLOAD_EMPTY_ERROR);
+            throw new MultipartException(ChengfengConstant.File.UPLOAD_EMPTY_ERROR);
         }
         try {
             String path = saveFile(file);
             return ResponseResult.createBySuccess(path);
         } catch (IOException e) {
-            throw new MultipartException(ErrorConstant.UPLOAD_FAILURE);
+            throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
         }
     }
 
@@ -50,7 +47,7 @@ public class FileUploadController {
     @ResponseBody
     public ResponseResult uploadFiles(@RequestParam("files") MultipartFile[] files){
         if(files==null||files.length<1){
-            throw new MultipartException(ErrorConstant.UPLOAD_EMPTY_ERROR);
+            throw new MultipartException(ChengfengConstant.File.UPLOAD_EMPTY_ERROR);
         }
         try {
             StringBuffer stringBuffer=new StringBuffer();
@@ -63,7 +60,7 @@ public class FileUploadController {
             }
             return ResponseResult.createBySuccess("图片上传成功",stringBuffer.toString());
         } catch (IOException e) {
-            throw new MultipartException(ErrorConstant.UPLOAD_FAILURE);
+            throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.service.dto;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
+import com.beautifulsoup.chengfeng.security.UserGrantedAuthority;
 import com.beautifulsoup.chengfeng.serializable.Long2DateDeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -46,6 +48,9 @@ public class UserDto {
     private String avatar;
 
     private String motto;
+
+
+    private List<UserGrantedAuthority> grantedAuthorities;
 
     private Date signUp;
 }

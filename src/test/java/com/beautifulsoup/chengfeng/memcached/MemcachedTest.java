@@ -23,7 +23,7 @@ public class MemcachedTest extends ChengfengApplicationTests {
         memcachedClient.cas("age", 0, new CASOperation<Integer>() {
             @Override
             public int getMaxTries() {
-                return ChengfengConstant.MEMCACHED.CAS_RETRIES;
+                return ChengfengConstant.Memcached.CAS_RETRIES;
             }
 
             @Override

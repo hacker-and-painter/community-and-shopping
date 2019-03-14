@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng;
 
+import com.beautifulsoup.chengfeng.listener.ChengfengReadyListener;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +20,9 @@ public class ChengfengApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(ChengfengApplication.class, args);
+        SpringApplication application=new SpringApplication(ChengfengApplication.class);
+        application.addListeners(new ChengfengReadyListener());
+        application.run(args);
     }
 
 }

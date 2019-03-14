@@ -14,8 +14,14 @@ public class ChengfengConstant {
         String TOPIC_EXCHANGE="topicExchange";
     }
 
-    public interface MEMCACHED{
+    public interface Memcached{
         Integer CAS_RETRIES=3;
+        Integer USER_EXPIRE=3600;
+    }
+
+    public interface File{
+        String UPLOAD_EMPTY_ERROR="上传文件不能为空";
+        String UPLOAD_FAILURE="文件上传失败";
     }
 
 }

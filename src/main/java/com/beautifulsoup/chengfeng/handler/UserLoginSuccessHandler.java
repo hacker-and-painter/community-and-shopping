@@ -1,12 +1,10 @@
 package com.beautifulsoup.chengfeng.handler;
 
-import com.beautifulsoup.chengfeng.common.ResponseResult;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
-import com.beautifulsoup.chengfeng.controller.vo.TokenVo;
-import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.utils.TokenConferUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import net.rubyeye.xmemcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -25,6 +23,8 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
+
     public UserLoginSuccessHandler(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
     }
@@ -40,8 +40,8 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         String token = userInfoService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         TokenConferUtil.conferToken(response,token);
     }
 }
