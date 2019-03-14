@@ -4,15 +4,16 @@ import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
 import com.beautifulsoup.chengfeng.service.PortalService;
+import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(value="系统首页",tags= {"系统首页Controller"},description = "系统首页",protocols = "http")
@@ -57,5 +58,14 @@ public class PortalController {
         return ResponseResult.createBySuccess(latestProperNoticeVos);
     }
 
+    @PostMapping(value = "/book/repair",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<String> submitRepairInfo(@Valid @RequestBody RepairBookDto bookDto, BindingResult bindingResult){
+        String result = portalService.submitRepairInfo(bookDto, bindingResult);
+        if (!StringUtils.isBlank(result)){
+            return ResponseResult.createBySuccess(result);
+        }
+        return ResponseResult.createByError();
+    }
 
 }

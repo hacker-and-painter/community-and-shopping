@@ -5,15 +5,21 @@ import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
 import com.beautifulsoup.chengfeng.dao.CommunityNoticeMapper;
 import com.beautifulsoup.chengfeng.dao.ProperNoticeMapper;
+import com.beautifulsoup.chengfeng.dao.RepairBookMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
+import com.beautifulsoup.chengfeng.exception.BaseException;
 import com.beautifulsoup.chengfeng.pojo.Community;
 import com.beautifulsoup.chengfeng.pojo.CommunityNotice;
 import com.beautifulsoup.chengfeng.pojo.ProperNotice;
+import com.beautifulsoup.chengfeng.pojo.RepairBook;
 import com.beautifulsoup.chengfeng.service.PortalService;
+import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
+import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.apache.commons.lang3.StringUtils;
@@ -22,11 +28,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
+@Slf4j
 @Service
 public class PortalServiceImpl implements PortalService {
 
@@ -44,6 +52,9 @@ public class PortalServiceImpl implements PortalService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RepairBookMapper repairBookMapper;
 
     @Override
     public List<CommunityNoticeVo> findAllCommunityNoticeVos(Integer pageNum, Integer pageSize){
@@ -135,6 +146,21 @@ public class PortalServiceImpl implements PortalService {
             e.printStackTrace();
         }
         return properNoticeVos;
+    }
+
+    @Override
+    public String submitRepairInfo(RepairBookDto repairBookDto, BindingResult bindingResult) {
+        ParamValidatorUtil.valiteBindingResult(bindingResult);
+        try {
+            RepairBook repairBook=new RepairBook();
+            BeanUtils.copyProperties(repairBookDto,repairBook);
+            repairBook.setUserId(getUser().getId());
+            repairBookMapper.insert(repairBook);
+            return "立即报修提交成功";
+        } catch (Exception e) {
+            log.error("立即报修提交失败");
+        }
+        return null;
     }
 
     private com.beautifulsoup.chengfeng.pojo.User getUser() throws InterruptedException, MemcachedException, TimeoutException {

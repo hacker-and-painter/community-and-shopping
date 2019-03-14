@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.controller.vo;
 
+import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +20,10 @@ public class ProperNoticeVo {
 
     private String notice;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date showtime;
 
     private Integer userId;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     private String description;
 

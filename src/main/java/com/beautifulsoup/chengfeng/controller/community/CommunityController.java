@@ -39,4 +39,6 @@ public class CommunityController {
         List<CommunityVo> communityVos = communityService.getAllCommunities();
         return ResponseResult.createBySuccess(communityVos);
     }
+
+
 }

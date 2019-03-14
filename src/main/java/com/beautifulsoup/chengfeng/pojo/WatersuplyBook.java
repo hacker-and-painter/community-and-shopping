@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class WatersuplyBook {
     private Integer id;
@@ -13,9 +14,7 @@ public class WatersuplyBook {
 
     private String description;
 
-    private Integer waterId;
-
-    private Integer waterNums;
+    private List<WatersuplyDetails> detailsList;
 
     private Date createTime;
 
@@ -61,20 +60,12 @@ public class WatersuplyBook {
         this.description = description == null ? null : description.trim();
     }
 
-    public Integer getWaterId() {
-        return waterId;
+    public List<WatersuplyDetails> getDetailsList() {
+        return detailsList;
     }
 
-    public void setWaterId(Integer waterId) {
-        this.waterId = waterId;
-    }
-
-    public Integer getWaterNums() {
-        return waterNums;
-    }
-
-    public void setWaterNums(Integer waterNums) {
-        this.waterNums = waterNums;
+    public void setDetailsList(List<WatersuplyDetails> detailsList) {
+        this.detailsList = detailsList;
     }
 
     public Date getCreateTime() {

@@ -7,13 +7,11 @@
     <result column="hope_time" property="hopeTime" jdbcType="TIMESTAMP" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="water_id" property="waterId" jdbcType="INTEGER" />
-    <result column="water_nums" property="waterNums" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, phone, hope_time, address, description, water_id, water_nums, create_time, update_time
+    id, phone, hope_time, address, description, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,13 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
     insert into tb_book_watersuply (id, phone, hope_time, 
-      address, description, water_id, 
-      water_nums, create_time, update_time
-      )
+      address, description, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{hopeTime,jdbcType=TIMESTAMP}, 
-      #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{waterId,jdbcType=INTEGER}, 
-      #{waterNums,jdbcType=INTEGER}, now(), now()
-      )
+      #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
     insert into tb_book_watersuply
@@ -52,12 +48,6 @@
       </if>
       <if test="description != null" >
         description,
-      </if>
-      <if test="waterId != null" >
-        water_id,
-      </if>
-      <if test="waterNums != null" >
-        water_nums,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -82,17 +72,11 @@
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="waterId != null" >
-        #{waterId,jdbcType=INTEGER},
-      </if>
-      <if test="waterNums != null" >
-        #{waterNums,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
-        now(),
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        now(),
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -111,17 +95,11 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="waterId != null" >
-        water_id = #{waterId,jdbcType=INTEGER},
-      </if>
-      <if test="waterNums != null" >
-        water_nums = #{waterNums,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
-        create_time = now(),
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = now(),
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -132,10 +110,8 @@
       hope_time = #{hopeTime,jdbcType=TIMESTAMP},
       address = #{address,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      water_id = #{waterId,jdbcType=INTEGER},
-      water_nums = #{waterNums,jdbcType=INTEGER},
-      create_time = now(),
-      update_time = now()
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
