@@ -1,6 +1,6 @@
 package com.beautifulsoup.chengfeng.service.impl;
 
-import com.beautifulsoup.chengfeng.constant.ErrorConstant;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.controller.vo.UserVo;
 import com.beautifulsoup.chengfeng.dao.CryptPasswordMapper;
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
         if (files!=null&&files.length>0){
             for (int i=0;i<files.length;i++){
                 if(files[i].isEmpty()){
-                    throw new MultipartException(ErrorConstant.UPLOAD_EMPTY_ERROR);
+                    throw new MultipartException(ChengfengConstant.File.UPLOAD_EMPTY_ERROR);
                 }
                 try {
                     String path = saveFile(files[i]);
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
                         buffer.append(path);
                     }
                 } catch (IOException e) {
-                    throw new MultipartException(ErrorConstant.UPLOAD_FAILURE);
+                    throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
                 }
             }
         }

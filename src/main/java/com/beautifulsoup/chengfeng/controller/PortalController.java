@@ -3,8 +3,12 @@ package com.beautifulsoup.chengfeng.controller;
 import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
+import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
+import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
 import com.beautifulsoup.chengfeng.service.PortalService;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
+import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
+import com.beautifulsoup.chengfeng.service.dto.WatersuplyDto;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +72,27 @@ public class PortalController {
         return ResponseResult.createByError();
     }
 
+    //找书记
+    @PostMapping(value = "/book/secretary",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<String> searchSecretary(@Valid @RequestBody SecretaryBookDto bookDto, BindingResult bindingResult){
+        String result = portalService.searchSecretary(bookDto, bindingResult);
+        if (!StringUtils.isBlank(result)){
+            return ResponseResult.createBySuccess(result);
+        }
+        return ResponseResult.createByError();
+    }
+
+    @GetMapping(value = "/water/brands",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<WaterBrandVo>> getWaterBrandVos(){
+        List<WaterBrandVo> waterBrandVos = portalService.findAllWaterBrands();
+        return ResponseResult.createBySuccess(waterBrandVos);
+    }
+    @PostMapping(value = "/book/water",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<WaterBookVo> bookWatersuplyInfo(@Valid @RequestBody WatersuplyDto watersuplyDto,BindingResult result){
+        WaterBookVo waterBookVo = portalService.bookWaterSuply(watersuplyDto,result);
+        return ResponseResult.createBySuccess(waterBookVo);
+    }
 }

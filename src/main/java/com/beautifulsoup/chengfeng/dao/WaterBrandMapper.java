@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.WaterBrand;
 
+import java.util.List;
+
 public interface WaterBrandMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface WaterBrandMapper {
     int updateByPrimaryKeySelective(WaterBrand record);
 
     int updateByPrimaryKey(WaterBrand record);
+
+    List<WaterBrand> selectByUserId(Integer userId);
 }

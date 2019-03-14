@@ -1,13 +1,18 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class WatersuplyDetails {
     private Integer id;
 
     private Integer suplyId;
 
+    @NotNull(message = "水的品牌不能为空")
     private Integer brandId;
 
-    private String waterNums;
+    @Min(value = 1,message = "数量不能少于1")
+    private Integer waterNums;
 
     public Integer getId() {
         return id;
@@ -33,11 +38,11 @@ public class WatersuplyDetails {
         this.brandId = brandId;
     }
 
-    public String getWaterNums() {
+    public Integer getWaterNums() {
         return waterNums;
     }
 
-    public void setWaterNums(String waterNums) {
-        this.waterNums = waterNums == null ? null : waterNums.trim();
+    public void setWaterNums(Integer waterNums) {
+        this.waterNums = waterNums;
     }
 }

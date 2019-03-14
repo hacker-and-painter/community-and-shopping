@@ -24,6 +24,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
+    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_book_watersuply (id, phone, hope_time, 
       address, description, create_time, 
       update_time)
@@ -32,6 +35,9 @@
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
+    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_book_watersuply
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

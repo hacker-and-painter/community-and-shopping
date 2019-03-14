@@ -3,17 +3,16 @@ package com.beautifulsoup.chengfeng.service.impl;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
-import com.beautifulsoup.chengfeng.dao.CommunityNoticeMapper;
-import com.beautifulsoup.chengfeng.dao.ProperNoticeMapper;
-import com.beautifulsoup.chengfeng.dao.RepairBookMapper;
-import com.beautifulsoup.chengfeng.dao.UserMapper;
+import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
+import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
+import com.beautifulsoup.chengfeng.dao.*;
 import com.beautifulsoup.chengfeng.exception.BaseException;
-import com.beautifulsoup.chengfeng.pojo.Community;
-import com.beautifulsoup.chengfeng.pojo.CommunityNotice;
-import com.beautifulsoup.chengfeng.pojo.ProperNotice;
-import com.beautifulsoup.chengfeng.pojo.RepairBook;
+import com.beautifulsoup.chengfeng.exception.ParamException;
+import com.beautifulsoup.chengfeng.pojo.*;
 import com.beautifulsoup.chengfeng.service.PortalService;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
+import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
+import com.beautifulsoup.chengfeng.service.dto.WatersuplyDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
 import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
@@ -28,8 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
@@ -55,6 +56,19 @@ public class PortalServiceImpl implements PortalService {
 
     @Autowired
     private RepairBookMapper repairBookMapper;
+
+    @Autowired
+    private SecretaryBookMapper secretaryBookMapper;
+
+    @Autowired
+    private WaterBrandMapper waterBrandMapper;
+
+    @Autowired
+    private WatersuplyBookMapper watersuplyBookMapper;
+
+    @Autowired
+    private WatersuplyDetailsMapper watersuplyDetailsMapper;
+
 
     @Override
     public List<CommunityNoticeVo> findAllCommunityNoticeVos(Integer pageNum, Integer pageSize){
@@ -161,6 +175,72 @@ public class PortalServiceImpl implements PortalService {
             log.error("立即报修提交失败");
         }
         return null;
+    }
+
+    @Override
+    public String searchSecretary(SecretaryBookDto bookDto, BindingResult bindingResult) {
+        ParamValidatorUtil.valiteBindingResult(bindingResult);
+        try {
+            SecretaryBook secretaryBook=new SecretaryBook();
+            BeanUtils.copyProperties(bookDto,secretaryBook);
+            secretaryBook.setUserId(getUser().getId());
+            secretaryBookMapper.insert(secretaryBook);
+            return "找书记提交成功";
+        } catch (Exception e) {
+            log.error("找书记提交失败");
+        }
+        return null;
+    }
+
+    @Override
+    public List<WaterBrandVo> findAllWaterBrands() {
+        List<WaterBrandVo> waterBrandVoList=Lists.newArrayList();
+        try {
+            List<WaterBrand> waterBrands=waterBrandMapper.selectByUserId(getUser().getId());
+            waterBrands.stream().parallel().forEach(waterBrand -> {
+                WaterBrandVo waterBrandVo=new WaterBrandVo();
+                BeanUtils.copyProperties(waterBrand,waterBrandVo);
+                waterBrandVoList.add(waterBrandVo);
+            });
+            return waterBrandVoList;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public WaterBookVo bookWaterSuply(WatersuplyDto watersuplyDto, BindingResult bindingResult) {
+        ParamValidatorUtil.valiteBindingResult(bindingResult);
+
+        WaterBookVo waterBookVo=new WaterBookVo();
+
+        WatersuplyBook watersuplyBook=new WatersuplyBook();
+        BeanUtils.copyProperties(watersuplyDto,watersuplyBook);
+        watersuplyBookMapper.insertSelective(watersuplyBook);
+
+        List<WatersuplyDetails> detailsList = watersuplyDto.getDetailsList();
+
+        List<WatersuplyDetails> watersuplyDetails=Lists.newArrayList();
+
+        if (CollectionUtils.isEmpty(detailsList)){
+            throw new ParamException("所购水的数量不正确");
+        }
+
+        detailsList.stream().forEach(detail->{
+            WatersuplyDetails details=new WatersuplyDetails();
+            BeanUtils.copyProperties(detail,details);
+            details.setSuplyId(watersuplyBook.getId());
+            watersuplyDetailsMapper.insert(details);
+            watersuplyDetails.add(details);
+        });
+        BeanUtils.copyProperties(watersuplyBook,waterBookVo);
+        waterBookVo.setDetailsList(watersuplyDetails);
+        return waterBookVo;
     }
 
     private com.beautifulsoup.chengfeng.pojo.User getUser() throws InterruptedException, MemcachedException, TimeoutException {

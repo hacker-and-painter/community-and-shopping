@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="suply_id" property="suplyId" jdbcType="INTEGER" />
     <result column="brand_id" property="brandId" jdbcType="INTEGER" />
-    <result column="water_nums" property="waterNums" jdbcType="VARCHAR" />
+    <result column="water_nums" property="waterNums" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, suply_id, brand_id, water_nums
@@ -21,12 +21,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyDetails" >
+    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_watersuply_details (id, suply_id, brand_id, 
       water_nums)
     values (#{id,jdbcType=INTEGER}, #{suplyId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, 
-      #{waterNums,jdbcType=VARCHAR})
+      #{waterNums,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyDetails" >
+    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_watersuply_details
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -53,7 +59,7 @@
         #{brandId,jdbcType=INTEGER},
       </if>
       <if test="waterNums != null" >
-        #{waterNums,jdbcType=VARCHAR},
+        #{waterNums,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -67,7 +73,7 @@
         brand_id = #{brandId,jdbcType=INTEGER},
       </if>
       <if test="waterNums != null" >
-        water_nums = #{waterNums,jdbcType=VARCHAR},
+        water_nums = #{waterNums,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -76,7 +82,7 @@
     update tb_watersuply_details
     set suply_id = #{suplyId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
-      water_nums = #{waterNums,jdbcType=VARCHAR}
+      water_nums = #{waterNums,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
