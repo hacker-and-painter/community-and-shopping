@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 
+import java.util.List;
+
 public interface PurchaseProductMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface PurchaseProductMapper {
     int updateByPrimaryKeySelective(PurchaseProduct record);
 
     int updateByPrimaryKey(PurchaseProduct record);
+
+    List<PurchaseProduct> selectByCategoryId(Integer categoryId);
 }

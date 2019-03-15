@@ -1,9 +1,22 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class Journalism {
-    private Integer id;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Document(collection = "journalism")
+public class Journalism implements Serializable {
+    @Id
+    private String id;
 
     private String title;
 
@@ -17,12 +30,22 @@ public class Journalism {
 
     private String publishName;
 
-    public Integer getId() {
+    private String author;
+
+    private Integer commentNums;
+
+    private Integer starNums;
+
+    private List<JournalismContent> contents;
+
+    private List<JournalismComment> comments;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getTitle() {
@@ -71,5 +94,45 @@ public class Journalism {
 
     public void setPublishName(String publishName) {
         this.publishName = publishName == null ? null : publishName.trim();
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Integer getCommentNums() {
+        return commentNums;
+    }
+
+    public void setCommentNums(Integer commentNums) {
+        this.commentNums = commentNums;
+    }
+
+    public Integer getStarNums() {
+        return starNums;
+    }
+
+    public void setStarNums(Integer starNums) {
+        this.starNums = starNums;
+    }
+
+    public List<JournalismContent> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<JournalismContent> contents) {
+        this.contents = contents;
+    }
+
+    public List<JournalismComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<JournalismComment> comments) {
+        this.comments = comments;
     }
 }

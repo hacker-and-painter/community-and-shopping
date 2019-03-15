@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RabbitListener(queues = ChengfengConstant.RabbitMQ.ORDER_QUEUE_NAME)
+@RabbitListener(queues = ChengfengConstant.RabbitMQ.QUEUE_NAME_ORDER)
 public class OrderReceiver {
 
     @RabbitHandler

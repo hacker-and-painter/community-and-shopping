@@ -12,12 +12,17 @@ public class RabbitmqConfig {
 
     @Bean
     public Queue chengfengQueue(){
-        return new Queue(ChengfengConstant.RabbitMQ.CHENGFENG_QUEUE_NAME);
+        return new Queue(ChengfengConstant.RabbitMQ.QUEUE_NAME_CHENGFENG);
     }
 
     @Bean
     public Queue orderQueue(){
-        return new Queue(ChengfengConstant.RabbitMQ.ORDER_QUEUE_NAME);
+        return new Queue(ChengfengConstant.RabbitMQ.QUEUE_NAME_ORDER);
+    }
+
+    @Bean
+    public Queue orderMongodb(){
+        return new Queue(ChengfengConstant.RabbitMQ.QUEUE_NAME_MONGODB);
     }
 
     @Bean
@@ -35,5 +40,9 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(orderQueue).to(chengfengExchange).with("topic.order");
     }
 
+    @Bean
+    Binding bindingExchangeMongodb(Queue orderMongodb,TopicExchange chengfengExchange){
+        return BindingBuilder.bind(orderMongodb).to(chengfengExchange).with("topic.mongodb");
+    }
 
 }

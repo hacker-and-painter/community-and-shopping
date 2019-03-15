@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
-    <result column="journalism_id" property="journalismId" jdbcType="INTEGER" />
+    <result column="journalism_id" property="journalismId" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.beautifulsoup.chengfeng.pojo.JournalismContent" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -32,7 +32,7 @@
     insert into tb_journalism_content (id, image_url, video_url, 
       journalism_id, content)
     values (#{id,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, 
-      #{journalismId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+      #{journalismId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.JournalismContent" >
     insert into tb_journalism_content
@@ -64,7 +64,7 @@
         #{videoUrl,jdbcType=VARCHAR},
       </if>
       <if test="journalismId != null" >
-        #{journalismId,jdbcType=INTEGER},
+        #{journalismId,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -81,7 +81,7 @@
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
       <if test="journalismId != null" >
-        journalism_id = #{journalismId,jdbcType=INTEGER},
+        journalism_id = #{journalismId,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
@@ -93,7 +93,7 @@
     update tb_journalism_content
     set image_url = #{imageUrl,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
-      journalism_id = #{journalismId,jdbcType=INTEGER},
+      journalism_id = #{journalismId,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -101,7 +101,7 @@
     update tb_journalism_content
     set image_url = #{imageUrl,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
-      journalism_id = #{journalismId,jdbcType=INTEGER}
+      journalism_id = #{journalismId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

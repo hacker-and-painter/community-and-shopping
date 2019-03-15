@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
 
+import java.util.List;
+
 public interface PurchaseCategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,8 @@ public interface PurchaseCategoryMapper {
     int updateByPrimaryKeySelective(PurchaseCategory record);
 
     int updateByPrimaryKey(PurchaseCategory record);
+
+    List<PurchaseCategory> selectAllParentCategories();
+
+    List<PurchaseCategory> selectAllChildrenCategories();
 }

@@ -7,7 +7,7 @@ public class JournalismContent {
 
     private String videoUrl;
 
-    private Integer journalismId;
+    private String journalismId;
 
     private String content;
 
@@ -35,12 +35,12 @@ public class JournalismContent {
         this.videoUrl = videoUrl == null ? null : videoUrl.trim();
     }
 
-    public Integer getJournalismId() {
+    public String getJournalismId() {
         return journalismId;
     }
 
-    public void setJournalismId(Integer journalismId) {
-        this.journalismId = journalismId;
+    public void setJournalismId(String journalismId) {
+        this.journalismId = journalismId == null ? null : journalismId.trim();
     }
 
     public String getContent() {

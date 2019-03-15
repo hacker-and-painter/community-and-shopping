@@ -8,9 +8,10 @@
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="comment_time" property="commentTime" jdbcType="TIMESTAMP" />
+    <result column="journalism_id" property="journalismId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, content, username, avatar, comment_time
+    id, title, content, username, avatar, comment_time, journalism_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.JournalismComment" >
     insert into tb_journalism_comment (id, title, content, 
-      username, avatar, comment_time
-      )
+      username, avatar, comment_time, 
+      journalism_id)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}
-      )
+      #{username,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}, 
+      #{journalismId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.JournalismComment" >
     insert into tb_journalism_comment
@@ -51,6 +52,9 @@
       <if test="commentTime != null" >
         comment_time,
       </if>
+      <if test="journalismId != null" >
+        journalism_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -70,6 +74,9 @@
       </if>
       <if test="commentTime != null" >
         #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="journalismId != null" >
+        #{journalismId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="commentTime != null" >
         comment_time = #{commentTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="journalismId != null" >
+        journalism_id = #{journalismId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +110,8 @@
       content = #{content,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
-      comment_time = #{commentTime,jdbcType=TIMESTAMP}
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      journalism_id = #{journalismId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

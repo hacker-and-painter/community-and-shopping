@@ -15,6 +15,8 @@ public class JournalismComment {
 
     private Date commentTime;
 
+    private String journalismId;
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class JournalismComment {
 
     public void setCommentTime(Date commentTime) {
         this.commentTime = commentTime;
+    }
+
+    public String getJournalismId() {
+        return journalismId;
+    }
+
+    public void setJournalismId(String journalismId) {
+        this.journalismId = journalismId == null ? null : journalismId.trim();
     }
 }

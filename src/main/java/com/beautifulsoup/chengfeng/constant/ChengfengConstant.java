@@ -10,9 +10,12 @@ public class ChengfengConstant {
 
 
     public interface RabbitMQ{
-        String CHENGFENG_QUEUE_NAME="chengfeng";
-        String ORDER_QUEUE_NAME="order";
+        String QUEUE_NAME_CHENGFENG="chengfeng";
         String TOPIC_EXCHANGE="topicExchange";
+        String QUEUE_NAME_ORDER="order";
+        String QUEUE_NAME_MONGODB="mongodb";
+
+        String MESSAGE_MONGODB_INIT="MONGODB_INIT";
     }
 
     public interface Memcached{

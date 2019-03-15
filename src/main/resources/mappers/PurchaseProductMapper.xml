@@ -174,4 +174,12 @@
       sub_images = #{subImages,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_product
+    where category_id = #{categoryId,jdbcType=INTEGER}
+    ORDER BY sales desc
+  </select>
 </mapper>
