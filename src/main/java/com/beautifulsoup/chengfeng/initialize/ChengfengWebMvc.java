@@ -1,4 +1,4 @@
-package com.beautifulsoup.chengfeng.web;
+package com.beautifulsoup.chengfeng.initialize;
 
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 

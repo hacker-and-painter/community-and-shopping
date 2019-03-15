@@ -30,7 +30,7 @@ spring:
 #      config: classpath:/ehcache.xml
   redis:
     database: 1
-    host: 47.95.244.237
+    host: 123.207.157.129
     port: 6379
     password:
     lettuce:

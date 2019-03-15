@@ -1,55 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.beautifulsoup.chengfeng.dao.ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.Product" >
+<mapper namespace="com.beautifulsoup.chengfeng.dao.PurchaseProductMapper" >
+  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
-    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="sales" property="sales" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="spell_price" property="spellPrice" jdbcType="DECIMAL" />
     <result column="evaluation_nums" property="evaluationNums" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.beautifulsoup.chengfeng.pojo.Product" extends="BaseResultMap" >
-    <result column="sub_images" property="subImages" jdbcType="LONGVARCHAR" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="sub_images" property="subImages" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, category_id, name, subtitle, main_image, sales, price, stock, status, spell_price, 
-    evaluation_nums
+    id, category_id, name, subtitle, stock, sales, price, status, spell_price, evaluation_nums, 
+    main_image, sub_images
   </sql>
-  <sql id="Blob_Column_List" >
-    sub_images
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from tb_product
+    from tb_purchase_product
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_product
+    delete from tb_purchase_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.Product" >
-    insert into tb_product (id, category_id, name, 
-      subtitle, main_image, sales, 
-      price, stock, status, 
-      spell_price, evaluation_nums, sub_images
+  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
+    insert into tb_purchase_product (id, category_id, name, 
+      subtitle, stock, sales, 
+      price, status, spell_price, 
+      evaluation_nums, main_image, sub_images
       )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{subtitle,jdbcType=VARCHAR}, #{mainImage,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{spellPrice,jdbcType=DECIMAL}, #{evaluationNums,jdbcType=INTEGER}, #{subImages,jdbcType=LONGVARCHAR}
+      #{subtitle,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{spellPrice,jdbcType=DECIMAL}, 
+      #{evaluationNums,jdbcType=INTEGER}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.Product" >
-    insert into tb_product
+  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
+    insert into tb_purchase_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -63,17 +56,14 @@
       <if test="subtitle != null" >
         subtitle,
       </if>
-      <if test="mainImage != null" >
-        main_image,
+      <if test="stock != null" >
+        stock,
       </if>
       <if test="sales != null" >
         sales,
       </if>
       <if test="price != null" >
         price,
-      </if>
-      <if test="stock != null" >
-        stock,
       </if>
       <if test="status != null" >
         status,
@@ -83,6 +73,9 @@
       </if>
       <if test="evaluationNums != null" >
         evaluation_nums,
+      </if>
+      <if test="mainImage != null" >
+        main_image,
       </if>
       <if test="subImages != null" >
         sub_images,
@@ -101,17 +94,14 @@
       <if test="subtitle != null" >
         #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="mainImage != null" >
-        #{mainImage,jdbcType=VARCHAR},
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
       </if>
       <if test="sales != null" >
         #{sales,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="stock != null" >
-        #{stock,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -122,13 +112,16 @@
       <if test="evaluationNums != null" >
         #{evaluationNums,jdbcType=INTEGER},
       </if>
+      <if test="mainImage != null" >
+        #{mainImage,jdbcType=VARCHAR},
+      </if>
       <if test="subImages != null" >
-        #{subImages,jdbcType=LONGVARCHAR},
+        #{subImages,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.Product" >
-    update tb_product
+  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
+    update tb_purchase_product
     <set >
       <if test="categoryId != null" >
         category_id = #{categoryId,jdbcType=INTEGER},
@@ -139,17 +132,14 @@
       <if test="subtitle != null" >
         subtitle = #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="mainImage != null" >
-        main_image = #{mainImage,jdbcType=VARCHAR},
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
       </if>
       <if test="sales != null" >
         sales = #{sales,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="stock != null" >
-        stock = #{stock,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -160,49 +150,28 @@
       <if test="evaluationNums != null" >
         evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
       </if>
+      <if test="mainImage != null" >
+        main_image = #{mainImage,jdbcType=VARCHAR},
+      </if>
       <if test="subImages != null" >
-        sub_images = #{subImages,jdbcType=LONGVARCHAR},
+        sub_images = #{subImages,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.beautifulsoup.chengfeng.pojo.Product" >
-    update tb_product
+  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
+    update tb_purchase_product
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
-      main_image = #{mainImage,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
       sales = #{sales,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
-      stock = #{stock,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       spell_price = #{spellPrice,jdbcType=DECIMAL},
       evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
-      sub_images = #{subImages,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.Product" >
-    update tb_product
-    set category_id = #{categoryId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      subtitle = #{subtitle,jdbcType=VARCHAR},
       main_image = #{mainImage,jdbcType=VARCHAR},
-      sales = #{sales,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      spell_price = #{spellPrice,jdbcType=DECIMAL},
-      evaluation_nums = #{evaluationNums,jdbcType=INTEGER}
+      sub_images = #{subImages,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectByCategoryId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from tb_product
-    where category_id = #{categoryId,jdbcType=INTEGER}
-    ORDER BY sales desc
-  </select>
 </mapper>

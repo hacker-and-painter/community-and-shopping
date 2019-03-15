@@ -2,7 +2,7 @@ package com.beautifulsoup.chengfeng.pojo;
 
 import java.math.BigDecimal;
 
-public class Product {
+public class PurchaseProduct {
     private Integer id;
 
     private Integer categoryId;
@@ -11,19 +11,19 @@ public class Product {
 
     private String subtitle;
 
-    private String mainImage;
+    private Integer stock;
 
     private Integer sales;
 
     private BigDecimal price;
-
-    private Integer stock;
 
     private Integer status;
 
     private BigDecimal spellPrice;
 
     private Integer evaluationNums;
+
+    private String mainImage;
 
     private String subImages;
 
@@ -59,12 +59,12 @@ public class Product {
         this.subtitle = subtitle == null ? null : subtitle.trim();
     }
 
-    public String getMainImage() {
-        return mainImage;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage == null ? null : mainImage.trim();
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public Integer getSales() {
@@ -81,14 +81,6 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     public Integer getStatus() {
@@ -113,6 +105,14 @@ public class Product {
 
     public void setEvaluationNums(Integer evaluationNums) {
         this.evaluationNums = evaluationNums;
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage == null ? null : mainImage.trim();
     }
 
     public String getSubImages() {

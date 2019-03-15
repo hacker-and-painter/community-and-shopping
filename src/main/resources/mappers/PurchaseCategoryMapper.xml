@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.beautifulsoup.chengfeng.dao.CategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.Category" >
+<mapper namespace="com.beautifulsoup.chengfeng.dao.PurchaseCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseCategory" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -12,21 +12,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_category
+    from tb_purchase_category
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_category
+    delete from tb_purchase_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.Category" >
-    insert into tb_category (id, parent_id, name
+  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseCategory" >
+    insert into tb_purchase_category (id, parent_id, name
       )
     values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.Category" >
-    insert into tb_category
+  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseCategory" >
+    insert into tb_purchase_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -50,8 +50,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.Category" >
-    update tb_category
+  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseCategory" >
+    update tb_purchase_category
     <set >
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -62,24 +62,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.Category" >
-    update tb_category
+  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseCategory" >
+    update tb_purchase_category
     set parent_id = #{parentId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectAllParentCategories" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_category
-    where parent_id = 0
-  </select>
-
-  <select id="selectAllChildrenCategories" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_category
-    where parent_id != 0
-  </select>
 </mapper>

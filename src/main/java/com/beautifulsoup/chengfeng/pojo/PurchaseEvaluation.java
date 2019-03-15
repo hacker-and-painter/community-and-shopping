@@ -2,7 +2,7 @@ package com.beautifulsoup.chengfeng.pojo;
 
 import java.util.Date;
 
-public class Evaluation {
+public class PurchaseEvaluation {
     private Integer id;
 
     private Integer userId;

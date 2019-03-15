@@ -1,6 +1,6 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-public class Category {
+public class PurchaseCategory {
     private Integer id;
 
     private Integer parentId;

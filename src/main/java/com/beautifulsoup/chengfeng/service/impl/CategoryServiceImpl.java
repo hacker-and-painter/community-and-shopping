@@ -1,8 +1,8 @@
 package com.beautifulsoup.chengfeng.service.impl;
 
 import com.beautifulsoup.chengfeng.controller.vo.CategoryVo;
-import com.beautifulsoup.chengfeng.dao.CategoryMapper;
-import com.beautifulsoup.chengfeng.pojo.Category;
+import com.beautifulsoup.chengfeng.dao.PurchaseCategoryMapper;
+import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
 import com.beautifulsoup.chengfeng.service.CategoryService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
@@ -15,12 +15,12 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryMapper categoryMapper;
+    private PurchaseCategoryMapper purchaseCategoryMapper;
 
     @Override
     public List<CategoryVo> getParentCategories() {
         List<CategoryVo> categoryVos= Lists.newArrayList();
-        List<Category> categories=categoryMapper.selectAllParentCategories();
+        List<PurchaseCategory> categories= purchaseCategoryMapper.selectAllParentCategories();
         categories.stream().parallel().forEach(category -> {
             CategoryVo vo=new CategoryVo();
             BeanUtils.copyProperties(category,vo);
@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryVo> getChildrenCategories() {
         List<CategoryVo> categoryVos= Lists.newArrayList();
-        List<Category> categories=categoryMapper.selectAllChildrenCategories();
+        List<PurchaseCategory> categories= purchaseCategoryMapper.selectAllChildrenCategories();
         categories.stream().parallel().forEach(category -> {
             CategoryVo vo=new CategoryVo();
             BeanUtils.copyProperties(category,vo);

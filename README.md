@@ -6,9 +6,10 @@
 1. SpringBoot 2.1.3
 2. Spring Security+JWT
 3. Spring Cache+Ehcache
-5. Spring Boot Mail
-6. MyBatis+PageHelper
-7. MySQL+Druid
+4. Spring Boot Mail
+5. MyBatis+PageHelper
+6. MySQL+Druid
+7. Mongodb
 8. Redis+Codis+Redisson
 9. RabbitMQ
 10. ElasticSearch
@@ -25,5 +26,6 @@
 
 ## 要点
 1. 基于Redis构建分布式锁,保证请求的幂等性
-2. 基于Redis Cache实现分布式限流,提高系统的并发
+2. 基于Guava实现限流,提高系统的并发
 3. 基于RabbitMQ实现延迟消息投递,提高系统的吞吐量
+4. 数据库层优化

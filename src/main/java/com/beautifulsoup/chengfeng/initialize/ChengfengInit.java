@@ -1,4 +1,4 @@
-package com.beautifulsoup.chengfeng.web;
+package com.beautifulsoup.chengfeng.initialize;
 
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.dao.UserMapper;

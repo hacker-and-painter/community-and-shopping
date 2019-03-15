@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beautifulsoup.chengfeng.dao.PurchaseImageMapper" >
+  <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseImage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="is_valid" property="isValid" jdbcType="TINYINT" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, image_url, category_id, is_valid, add_time, keyword
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_purchase_image
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_purchase_image
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseImage" >
+    insert into tb_purchase_image (id, image_url, category_id, 
+      is_valid, add_time, keyword
+      )
+    values (#{id,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
+      #{isValid,jdbcType=TINYINT}, #{addTime,jdbcType=TIMESTAMP}, #{keyword,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseImage" >
+    insert into tb_purchase_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseImage" >
+    update tb_purchase_image
+    <set >
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseImage" >
+    update tb_purchase_image
+    set image_url = #{imageUrl,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      keyword = #{keyword,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
