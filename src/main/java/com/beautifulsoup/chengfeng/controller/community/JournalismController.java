@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,12 +22,32 @@ public class JournalismController {
 
     @GetMapping(value = "/top5",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult<List<Journalism>> findUserByNickName(){
+    public ResponseResult<List<Journalism>> getTop5Journalisms(){
 
         List<Journalism> top5Journalisms= journalismService.getTop5JournalismsOrderByPublishTime();
 
         return ResponseResult.createBySuccess(top5Journalisms);
     }
 
+
+    @GetMapping(value = "/get/{journalismId}",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseResult<Journalism> getJournalismById(@PathVariable("journalismId")String journalismId){
+
+        Journalism journalism= journalismService.getJournalismById(journalismId);
+
+        return ResponseResult.createBySuccess(journalism);
+    }
+
+    @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseResult<List<Journalism>> getJournalismPages(
+            @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize){
+
+        List<Journalism> allJournalismsByPage= journalismService.getAllJournalismsByPage(pageNum,pageSize);
+
+        return ResponseResult.createBySuccess(allJournalismsByPage);
+    }
 
 }

@@ -5,14 +5,19 @@ import com.beautifulsoup.chengfeng.pojo.Journalism;
 import com.beautifulsoup.chengfeng.repository.JournalismRepository;
 import com.beautifulsoup.chengfeng.service.JournalismService;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -37,6 +42,31 @@ public class JournalismServiceImpl implements JournalismService {
             Sort sort=Sort.by(orders);
             return journalismRepository.findTop5ByCommunityId(communityId,sort);
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Journalism getJournalismById(String journalismId) {
+        Optional<Journalism> journalism = journalismRepository.findById(journalismId);
+        if (journalism.isPresent()){
+            return journalism.get();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Journalism> getAllJournalismsByPage(Integer pageNum,Integer pageSize) {
+        try {
+            Sort sort=Sort.by(ImmutableList.of(new Sort.Order(Sort.Direction.DESC,"publishTime")));
+            Integer communityId = AuthenticationInfoUtil.getUser(userMapper, memcachedClient).getCommunityId();
+            return journalismRepository.findByCommunityId(communityId, PageRequest.of(pageNum,pageSize,sort));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (MemcachedException e) {
