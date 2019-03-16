@@ -34,6 +34,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PostNews" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_post_news (id, title, description, 
       img_url, posted, star, 
       comments, type, user_id, 
@@ -44,6 +47,9 @@
       #{newsDetail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PostNews" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_post_news
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -168,4 +174,5 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

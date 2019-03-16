@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
+import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.uploadFiles;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -130,27 +131,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    private String uploadFiles(MultipartFile[] files){
-        StringBuffer buffer=new StringBuffer();
-        if (files!=null&&files.length>0){
-            for (int i=0;i<files.length;i++){
-                if(files[i].isEmpty()){
-                    throw new MultipartException(ChengfengConstant.File.UPLOAD_EMPTY_ERROR);
-                }
-                try {
-                    String path = saveFile(files[i]);
-                    if (i!=files.length-1){
-                        buffer.append(path).append(",");
-                    }else{
-                        buffer.append(path);
-                    }
-                } catch (IOException e) {
-                    throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
-                }
-            }
-        }
-        return buffer.toString();
-    }
+
 
     private CryptPassword checkPassword(String nickname,String rawpassword){
         User user=JsonSerializableUtil.string2Obj(stringRedisTemplate.opsForHash().get(RedisConstant.USERINFOS,nickname).toString(),User.class);

@@ -1,10 +1,10 @@
 package com.beautifulsoup.chengfeng.repository;
 
 import com.beautifulsoup.chengfeng.pojo.Journalism;
-import jdk.internal.jline.internal.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 

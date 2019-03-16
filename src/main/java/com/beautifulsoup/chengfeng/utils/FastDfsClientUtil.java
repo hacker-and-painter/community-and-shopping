@@ -1,10 +1,12 @@
 package com.beautifulsoup.chengfeng.utils;
 
 import com.beautifulsoup.chengfeng.common.FastDfsFile;
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +23,28 @@ public class FastDfsClientUtil {
         } catch (Exception e) {
             log.error("FastDFS Client Init Fail!",e);
         }
+    }
+
+    public static String uploadFiles(MultipartFile[] files){
+        StringBuffer buffer=new StringBuffer();
+        if (files!=null&&files.length>0){
+            for (int i=0;i<files.length;i++){
+                if(files[i].isEmpty()){
+                    throw new MultipartException(ChengfengConstant.File.UPLOAD_EMPTY_ERROR);
+                }
+                try {
+                    String path = saveFile(files[i]);
+                    if (i!=files.length-1){
+                        buffer.append(path).append(",");
+                    }else{
+                        buffer.append(path);
+                    }
+                } catch (IOException e) {
+                    throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
+                }
+            }
+        }
+        return buffer.toString();
     }
 
     public static String saveFile(MultipartFile multipartFile) throws IOException {

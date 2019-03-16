@@ -1,6 +1,9 @@
 package com.beautifulsoup.chengfeng.dao;
 
+import com.beautifulsoup.chengfeng.controller.vo.PostReplyVo;
 import com.beautifulsoup.chengfeng.pojo.PostReply;
+
+import java.util.List;
 
 public interface PostReplyMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,8 @@ public interface PostReplyMapper {
     int updateByPrimaryKeySelective(PostReply record);
 
     int updateByPrimaryKey(PostReply record);
+
+    List<PostReply> selectByPostNewsId(Integer newsId);
+
+    List<PostReply> selectByPostNewsParentId(Integer parentId);
 }

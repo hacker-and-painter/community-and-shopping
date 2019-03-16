@@ -125,4 +125,29 @@
       post_id = #{postId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByPostNewsId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_post_reply
+    <where>
+      <if test="newsId != null">
+        and post_id = #{newsId,jdbcType=INTEGER}
+      </if>
+        and parent_id = 0
+    </where>
+  </select>
+
+
+  <select id="selectByPostNewsParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_post_reply
+    <where>
+      <if test="newsId != null">
+        and parent_id = #{parentId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
 </mapper>

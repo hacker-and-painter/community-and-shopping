@@ -28,8 +28,13 @@ public class ChengfengExceptionHandler {
     }
 
     @ExceptionHandler(MultipartException.class)
-    public ResponseEntity multipartExceptionHandler(MultipartException e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    public ResponseResult<Map<String,Object>> multipartExceptionHandler(MultipartException e){
+
+        Map<String,Object> result= Maps.newHashMap();
+        result.put("ExceptionMsg", e.getMessage());
+
+        return ResponseResult.createByError(ResponseCode.ERROR.getCode()
+                ,ResponseCode.ERROR.getDesc(),result);
     }
 
     @ExceptionHandler(TokenException.class)

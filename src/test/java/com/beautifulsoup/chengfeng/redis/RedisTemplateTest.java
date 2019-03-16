@@ -48,5 +48,10 @@ public class RedisTemplateTest extends ChengfengApplicationTests {
         });
     }
 
+    @Test
+    public void increment(){
+//        stringRedisTemplate.opsForHash().get().in
+    }
+
 
 }
