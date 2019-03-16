@@ -9,7 +9,7 @@
 4. Spring Boot Mail
 5. MyBatis+PageHelper
 6. MySQL+Druid
-7. Mongodb
+7. Spring Data Mongodb
 8. Redis+Codis+Redisson
 9. RabbitMQ
 10. ElasticSearch

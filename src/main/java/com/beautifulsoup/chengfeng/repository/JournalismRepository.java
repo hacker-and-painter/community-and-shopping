@@ -19,4 +19,6 @@ public interface JournalismRepository extends MongoRepository<Journalism,String>
     List<Journalism> findTop5ByCommunityId(Integer communityId, Sort sort);
     @Nullable
     List<Journalism> findByCommunityId(Integer communityId, Pageable pageable);
+
+//    List<Journalism> findFirstBy
 }

@@ -50,4 +50,12 @@ public class JournalismController {
         return ResponseResult.createBySuccess(allJournalismsByPage);
     }
 
+    @GetMapping(value = "/hot",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseResult<List<Journalism>> getHotJournalisms(
+            @RequestParam(value = "num",defaultValue = "3",required = false)Integer num){
+        List<Journalism> hotJournalisms = journalismService.getHotJournalisms(num);
+        return ResponseResult.createBySuccess(hotJournalisms);
+    }
+
 }

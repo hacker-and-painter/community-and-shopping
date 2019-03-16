@@ -14,11 +14,15 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 @Service
 public class JournalismServiceImpl implements JournalismService {
@@ -31,6 +35,9 @@ public class JournalismServiceImpl implements JournalismService {
 
     @Autowired
     private MemcachedClient memcachedClient;
+
+    @Autowired
+    private MongoOperations mongoOperations;
 
     @Override
     public List<Journalism> getTop5JournalismsOrderByPublishTime() {
@@ -74,6 +81,25 @@ public class JournalismServiceImpl implements JournalismService {
         } catch (TimeoutException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public List<Journalism> getHotJournalisms(Integer num) {
+        try {
+            Integer communityId = AuthenticationInfoUtil.getUser(userMapper, memcachedClient).getCommunityId();
+            Query query=new Query();
+            query.addCriteria(Criteria.where("communityId").is(communityId));
+            query.with(new Sort(Sort.Direction.DESC,"starNums"));
+            return mongoOperations.find(query,Journalism.class).stream().limit(num).collect(Collectors.toList());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
