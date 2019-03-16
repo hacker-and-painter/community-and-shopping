@@ -19,6 +19,10 @@ public class PostReply {
 
     private Integer postId;
 
+    private String nickname;
+
+    private String avatar;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class PostReply {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 }

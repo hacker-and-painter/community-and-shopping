@@ -4,6 +4,7 @@ import com.beautifulsoup.chengfeng.ChengfengApplicationTests;
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.pojo.Community;
+import com.beautifulsoup.chengfeng.pojo.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -49,8 +50,19 @@ public class RedisTemplateTest extends ChengfengApplicationTests {
     }
 
     @Test
+    public void saveObject(){
+        User user=new User();
+        user.setAvatar("http://wwww.baid.jpg");
+        user.setSignUp(new Date());
+        user.setUpdateTime(new Date());
+        user.setBirthday(new Date());
+        user.setIntegral(10);
+        redisSerializableTemplate.opsForHash().put("test.user","wangshu",user);
+    }
+
+    @Test
     public void increment(){
-//        stringRedisTemplate.opsForHash().get().in
+
     }
 
 

@@ -150,6 +150,7 @@ public class PostNewsServiceImpl implements PostNewsService {
 
     @Override
     public PostReplyVo createNewPostReply(PostReplyDto postReplyDto, MultipartFile[] files) {
+
             PostReply postReply=new PostReply();
             BeanUtils.copyProperties(postReplyDto,postReply);
             if (StringUtils.isBlank(postReply.getImgUrl())){
@@ -168,8 +169,11 @@ public class PostNewsServiceImpl implements PostNewsService {
             redisTemplate.opsForZSet().add(RedisConstant.POST_REPLY_BELONGTO_ORDER+postReply.getParentId(),postReplyVo,postReply.getStar());
             redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
                     RedisConstant.POST_REPLY_PREFIX+postReplyVo.getId(), postReplyVo);
-            return postReplyVo;
 
+            //更新用户状态
+        User user = (User) redisTemplate.opsForHash().get(RedisConstant.USERS, postReplyDto.getNickname());
+
+        return postReplyVo;
     }
 
     private List<PostNewsVo> getAllPostNews(Integer pageNum,Integer pageSize) throws InterruptedException, MemcachedException, TimeoutException {

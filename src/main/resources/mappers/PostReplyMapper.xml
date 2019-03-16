@@ -10,9 +10,12 @@
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="is_parent" property="isParent" jdbcType="INTEGER" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, content, img_url, reply_time, star, parent_id, is_parent, post_id
+    id, content, img_url, reply_time, star, parent_id, is_parent, post_id, nickname, 
+    avatar
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,10 +30,12 @@
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PostReply" >
     insert into tb_post_reply (id, content, img_url, 
       reply_time, star, parent_id, 
-      is_parent, post_id)
+      is_parent, post_id, nickname, 
+      avatar)
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
       #{replyTime,jdbcType=TIMESTAMP}, #{star,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{isParent,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER})
+      #{isParent,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PostReply" >
     insert into tb_post_reply
@@ -59,6 +64,12 @@
       <if test="postId != null" >
         post_id,
       </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -84,6 +95,12 @@
       </if>
       <if test="postId != null" >
         #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,6 +128,12 @@
       <if test="postId != null" >
         post_id = #{postId,jdbcType=INTEGER},
       </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -122,11 +145,13 @@
       star = #{star,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       is_parent = #{isParent,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER}
+      post_id = #{postId,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectByPostNewsId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  
+    <select id="selectByPostNewsId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from tb_post_reply
@@ -149,5 +174,5 @@
       </if>
     </where>
   </select>
-
+  
 </mapper>

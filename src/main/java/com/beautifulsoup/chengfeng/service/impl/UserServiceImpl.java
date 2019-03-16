@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
@@ -39,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, Serializable> redisTemplate;
 
     @Transactional
     @Override
@@ -59,6 +64,7 @@ public class UserServiceImpl implements UserService {
         cryptPassword.setCryptPassword(userDto.getPassword());
         cryptPasswordMapper.insertSelective(cryptPassword);
         stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
+        redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
         UserVo userVo=new UserVo();
         userVo.setId(user.getId());
         userVo.setNickname(user.getNickname());

@@ -29,4 +29,8 @@ public class PostReplyVo implements Serializable {
     private Integer parentId;
 
     private Integer postId;
+
+    private String nickname;
+
+    private String avatar;
 }
