@@ -9,7 +9,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Date;
 import java.util.List;
 
-public interface ChengfengMongoRepository extends MongoRepository<Journalism,String> {
-//    Page<Journalism> findFirst5ByPublishTime(Date publishTime, Pageable pageable);
-    List<Journalism> findFirst5(Sort sort);
+public interface JournalismRepository extends MongoRepository<Journalism,String> {
+    List<Journalism> findTop5ByOrderByPublishTimeDesc();
+    Journalism findFirstByOrderByStarNumsAsc();
+
+    Journalism findTopByOrderByStarNumsDesc();
+
+    List<Journalism> findTop5ByCommunityId(Integer communityId, Sort sort);
 }

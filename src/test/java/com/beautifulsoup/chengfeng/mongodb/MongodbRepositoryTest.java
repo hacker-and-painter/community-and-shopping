@@ -4,15 +4,13 @@ import com.beautifulsoup.chengfeng.dao.JournalismMapper;
 import com.beautifulsoup.chengfeng.pojo.Journalism;
 import com.beautifulsoup.chengfeng.pojo.JournalismComment;
 import com.beautifulsoup.chengfeng.pojo.JournalismContent;
-import com.beautifulsoup.chengfeng.repository.ChengfengMongoRepository;
-import com.google.common.collect.ImmutableList;
+import com.beautifulsoup.chengfeng.repository.JournalismRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,7 +24,7 @@ import java.util.UUID;
 public class MongodbRepositoryTest  {
 
     @Autowired
-    private ChengfengMongoRepository mongoRepository;
+    private JournalismRepository mongoRepository;
 
     @Autowired
     private JournalismMapper journalismMapper;
@@ -80,10 +78,10 @@ public class MongodbRepositoryTest  {
 
     @Test
     public void getAllJournalisms(){
-        List<Journalism> publishTime = mongoRepository.findFirst5(Sort.by(ImmutableList.of(new Sort.Order(Sort.Direction.DESC, "publishTime"))));
-        publishTime.stream().forEach(journalism -> {
-            System.out.println(publishTime);
-        });
+//        List<Journalism> publishTime = mongoRepository.findFirst5(Sort.by(ImmutableList.of(new Sort.Order(Sort.Direction.DESC, "publishTime"))));
+//        publishTime.stream().forEach(journalism -> {
+//            System.out.println(publishTime);
+//        });
 
     }
 

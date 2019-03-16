@@ -20,6 +20,8 @@ public class Journalism implements Serializable {
 
     private String title;
 
+    private String author;
+
     private String description;
 
     private String images;
@@ -30,7 +32,7 @@ public class Journalism implements Serializable {
 
     private String publishName;
 
-    private String author;
+    private Integer communityId;
 
     private Integer commentNums;
 
@@ -39,7 +41,6 @@ public class Journalism implements Serializable {
     private List<JournalismContent> contents;
 
     private List<JournalismComment> comments;
-
     public String getId() {
         return id;
     }
@@ -54,6 +55,14 @@ public class Journalism implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author == null ? null : author.trim();
     }
 
     public String getDescription() {
@@ -96,12 +105,12 @@ public class Journalism implements Serializable {
         this.publishName = publishName == null ? null : publishName.trim();
     }
 
-    public String getAuthor() {
-        return author;
+    public Integer getCommunityId() {
+        return communityId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCommunityId(Integer communityId) {
+        this.communityId = communityId;
     }
 
     public Integer getCommentNums() {

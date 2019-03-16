@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng.service.impl;
 
+import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
@@ -74,7 +75,7 @@ public class PortalServiceImpl implements PortalService {
     public List<CommunityNoticeVo> findAllCommunityNoticeVos(Integer pageNum, Integer pageSize){
         List<CommunityNoticeVo> communityNoticeVos= Lists.newArrayList();
         try {
-            com.beautifulsoup.chengfeng.pojo.User user=getUser();
+            com.beautifulsoup.chengfeng.pojo.User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
             PageHelper.startPage(pageNum,pageSize);
             List<CommunityNotice> communityNotices=communityNoticeMapper.selectByCommunityId(user.getCommunityId());
             communityNotices.stream().forEach(communityNotice -> {
@@ -97,7 +98,7 @@ public class PortalServiceImpl implements PortalService {
     public List<ProperNoticeVo> findAllProperNoticeVos(Integer pageNum, Integer pageSize) {
         List<ProperNoticeVo> properNoticeVos = Lists.newArrayList();
         try {
-            com.beautifulsoup.chengfeng.pojo.User user = getUser();
+            com.beautifulsoup.chengfeng.pojo.User user = AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
             PageHelper.startPage(pageNum, pageSize);
             List<ProperNotice> properNotices = properNoticeMapper.selectByUserId(user.getId());
             properNotices.stream().forEach(properNotice -> {
@@ -120,7 +121,7 @@ public class PortalServiceImpl implements PortalService {
     public List<CommunityNoticeVo> findLatestCommunityNoticeVos(Integer limit) {
         List<CommunityNoticeVo> communityNoticeVos=Lists.newArrayList();
         try {
-            com.beautifulsoup.chengfeng.pojo.User user = getUser();
+            com.beautifulsoup.chengfeng.pojo.User user =AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
             Set<String> keys = stringRedisTemplate.opsForZSet().reverseRange(RedisConstant.COMMUNITY_NOTICE_ORDER + user.getCommunityId(), 0, limit - 1);
             keys.stream().forEach(key->{
                 String communityNoticeJson = (String) stringRedisTemplate.opsForHash().get(RedisConstant.COMMUNITY_NOTICES+user.getCommunityId(), key);
@@ -143,7 +144,7 @@ public class PortalServiceImpl implements PortalService {
     public List<ProperNoticeVo> findLatestProperNoticeVos(Integer limit) {
         List<ProperNoticeVo> properNoticeVos=Lists.newArrayList();
         try {
-            com.beautifulsoup.chengfeng.pojo.User user = getUser();
+            com.beautifulsoup.chengfeng.pojo.User user = AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
             Set<String> keys = stringRedisTemplate.opsForZSet().reverseRange(RedisConstant.PROPER_NOTICE_ORDER + user.getId(), 0, limit - 1);
             keys.stream().forEach(key->{
                 String properNoticeJson = (String) stringRedisTemplate.opsForHash().get(RedisConstant.PROPER_NOTICES+user.getId(), key);
@@ -168,7 +169,7 @@ public class PortalServiceImpl implements PortalService {
         try {
             RepairBook repairBook=new RepairBook();
             BeanUtils.copyProperties(repairBookDto,repairBook);
-            repairBook.setUserId(getUser().getId());
+            repairBook.setUserId(AuthenticationInfoUtil.getUser(userMapper,memcachedClient).getId());
             repairBookMapper.insert(repairBook);
             return "立即报修提交成功";
         } catch (Exception e) {
@@ -183,7 +184,7 @@ public class PortalServiceImpl implements PortalService {
         try {
             SecretaryBook secretaryBook=new SecretaryBook();
             BeanUtils.copyProperties(bookDto,secretaryBook);
-            secretaryBook.setUserId(getUser().getId());
+            secretaryBook.setUserId(AuthenticationInfoUtil.getUser(userMapper,memcachedClient).getId());
             secretaryBookMapper.insert(secretaryBook);
             return "找书记提交成功";
         } catch (Exception e) {
@@ -196,7 +197,7 @@ public class PortalServiceImpl implements PortalService {
     public List<WaterBrandVo> findAllWaterBrands() {
         List<WaterBrandVo> waterBrandVoList=Lists.newArrayList();
         try {
-            List<WaterBrand> waterBrands=waterBrandMapper.selectByUserId(getUser().getId());
+            List<WaterBrand> waterBrands=waterBrandMapper.selectByUserId(AuthenticationInfoUtil.getUser(userMapper,memcachedClient).getId());
             waterBrands.stream().parallel().forEach(waterBrand -> {
                 WaterBrandVo waterBrandVo=new WaterBrandVo();
                 BeanUtils.copyProperties(waterBrand,waterBrandVo);
@@ -243,16 +244,5 @@ public class PortalServiceImpl implements PortalService {
         return waterBookVo;
     }
 
-    private com.beautifulsoup.chengfeng.pojo.User getUser() throws InterruptedException, MemcachedException, TimeoutException {
-        User authenticationInfo = AuthenticationInfoUtil.getAuthenticationInfo();
-        String userJson = memcachedClient.get(authenticationInfo.getUsername());
-        com.beautifulsoup.chengfeng.pojo.User user;
-        if (StringUtils.isBlank(userJson)){
-            user= JsonSerializableUtil.string2Obj(userJson, com.beautifulsoup.chengfeng.pojo.User.class);
 
-        }else{
-            user=userMapper.selectByNickname(authenticationInfo.getUsername());
-        }
-        return user;
-    }
 }

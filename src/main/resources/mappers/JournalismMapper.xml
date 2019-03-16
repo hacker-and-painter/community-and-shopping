@@ -10,9 +10,10 @@
     <result column="videos" property="videos" jdbcType="VARCHAR" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="publish_name" property="publishName" jdbcType="VARCHAR" />
+    <result column="community_id" property="communityId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, author, description, images, videos, publish_time, publish_name
+    id, title, author, description, images, videos, publish_time, publish_name, community_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -27,10 +28,12 @@
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.Journalism" >
     insert into tb_journalism (id, title, author, 
       description, images, videos, 
-      publish_time, publish_name)
+      publish_time, publish_name, community_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, #{videos,jdbcType=VARCHAR}, 
-      #{publishTime,jdbcType=TIMESTAMP}, #{publishName,jdbcType=VARCHAR})
+      #{publishTime,jdbcType=TIMESTAMP}, #{publishName,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.Journalism" >
     insert into tb_journalism
@@ -59,6 +62,9 @@
       <if test="publishName != null" >
         publish_name,
       </if>
+      <if test="communityId != null" >
+        community_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -84,6 +90,9 @@
       </if>
       <if test="publishName != null" >
         #{publishName,jdbcType=VARCHAR},
+      </if>
+      <if test="communityId != null" >
+        #{communityId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -111,6 +120,9 @@
       <if test="publishName != null" >
         publish_name = #{publishName,jdbcType=VARCHAR},
       </if>
+      <if test="communityId != null" >
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -122,10 +134,10 @@
       images = #{images,jdbcType=VARCHAR},
       videos = #{videos,jdbcType=VARCHAR},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      publish_name = #{publishName,jdbcType=VARCHAR}
+      publish_name = #{publishName,jdbcType=VARCHAR},
+      community_id = #{communityId,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
 
   <resultMap id="AllResultMap" type="com.beautifulsoup.chengfeng.pojo.Journalism" >
     <id column="id" property="id" jdbcType="VARCHAR" />
@@ -136,6 +148,7 @@
     <result column="videos" property="videos" jdbcType="VARCHAR" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="publish_name" property="publishName" jdbcType="VARCHAR" />
+    <result column="community_id" property="communityId" jdbcType="INTEGER"/>
     <collection property="contents" column="id" ofType="com.beautifulsoup.chengfeng.pojo.JournalismContent">
       <id column="c_id" property="id"/>
       <result column="c_image_url" property="imageUrl"/>
@@ -146,7 +159,7 @@
 
   <select id="selectAllJournalismsById" resultMap="AllResultMap" parameterType="java.lang.String" >
     select
-     j.id,j.title,j.author,j.description,j.images,j.videos,j.publish_time,j.publish_name,c.id as c_id,
+     j.id,j.title,j.author,j.description,j.images,j.videos,j.publish_time,j.publish_name,j.community_id,c.id as c_id,
      c.image_url as c_image_url,c.content as c_content,c.video_url as c_video_url
     from tb_journalism j
     left join tb_journalism_content c
@@ -156,7 +169,7 @@
 
   <select id="selectAllJournalisms" resultMap="AllResultMap" parameterType="java.lang.String" >
     select
-     j.id,j.title,j.author,j.description,j.images,j.videos,j.publish_time,j.publish_name,c.id as c_id,
+     j.id,j.title,j.author,j.description,j.images,j.videos,j.publish_time,j.publish_name,j.community_id,c.id as c_id,
      c.image_url as c_image_url,c.content as c_content,c.video_url as c_video_url
     from tb_journalism j
     left join tb_journalism_content c

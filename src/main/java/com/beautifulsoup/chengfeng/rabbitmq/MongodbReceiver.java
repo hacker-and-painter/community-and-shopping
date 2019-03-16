@@ -3,13 +3,12 @@ package com.beautifulsoup.chengfeng.rabbitmq;
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.dao.JournalismMapper;
 import com.beautifulsoup.chengfeng.pojo.Journalism;
-import com.beautifulsoup.chengfeng.repository.ChengfengMongoRepository;
+import com.beautifulsoup.chengfeng.repository.JournalismRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class MongodbReceiver {
     private JournalismMapper journalismMapper;
 
     @Autowired
-    private ChengfengMongoRepository mongoRepository;
+    private JournalismRepository mongoRepository;
 
 
     @RabbitHandler
