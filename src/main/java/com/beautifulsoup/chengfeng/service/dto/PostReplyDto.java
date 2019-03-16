@@ -29,6 +29,11 @@ public class PostReplyDto {
     @Length(max=1000,message="头像地址过长")
     private String avatar;
 
+
+    private Integer parentId;
+
+    private Integer isParent;
+
     @ApiModelProperty(value="图片地址",name="imgUrl",example="这里是图片的地址,逗号分隔,不传的话就上传文件",required=false)
     private String imgUrl;
 }

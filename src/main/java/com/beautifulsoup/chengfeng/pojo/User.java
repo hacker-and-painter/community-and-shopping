@@ -12,7 +12,7 @@ public class User implements Serializable {
 
     private String idcard;
 
-    private Integer integral;
+    private Integer integral;   //这里代表用户的总回帖和发帖数
 
     private String gender;
 

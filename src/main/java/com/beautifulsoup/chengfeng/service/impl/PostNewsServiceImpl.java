@@ -13,7 +13,6 @@ import com.beautifulsoup.chengfeng.service.PostNewsService;
 import com.beautifulsoup.chengfeng.service.dto.PostNewsDto;
 import com.beautifulsoup.chengfeng.service.dto.PostReplyDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
-import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -77,6 +76,10 @@ public class PostNewsServiceImpl implements PostNewsService {
             redisTemplate.opsForHash().put(RedisConstant.POST_NEWS_BELONGTO+user.getNickname(),
                     RedisConstant.POST_NEWS_PREFIX+postNewsVo.getId(), postNewsVo);
             redisTemplate.opsForZSet().add(RedisConstant.POST_NEWS_COMMUNITY_ORDER+user.getCommunityId(),postNewsVo,postNews.getStar());
+
+            User user1 = (User) redisTemplate.opsForHash().get(RedisConstant.USERS, user.getNickname());
+            user1.setIntegral(user1.getIntegral()+1);
+            redisTemplate.opsForHash().put(RedisConstant.USERS, user.getNickname(),user1);
             return postNewsVo;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -93,7 +96,6 @@ public class PostNewsServiceImpl implements PostNewsService {
     @Override
     public List<PostNewsVo> getAllPostNewsByPage(Integer pageNum, Integer pageSize) {
         try {
-
             return getAllPostNews(pageNum,pageSize);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -102,8 +104,6 @@ public class PostNewsServiceImpl implements PostNewsService {
         } catch (TimeoutException e) {
             e.printStackTrace();
         }
-
-
         return null;
     }
 
@@ -151,28 +151,43 @@ public class PostNewsServiceImpl implements PostNewsService {
     @Override
     public PostReplyVo createNewPostReply(PostReplyDto postReplyDto, MultipartFile[] files) {
 
-            PostReply postReply=new PostReply();
-            BeanUtils.copyProperties(postReplyDto,postReply);
-            if (StringUtils.isBlank(postReply.getImgUrl())){
-                postReply.setImgUrl(uploadFiles(files));
-            }
-            postReply.setReplyTime(new Date());
-            postReply.setStar(0);
+        PostReply postReply=new PostReply();
+        BeanUtils.copyProperties(postReplyDto,postReply);
+        if (StringUtils.isBlank(postReply.getImgUrl())){
+            postReply.setImgUrl(uploadFiles(files));
+        }
+        postReply.setReplyTime(new Date());
+        if (postReplyDto.getIsParent()==null){
             postReply.setIsParent(0);
+        }
+        if (postReplyDto.getParentId()==null){
             postReply.setParentId(0);
+        }
 
-            postReplyMapper.insert(postReply);
-            PostReplyVo postReplyVo=new PostReplyVo();
-            BeanUtils.copyProperties(postReply,postReplyVo);
+        postReplyMapper.insert(postReply);
+        PostReplyVo postReplyVo=new PostReplyVo();
+        BeanUtils.copyProperties(postReply,postReplyVo);
 
-            //加入redis方便维护点赞量
-            redisTemplate.opsForZSet().add(RedisConstant.POST_REPLY_BELONGTO_ORDER+postReply.getParentId(),postReplyVo,postReply.getStar());
-            redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
+        //加入redis方便维护点赞量
+        redisTemplate.opsForZSet().add(RedisConstant.POST_REPLY_BELONGTO_ORDER+postReply.getParentId(),postReplyVo,postReply.getStar());
+        redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
                     RedisConstant.POST_REPLY_PREFIX+postReplyVo.getId(), postReplyVo);
-
-            //更新用户状态
+        //更新用户状态
         User user = (User) redisTemplate.opsForHash().get(RedisConstant.USERS, postReplyDto.getNickname());
-
+        user.setIntegral(user.getIntegral()+1);
+        redisTemplate.opsForHash().put(RedisConstant.USERS, postReplyDto.getNickname(),user);
+        //更新帖子状态
+        PostNewsVo postNewsVo= (PostNewsVo) redisTemplate.opsForHash().get(RedisConstant.POST_NEWS_BELONGTO,RedisConstant.POST_NEWS_PREFIX+postReplyDto.getPostId());
+        postNewsVo.setComments(postNewsVo.getComments()+1);
+        redisTemplate.opsForHash().put(RedisConstant.POST_NEWS_BELONGTO,RedisConstant.POST_NEWS_PREFIX+postReplyDto.getPostId(),postNewsVo);
+        //判断是否有父节点
+        if (postReplyDto.getParentId()>0){
+            PostReplyVo replyVo= (PostReplyVo) redisTemplate.opsForHash().get(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
+                    RedisConstant.POST_REPLY_PREFIX+postReplyVo.getParentId());
+            replyVo.setStar(replyVo.getStar()+1);
+            redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
+                    RedisConstant.POST_REPLY_PREFIX+postReplyVo.getParentId(),replyVo);
+        }
         return postReplyVo;
     }
 
@@ -200,5 +215,4 @@ public class PostNewsServiceImpl implements PostNewsService {
         return postReplies;
 
     }
-
 }

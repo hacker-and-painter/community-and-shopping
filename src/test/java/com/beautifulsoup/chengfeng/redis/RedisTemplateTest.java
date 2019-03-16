@@ -5,6 +5,7 @@ import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.pojo.Community;
 import com.beautifulsoup.chengfeng.pojo.User;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+@Slf4j
 public class RedisTemplateTest extends ChengfengApplicationTests {
 
     @Autowired
@@ -57,13 +59,24 @@ public class RedisTemplateTest extends ChengfengApplicationTests {
         user.setUpdateTime(new Date());
         user.setBirthday(new Date());
         user.setIntegral(10);
+        user.setNickname("旺夫运");
         redisSerializableTemplate.opsForHash().put("test.user","wangshu",user);
     }
 
     @Test
     public void increment(){
 
+        User wangshu = (User) redisSerializableTemplate.opsForHash().get("test.user", "wangshu");
+        wangshu.setIntegral(11);
+        wangshu.setNickname("王小灏");
+        redisSerializableTemplate.opsForHash().put("test.user","wangshu",wangshu);
     }
 
+
+    @Test
+    public void getObject(){
+        User wangshu = (User) redisSerializableTemplate.opsForHash().get("test.user", "wangshu");
+        log.error(wangshu.getNickname()+":"+wangshu.getIntegral());
+    }
 
 }
