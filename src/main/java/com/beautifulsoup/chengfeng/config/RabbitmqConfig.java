@@ -26,6 +26,11 @@ public class RabbitmqConfig {
     }
 
     @Bean
+    public Queue orderElasticSearch(){
+        return new Queue(ChengfengConstant.RabbitMQ.QUEUE_NAME_ELASTICSEARCH);
+    }
+
+    @Bean
     public TopicExchange chengfengExchange(){
         return new TopicExchange(ChengfengConstant.RabbitMQ.TOPIC_EXCHANGE);
     }
@@ -45,4 +50,8 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(orderMongodb).to(chengfengExchange).with("topic.mongodb");
     }
 
+    @Bean
+    Binding bindingExchangElasticSearch(Queue orderElasticSearch,TopicExchange chengfengExchange){
+        return BindingBuilder.bind(orderElasticSearch).to(chengfengExchange).with("topic.elasticsearch");
+    }
 }

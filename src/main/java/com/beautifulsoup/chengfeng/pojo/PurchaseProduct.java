@@ -1,14 +1,29 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PurchaseProduct {
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Document(indexName = "product", type = "docs", shards = 1, replicas = 0)
+public class PurchaseProduct implements Serializable {
+    @Id
     private Integer id;
 
     private Integer categoryId;
 
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String name;
-
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String subtitle;
 
     private Integer stock;
@@ -23,9 +38,15 @@ public class PurchaseProduct {
 
     private Integer evaluationNums;
 
+    private Integer goodEvaluationNums;
+    @Field(type = FieldType.Keyword, index = false)
     private String mainImage;
-
+    @Field(type = FieldType.Keyword, index = false)
     private String subImages;
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    private String detail;
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    private String category;
 
     public Integer getId() {
         return id;
@@ -107,6 +128,14 @@ public class PurchaseProduct {
         this.evaluationNums = evaluationNums;
     }
 
+    public Integer getGoodEvaluationNums() {
+        return goodEvaluationNums;
+    }
+
+    public void setGoodEvaluationNums(Integer goodEvaluationNums) {
+        this.goodEvaluationNums = goodEvaluationNums;
+    }
+
     public String getMainImage() {
         return mainImage;
     }
@@ -121,5 +150,21 @@ public class PurchaseProduct {
 
     public void setSubImages(String subImages) {
         this.subImages = subImages == null ? null : subImages.trim();
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

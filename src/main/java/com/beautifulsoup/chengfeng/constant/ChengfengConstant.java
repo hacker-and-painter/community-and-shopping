@@ -14,8 +14,10 @@ public class ChengfengConstant {
         String TOPIC_EXCHANGE="topicExchange";
         String QUEUE_NAME_ORDER="order";
         String QUEUE_NAME_MONGODB="mongodb";
+        String QUEUE_NAME_ELASTICSEARCH="elasticsearch";
 
         String MESSAGE_MONGODB_INIT="MONGODB_INIT";
+        String MESSAGE_ELASTICSEARCH_INIT="ELASTICSEARCH_INIT";
     }
 
     public interface Memcached{

@@ -10,9 +10,9 @@
 5. MyBatis+PageHelper
 6. MySQL+Druid
 7. Spring Data Mongodb
+10. Spring Data ElasticSearch
 8. Redis+Codis+Redisson
 9. RabbitMQ
-10. ElasticSearch
 11. Kafka
 12. Memcached
 13. FastDFS

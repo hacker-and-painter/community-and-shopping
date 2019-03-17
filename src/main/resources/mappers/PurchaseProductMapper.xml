@@ -12,12 +12,13 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="spell_price" property="spellPrice" jdbcType="DECIMAL" />
     <result column="evaluation_nums" property="evaluationNums" jdbcType="INTEGER" />
+    <result column="good_evaluation_nums" property="goodEvaluationNums" jdbcType="INTEGER" />
     <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
     <result column="sub_images" property="subImages" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, category_id, name, subtitle, stock, sales, price, status, spell_price, evaluation_nums, 
-    main_image, sub_images
+    good_evaluation_nums, main_image, sub_images
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -33,13 +34,13 @@
     insert into tb_purchase_product (id, category_id, name, 
       subtitle, stock, sales, 
       price, status, spell_price, 
-      evaluation_nums, main_image, sub_images
-      )
+      evaluation_nums, good_evaluation_nums, main_image, 
+      sub_images)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{subtitle,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, 
       #{price,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{spellPrice,jdbcType=DECIMAL}, 
-      #{evaluationNums,jdbcType=INTEGER}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR}
-      )
+      #{evaluationNums,jdbcType=INTEGER}, #{goodEvaluationNums,jdbcType=INTEGER}, #{mainImage,jdbcType=VARCHAR}, 
+      #{subImages,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
     insert into tb_purchase_product
@@ -73,6 +74,9 @@
       </if>
       <if test="evaluationNums != null" >
         evaluation_nums,
+      </if>
+      <if test="goodEvaluationNums != null" >
+        good_evaluation_nums,
       </if>
       <if test="mainImage != null" >
         main_image,
@@ -112,6 +116,9 @@
       <if test="evaluationNums != null" >
         #{evaluationNums,jdbcType=INTEGER},
       </if>
+      <if test="goodEvaluationNums != null" >
+        #{goodEvaluationNums,jdbcType=INTEGER},
+      </if>
       <if test="mainImage != null" >
         #{mainImage,jdbcType=VARCHAR},
       </if>
@@ -150,6 +157,9 @@
       <if test="evaluationNums != null" >
         evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
       </if>
+      <if test="goodEvaluationNums != null" >
+        good_evaluation_nums = #{goodEvaluationNums,jdbcType=INTEGER},
+      </if>
       <if test="mainImage != null" >
         main_image = #{mainImage,jdbcType=VARCHAR},
       </if>
@@ -170,11 +180,12 @@
       status = #{status,jdbcType=INTEGER},
       spell_price = #{spellPrice,jdbcType=DECIMAL},
       evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
+      good_evaluation_nums = #{goodEvaluationNums,jdbcType=INTEGER},
       main_image = #{mainImage,jdbcType=VARCHAR},
       sub_images = #{subImages,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+  
   <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
@@ -182,4 +193,11 @@
     where category_id = #{categoryId,jdbcType=INTEGER}
     ORDER BY sales desc
   </select>
+
+  <select id="selectAllPurchaseProducts" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_product
+  </select>
+
 </mapper>
