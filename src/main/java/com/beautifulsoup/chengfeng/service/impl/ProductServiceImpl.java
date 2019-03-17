@@ -1,6 +1,6 @@
 package com.beautifulsoup.chengfeng.service.impl;
 
-import com.beautifulsoup.chengfeng.controller.vo.ProductVo;
+import com.beautifulsoup.chengfeng.controller.vo.PurchaseProductVo;
 import com.beautifulsoup.chengfeng.dao.PurchaseProductMapper;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 import com.beautifulsoup.chengfeng.service.ProductService;
@@ -20,12 +20,12 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductVo> findProductsByCategoryId(Integer categoryId, Integer pageNum, Integer pageSize) {
+    public List<PurchaseProductVo> findProductsByCategoryId(Integer categoryId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<ProductVo> productVos= Lists.newArrayList();
+        List<PurchaseProductVo> productVos= Lists.newArrayList();
         List<PurchaseProduct> purchaseProducts = purchaseProductMapper.selectByCategoryId(categoryId);//默认按销量的降序排列
         purchaseProducts.stream().forEach(purchaseProduct -> {
-            ProductVo productVo=new ProductVo();
+            PurchaseProductVo productVo=new PurchaseProductVo();
             BeanUtils.copyProperties(purchaseProduct,productVo);
             productVos.add(productVo);
         });

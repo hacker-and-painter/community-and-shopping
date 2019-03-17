@@ -20,4 +20,6 @@ public interface PurchaseCategoryMapper {
     List<PurchaseCategory> selectAllParentCategories();
 
     List<PurchaseCategory> selectAllChildrenCategories();
+
+    List<PurchaseCategory> selectAllPurchaseInfoByCategoryId(Integer categoryId);
 }

@@ -1,5 +1,8 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
 public class PurchaseImage {
@@ -11,6 +14,7 @@ public class PurchaseImage {
 
     private Byte isValid;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date addTime;
 
     private String keyword;

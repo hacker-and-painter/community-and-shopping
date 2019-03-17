@@ -2,7 +2,7 @@ package com.beautifulsoup.chengfeng.controller.purchase;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.controller.vo.CategoryVo;
-import com.beautifulsoup.chengfeng.controller.vo.ProductVo;
+import com.beautifulsoup.chengfeng.controller.vo.PurchaseProductVo;
 import com.beautifulsoup.chengfeng.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,9 +29,9 @@ public class ProductController {
     @ApiOperation(value="查询商品信息",notes="根据分类id查询商品信息")
     @GetMapping(value="/list/{categoryId}/{pageSize}/{pageNum}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<List<ProductVo>> getProductsByCategoryId(
+    public ResponseResult<List<PurchaseProductVo>> getProductsByCategoryId(
             @PathVariable("categoryId")Integer categoryId,@PathVariable("pageNum")Integer pageNum, @PathVariable("pageSize")Integer pageSize) {
-        List<ProductVo> productVos = productService.findProductsByCategoryId(categoryId,pageNum,pageSize);
+        List<PurchaseProductVo> productVos = productService.findProductsByCategoryId(categoryId,pageNum,pageSize);
         return ResponseResult.createBySuccess(productVos);
     }
 
