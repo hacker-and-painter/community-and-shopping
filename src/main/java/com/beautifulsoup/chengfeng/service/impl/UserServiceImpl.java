@@ -30,16 +30,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.multipart.MultipartException;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeoutException;
 
-import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
-import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.uploadFiles;
+
 
 @Service
 @Slf4j
@@ -171,6 +167,8 @@ public class UserServiceImpl implements UserService {
                 int i = cryptPasswordMapper.updateByPrimaryKeySelective(cryptPassword);
 
                 if (i>0){
+                    SecurityContextHolder.getContext().setAuthentication(null);
+                    userInfoService.deleteUserLoginInfo(user.getNickname());
                     //修改密码成功
                     return "密码修改成功";
                 }
