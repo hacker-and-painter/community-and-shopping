@@ -33,9 +33,9 @@ public class UserController {
 
     @GetMapping(value = "/find",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult<UserVo> findUserByNickName(@RequestParam(value = "nickname")String nickname){
+    public ResponseResult<UserVo> findUserByNickName(){
 
-        UserVo userVo = userService.findUserByNickname(nickname);
+        UserVo userVo = userService.findUserByNickname();
 
         if(userVo!=null){
             return ResponseResult.createBySuccess(userVo);
@@ -48,29 +48,27 @@ public class UserController {
     @PostMapping(value = "/registry",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseResult registryUserInfo(@Valid @RequestBody UserDto userDto,
-                                           @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
-        ParamValidatorUtil.valiteBindingResult(result);
-        UserVo userVo = userService.registryUserInfo(userDto, files);
+                                           BindingResult result){
+        UserVo userVo = userService.registryUserInfo(userDto,result);
         if (null!=userVo){
             return ResponseResult.createBySuccess("用户注册成功",userVo);
         }
         return ResponseResult.createByErrorMessage("用户注册失败");
     }
 
+
     @PutMapping(value = "/update",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult updateUserInfo(@Valid @RequestBody UserVo userVo,
-                                         @RequestParam(value = "images",required = false) MultipartFile[] files,
-                                         BindingResult result){
-        ParamValidatorUtil.valiteBindingResult(result);
-        UserVo resultVo = userService.updateUserInfo(userVo, files);
+    public ResponseResult updateUserInfo(@Valid @RequestBody UserVo userVo, BindingResult result){
+
+        UserVo resultVo = userService.updateUserInfo(userVo,result);
         if (null!=resultVo){
-            return ResponseResult.createBySuccess("用户注册成功",userVo);
+            return ResponseResult.createBySuccess("用户信息修改成功",userVo);
         }
-        return ResponseResult.createByErrorMessage("用户注册失败");
+        return ResponseResult.createByErrorMessage("用户信息修改失败");
     }
 
-    @PostMapping(value = "/password/reset",produces = "application/json;charset=UTF-8",consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/password/reset",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseResult resetPassword(@RequestParam("nickname")String nickname,@RequestParam("rawpassword")String rawpassword
             ,@RequestParam("newpassword")String newPassword,@RequestParam("phone")String phone,@RequestParam(value = "email",required = false)String email){

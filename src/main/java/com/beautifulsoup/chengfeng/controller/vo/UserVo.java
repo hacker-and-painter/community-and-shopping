@@ -22,8 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserVo implements Serializable {
-    @NotNull(message = "id字段不能为空")
-    @Pattern(regexp = ChengfengConstant.Validation.NUMBER_REGEX,message = "id不合法")
     private Integer id;
 
     private String username;

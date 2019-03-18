@@ -11,17 +11,19 @@ import java.util.List;
 @Slf4j
 public class ParamValidatorUtil {
 
-    public static void valiteBindingResult(BindingResult result){
+    public static void validateBindingResult(BindingResult result){
+
         if (result.hasErrors()){
-            List<String> errors= Lists.newArrayList();
+//            List<String> errors= Lists.newArrayList();
             result.getAllErrors().stream().forEach(error->{
                 String errorMsg = error.getDefaultMessage();
-                errors.add(errorMsg);
                 log.error(errorMsg);
+                throw new ParamException(error.getDefaultMessage());
+//                errors.add(errorMsg);
             });
-            if(!CollectionUtils.isEmpty(errors)) {
-                throw new ParamException(errors.get(0));
-            }
+//            if(!CollectionUtils.isEmpty(errors)) {
+//
+//            }
         }
     }
 }

@@ -1,10 +1,12 @@
 package com.beautifulsoup.chengfeng.pojo;
 
 import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PurchaseImage {
     private Integer id;
 

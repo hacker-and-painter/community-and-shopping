@@ -31,7 +31,7 @@ public class ChengfengExceptionHandler {
     public ResponseResult<Map<String,Object>> multipartExceptionHandler(MultipartException e){
 
         Map<String,Object> result= Maps.newHashMap();
-        result.put("ExceptionMsg", e.getMessage());
+        result.put("error", e.getMessage());
 
         return ResponseResult.createByError(ResponseCode.ERROR.getCode()
                 ,ResponseCode.ERROR.getDesc(),result);
@@ -48,8 +48,14 @@ public class ChengfengExceptionHandler {
     }
 
     @ExceptionHandler(UserAuthenticationException.class)
-    public ResponseEntity authenticationExceptionHandler(UserAuthenticationException e){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getErrorMsg());
+    @ResponseBody
+    @ResponseStatus(code=HttpStatus.UNAUTHORIZED)
+    public ResponseResult<Map<String,Object>> authenticationExceptionHandler(UserAuthenticationException e){
+        Map<String,Object> result= Maps.newHashMap();
+        result.put("error", e.getErrorMsg());
+
+        return ResponseResult.createByError(ResponseCode.ERROR.getCode()
+                ,ResponseCode.ERROR.getDesc(),result);
     }
 
 
@@ -60,7 +66,7 @@ public class ChengfengExceptionHandler {
     public ResponseResult<Map<String,Object>> paramExceptionHandler(ParamException exception){
 
         Map<String,Object> result= Maps.newHashMap();
-        result.put("ExceptionMsg", exception.getMessage());
+        result.put("error", exception.getMsg());
 
         return ResponseResult.createByError(ResponseCode.ERROR.getCode()
                 ,ResponseCode.ERROR.getDesc(),result);

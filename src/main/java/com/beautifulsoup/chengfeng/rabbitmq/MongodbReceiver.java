@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Component
@@ -30,9 +31,11 @@ public class MongodbReceiver {
         if (StringUtils.equals(message,ChengfengConstant.RabbitMQ.MESSAGE_MONGODB_INIT)){
             log.info(message+"消息收到"+"初始化数据库内容到mongodb");
             List<Journalism> journalisms = journalismMapper.selectAllJournalisms();
+            Random random=new Random();
             journalisms.stream().parallel().forEach(journalism -> {
                 journalism.setCommentNums(0);
                 journalism.setStarNums(0);
+                journalism.setStarNums(random.nextInt(300));
                 mongoRepository.save(journalism);
             });
         }

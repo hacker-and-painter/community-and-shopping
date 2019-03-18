@@ -165,7 +165,7 @@ public class PortalServiceImpl implements PortalService {
 
     @Override
     public String submitRepairInfo(RepairBookDto repairBookDto, BindingResult bindingResult) {
-        ParamValidatorUtil.valiteBindingResult(bindingResult);
+        ParamValidatorUtil.validateBindingResult(bindingResult);
         try {
             RepairBook repairBook=new RepairBook();
             BeanUtils.copyProperties(repairBookDto,repairBook);
@@ -180,7 +180,7 @@ public class PortalServiceImpl implements PortalService {
 
     @Override
     public String searchSecretary(SecretaryBookDto bookDto, BindingResult bindingResult) {
-        ParamValidatorUtil.valiteBindingResult(bindingResult);
+        ParamValidatorUtil.validateBindingResult(bindingResult);
         try {
             SecretaryBook secretaryBook=new SecretaryBook();
             BeanUtils.copyProperties(bookDto,secretaryBook);
@@ -216,7 +216,7 @@ public class PortalServiceImpl implements PortalService {
 
     @Override
     public WaterBookVo bookWaterSuply(WatersuplyDto watersuplyDto, BindingResult bindingResult) {
-        ParamValidatorUtil.valiteBindingResult(bindingResult);
+        ParamValidatorUtil.validateBindingResult(bindingResult);
 
         WaterBookVo waterBookVo=new WaterBookVo();
 

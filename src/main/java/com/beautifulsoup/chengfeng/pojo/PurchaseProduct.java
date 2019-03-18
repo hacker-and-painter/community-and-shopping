@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -35,6 +37,8 @@ public class PurchaseProduct implements Serializable {
     private Integer status;
 
     private BigDecimal spellPrice;
+
+    private Double goodRatio;
 
     private Integer evaluationNums;
 
@@ -166,5 +170,13 @@ public class PurchaseProduct implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Double getGoodRatio() {
+        return goodRatio;
+    }
+
+    public void setGoodRatio(Double goodRatio) {
+        this.goodRatio = goodRatio;
     }
 }

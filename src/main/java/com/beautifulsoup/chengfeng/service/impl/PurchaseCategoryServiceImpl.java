@@ -3,7 +3,7 @@ package com.beautifulsoup.chengfeng.service.impl;
 import com.beautifulsoup.chengfeng.controller.vo.CategoryVo;
 import com.beautifulsoup.chengfeng.dao.PurchaseCategoryMapper;
 import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
-import com.beautifulsoup.chengfeng.service.CategoryService;
+import com.beautifulsoup.chengfeng.service.PurchaseCategoryService;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class PurchaseCategoryServiceImpl implements PurchaseCategoryService {
 
     @Autowired
     private PurchaseCategoryMapper purchaseCategoryMapper;

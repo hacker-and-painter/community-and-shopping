@@ -52,7 +52,7 @@ public class UserInfoService implements UserDetailsService {
         }
         com.beautifulsoup.chengfeng.pojo.User user = userMapper.selectByNicknameAndPassword(username);
         if(null==user){
-            throw new ParamException("用户不存在,登陆失败");
+            throw new UserAuthenticationException("用户不存在,登陆失败");
         }
 
         return  User.builder().username(user.getNickname())

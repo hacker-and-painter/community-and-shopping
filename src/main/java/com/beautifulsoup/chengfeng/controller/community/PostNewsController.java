@@ -36,7 +36,7 @@ public class PostNewsController {
     @ResponseBody
     public ResponseResult<PostNewsVo> createPostNews(@Valid @RequestBody PostNewsDto messageDto,
                                                      @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
-        ParamValidatorUtil.valiteBindingResult(result);
+        ParamValidatorUtil.validateBindingResult(result);
 
         PostNewsVo vo = postNewsService.createPostNews(messageDto,files);
 
@@ -90,7 +90,7 @@ public class PostNewsController {
     @ResponseBody
     public ResponseResult<PostReplyVo> createPostNews(@Valid @RequestBody PostReplyDto postReplyDto,
                                                      @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
-        ParamValidatorUtil.valiteBindingResult(result);
+        ParamValidatorUtil.validateBindingResult(result);
 
         PostReplyVo vo = postNewsService.createNewPostReply(postReplyDto,files);
 

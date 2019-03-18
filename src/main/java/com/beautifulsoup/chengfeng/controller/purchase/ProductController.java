@@ -1,9 +1,9 @@
 package com.beautifulsoup.chengfeng.controller.purchase;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
-import com.beautifulsoup.chengfeng.controller.vo.CategoryVo;
+import com.beautifulsoup.chengfeng.controller.vo.ProductSimpleVo;
 import com.beautifulsoup.chengfeng.controller.vo.PurchaseProductVo;
-import com.beautifulsoup.chengfeng.service.ProductService;
+import com.beautifulsoup.chengfeng.service.PurchaseProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +24,24 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private PurchaseProductService purchaseProductService;
 
-    @ApiOperation(value="查询商品信息",notes="根据分类id查询商品信息")
-    @GetMapping(value="/list/{categoryId}/{pageSize}/{pageNum}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="分页列出商品简单信息",notes="分页列出商品简单信息")
+    @GetMapping(value="/list/simple/{categoryId}/{pageSize}/{pageNum}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<List<PurchaseProductVo>> getProductsByCategoryId(
+    public ResponseResult<List<ProductSimpleVo>> getSimpleProductsByCategoryId(
             @PathVariable("categoryId")Integer categoryId,@PathVariable("pageNum")Integer pageNum, @PathVariable("pageSize")Integer pageSize) {
-        List<PurchaseProductVo> productVos = productService.findProductsByCategoryId(categoryId,pageNum,pageSize);
-        return ResponseResult.createBySuccess(productVos);
+        List<ProductSimpleVo> productSimpleVos = purchaseProductService.findSimpleProductsByCategoryId(categoryId,pageNum,pageSize);
+        return ResponseResult.createBySuccess(productSimpleVos);
     }
 
+
+    @ApiOperation(value="查询商品详细信息",notes="查询商品详细信息")
+    @GetMapping(value="/{productId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PurchaseProductVo> getProductDetailInfo(@PathVariable("productId")Integer productId) {
+        PurchaseProductVo product = purchaseProductService.findProductDetailInfoById(productId);
+        return ResponseResult.createBySuccess(product);
+    }
 
 }

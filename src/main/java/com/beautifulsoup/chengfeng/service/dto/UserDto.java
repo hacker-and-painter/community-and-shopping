@@ -32,6 +32,7 @@ public class UserDto {
     @Pattern(regexp = ChengfengConstant.Validation.PHONE_REGEX,message = "手机号格式不正确")
     private String phone;
 
+    @NotNull(message = "社区id不能为空")
     private Integer communityId;
 
     private String idcard;

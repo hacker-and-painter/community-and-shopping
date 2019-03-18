@@ -35,7 +35,7 @@ public class FileUploadController {
         }
         try {
             String path = saveFile(file);
-            return ResponseResult.createBySuccess(path);
+            return ResponseResult.createBySuccess("图片上传成功",path);
         } catch (IOException e) {
             throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
         }

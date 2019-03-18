@@ -9,28 +9,40 @@ import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
 import com.beautifulsoup.chengfeng.pojo.CryptPassword;
 import com.beautifulsoup.chengfeng.pojo.User;
+import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.service.UserService;
 import com.beautifulsoup.chengfeng.service.dto.UserDto;
+import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
+import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
+import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeoutException;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.saveFile;
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.uploadFiles;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -45,10 +57,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisTemplate<String, Serializable> redisTemplate;
 
+    @Autowired
+    private MemcachedClient memcachedClient;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
     @Transactional
     @Override
-    public UserVo registryUserInfo(UserDto userDto, MultipartFile[] files) {
-
+    public UserVo registryUserInfo(UserDto userDto, BindingResult result) {
+        ParamValidatorUtil.validateBindingResult(result);
         boolean checkNickname = stringRedisTemplate.opsForHash().hasKey(RedisConstant.USERINFOS, userDto.getNickname()).booleanValue();
         if (checkNickname){
             throw new ParamException("用户已存在,注册失败");
@@ -57,14 +75,15 @@ public class UserServiceImpl implements UserService {
         User user=new User();
         BeanUtils.copyProperties(userDto,user);
         user.setSignUp(new Date());
-        user.setAvatar(uploadFiles(files));
-        int result = userMapper.insertSelective(user);
+        userMapper.insertSelective(user);
         CryptPassword cryptPassword=new CryptPassword();
         cryptPassword.setUserId(user.getId());
         cryptPassword.setCryptPassword(userDto.getPassword());
         cryptPasswordMapper.insertSelective(cryptPassword);
+
         stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
         redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
+
         UserVo userVo=new UserVo();
         userVo.setId(user.getId());
         userVo.setNickname(user.getNickname());
@@ -73,21 +92,56 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVo updateUserInfo(UserVo userVo, MultipartFile[] files) {
+    public UserVo updateUserInfo(UserVo userVo, BindingResult result) {
+        ParamValidatorUtil.validateBindingResult(result);
+
         if (!StringUtils.isBlank(userVo.getNickname())){
             boolean checkNickname = stringRedisTemplate.opsForHash().hasKey(RedisConstant.USERINFOS, userVo.getNickname()).booleanValue();
             if (checkNickname){
                 throw new ParamException("昵称冲突,用户信息更新失败");
             }
         }
-        User user=userMapper.selectByPrimaryKey(userVo.getId());
-        if (null!=user){
-            String path = uploadFiles(files);
-            BeanUtils.copyProperties(userVo,user);
-            user.setAvatar(path);
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            String rawNickname=user.getNickname();
+            stringRedisTemplate.opsForHash().delete(RedisConstant.USERINFOS, user.getNickname());
+            redisTemplate.opsForHash().delete(RedisConstant.USERS,user.getNickname());
+
+            user.setUsername(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getUsername()),user.getUsername()));
+            user.setNickname(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getNickname()),user.getNickname()));
+            if (userVo.getBirthday()!=null){
+                user.setBirthday(userVo.getBirthday());
+            }
+            if (userVo.getCommunityId()!=null){
+                user.setCommunityId(userVo.getCommunityId());
+            }
+            user.setUpdateTime(new Date());
+            user.setAvatar(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getAvatar()),user.getAvatar()));
+            user.setEmail(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getEmail()),user.getEmail()));
+            user.setPhone(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getPhone()),user.getPhone()));
+            user.setMotto(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getMotto()),user.getMotto()));
+            user.setIdcard(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getIdcard()),user.getMotto()));
             userMapper.updateByPrimaryKeySelective(user);
-            return userVo;
+
+
+            stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
+            redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
+            SecurityContextHolder.getContext().setAuthentication(null);
+            userInfoService.deleteUserLoginInfo(rawNickname);
+
+            UserVo vo=new UserVo();
+            vo.setId(user.getId());
+            vo.setNickname(user.getNickname());
+            vo.setSignUp(user.getSignUp());
+            return vo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
+
 
         return null;
     }
@@ -105,35 +159,50 @@ public class UserServiceImpl implements UserService {
             throw new ParamException("密码长度在5到20个字符之间");
         }
 
-        //TODO 基于手机号和邮箱的验证方式
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            if (user.getNickname().equals(nickname)){
+                //TODO 基于手机号和邮箱的验证方式
 
-        CryptPassword cryptPassword=checkPassword(nickname,rawPassword);
+                CryptPassword cryptPassword=checkPassword(nickname,rawPassword);
 
-        cryptPassword.setCryptPassword(newPassword);
+                cryptPassword.setCryptPassword(newPassword);
 
-        int i = cryptPasswordMapper.updateByPrimaryKeySelective(cryptPassword);
+                int i = cryptPasswordMapper.updateByPrimaryKeySelective(cryptPassword);
 
-        if (i>0){
-            //修改密码成功
-            return "密码修改成功";
+                if (i>0){
+                    //修改密码成功
+                    return "密码修改成功";
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
         throw new UserAuthenticationException("密码修改失败");
     }
 
 
     @Override
-    @Cacheable(value = "user",key = "#nickname")
-    public UserVo findUserByNickname(String nickname) {
-        if(StringUtils.isBlank(nickname)){
-            throw new ParamException("昵称不能为空");
+    public UserVo findUserByNickname() {
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            Boolean check = stringRedisTemplate.opsForHash().hasKey(RedisConstant.USERINFOS, user.getNickname());
+            if (check){
+                UserVo userVo=new UserVo();
+                BeanUtils.copyProperties(user,userVo);
+                return userVo;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
-        User user=userMapper.selectByNickname(nickname);
-        if(user!=null){
-            UserVo userVo=new UserVo();
-            BeanUtils.copyProperties(user,userVo);
-            return userVo;
-        }
-
         return null;
     }
 

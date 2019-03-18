@@ -3,7 +3,7 @@ package com.beautifulsoup.chengfeng.controller.purchase;
 import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.controller.vo.CategoryVo;
 import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
-import com.beautifulsoup.chengfeng.service.CategoryService;
+import com.beautifulsoup.chengfeng.service.PurchaseCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +23,13 @@ import java.util.List;
 @RequestMapping(value = "/category")
 public class CategoryController {
     @Autowired
-    private CategoryService categoryService;
+    private PurchaseCategoryService purchaseCategoryService;
 
     @ApiOperation(value="获取父分类列表",notes="获取父分类列表")
     @GetMapping(value="/parent/list",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseResult<List<CategoryVo>> getParentCategoryList() {
-        List<CategoryVo> parentCategories = categoryService.getParentCategories();
+        List<CategoryVo> parentCategories = purchaseCategoryService.getParentCategories();
         return ResponseResult.createBySuccess(parentCategories);
     }
 
@@ -37,7 +37,7 @@ public class CategoryController {
     @GetMapping(value="/children/list",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseResult<List<CategoryVo>> getChildrenCategoryList() {
-        List<CategoryVo> childrenCategories = categoryService.getChildrenCategories();
+        List<CategoryVo> childrenCategories = purchaseCategoryService.getChildrenCategories();
         return ResponseResult.createBySuccess(childrenCategories);
     }
 
@@ -46,7 +46,7 @@ public class CategoryController {
     @ResponseBody
     public ResponseResult<List<PurchaseCategory>> getPurchaseIndexInfo(@PathVariable("categoryId")Integer categoryId
     ,@PathVariable(value = "pageNum")Integer pageNum,@PathVariable(value = "pageSize")Integer pageSize) {
-        List<PurchaseCategory> childrenCategories = categoryService.getPurchaseIndexInfo(categoryId,pageNum,pageSize);
+        List<PurchaseCategory> childrenCategories = purchaseCategoryService.getPurchaseIndexInfo(categoryId,pageNum,pageSize);
         return ResponseResult.createBySuccess(childrenCategories);
     }
 

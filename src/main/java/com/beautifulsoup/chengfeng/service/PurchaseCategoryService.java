@@ -5,7 +5,7 @@ import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface PurchaseCategoryService {
     List<CategoryVo> getParentCategories();
     List<CategoryVo> getChildrenCategories();;
     List<PurchaseCategory> getPurchaseIndexInfo(Integer categoryId,Integer pageNum,Integer pageSize);

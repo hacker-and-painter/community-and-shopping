@@ -5,6 +5,7 @@ import com.beautifulsoup.chengfeng.dao.PurchaseProductMapper;
 import com.beautifulsoup.chengfeng.pojo.Journalism;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 import com.beautifulsoup.chengfeng.repository.ProductRepository;
+import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -30,7 +31,11 @@ public class ElasticSearchReceiver {
         if (StringUtils.equals(message,ChengfengConstant.RabbitMQ.MESSAGE_ELASTICSEARCH_INIT)){
             log.info(message+"消息收到"+"初始化数据库内容到elasticsearch");
             List<PurchaseProduct> purchaseProducts = productMapper.selectAllPurchaseProducts();
-            productRepository.saveAll(purchaseProducts);
+            purchaseProducts.stream().forEach(purchaseProduct -> {
+                purchaseProduct.setGoodRatio(purchaseProduct.getGoodEvaluationNums().doubleValue()/purchaseProduct.getEvaluationNums().doubleValue());
+                purchaseProduct.setDetail(new StringBuilder().append(purchaseProduct.getName()).append(purchaseProduct.getSubtitle()).toString());
+                productRepository.save(purchaseProduct);
+            });
         }
     }
 
