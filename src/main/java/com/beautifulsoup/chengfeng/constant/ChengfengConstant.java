@@ -12,6 +12,7 @@ public class ChengfengConstant {
     public interface RabbitMQ{
         String QUEUE_NAME_CHENGFENG="chengfeng";
         String TOPIC_EXCHANGE="topicExchange";
+        String ORDER_EXCHANGE="order_exchange:";
         String QUEUE_NAME_ORDER="order";
         String QUEUE_NAME_MONGODB="mongodb";
         String QUEUE_NAME_ELASTICSEARCH="elasticsearch";

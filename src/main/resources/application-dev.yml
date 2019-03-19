@@ -40,14 +40,6 @@ spring:
         max-idle: 8
         min-idle: 0
       shutdown-timeout: 100
-  rabbitmq:
-    addresses: 47.95.244.237
-    virtual-host: /
-    username: guest
-    password: guest
-    listener:
-      simple:
-        acknowledge-mode: manual  #手动解决未ack的消息
   data:
     elasticsearch:
       cluster-name: elasticsearch
@@ -77,3 +69,9 @@ memcached:
   #操作超时时间
   opTimeout: 6000
 
+rabbitmq:
+  addresses: 47.95.244.237
+  port: 5672
+  virtualHost: /
+  username: guest
+  password: guest
