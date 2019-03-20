@@ -23,7 +23,7 @@ public class UserInfoAuthenticationFilter extends AbstractAuthenticationProcessi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        String username=request.getParameter("username");
+        String username=request.getParameter("nickname");
         String password=request.getParameter("password");
         if (username == null)
             username = "";

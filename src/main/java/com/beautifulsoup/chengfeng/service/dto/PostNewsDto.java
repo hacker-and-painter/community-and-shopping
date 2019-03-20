@@ -6,10 +6,11 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class PostNewsDto {
+public class PostNewsDto implements Serializable {
 
     @Length(max=100,message="标题长度过长")
     @NotBlank(message="标题不能为空")

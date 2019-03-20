@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.controller.community;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
+import com.beautifulsoup.chengfeng.controller.vo.PostNewsDetailVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostReplyVo;
 import com.beautifulsoup.chengfeng.pojo.Journalism;
@@ -32,13 +33,11 @@ public class PostNewsController {
     private PostNewsService postNewsService;
 
     @ApiOperation(value="发新贴",notes="发新帖方法")
-    @PostMapping(value="/create",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value="/create",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseResult<PostNewsVo> createPostNews(@Valid @RequestBody PostNewsDto messageDto,
-                                                     @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
-        ParamValidatorUtil.validateBindingResult(result);
+    public ResponseResult<PostNewsVo> createPostNews(@Valid @RequestBody PostNewsDto messageDto, BindingResult result){
 
-        PostNewsVo vo = postNewsService.createPostNews(messageDto,files);
+        PostNewsVo vo = postNewsService.createPostNews(messageDto,result);
 
         if(null!=vo) {
             return ResponseResult.createBySuccess(vo);
@@ -67,6 +66,14 @@ public class PostNewsController {
         List<PostNewsVo> postNewsByPage= postNewsService.getNicePostNewsByPage(pageNum,pageSize);
 
         return ResponseResult.createBySuccess(postNewsByPage);
+    }
+
+    @GetMapping(value = "/detail/{newsId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PostNewsDetailVo> getPostNewsDetail(@PathVariable("newsId")Integer newsId){
+
+        PostNewsDetailVo postNewsDetail = postNewsService.getPostNewsDetail(newsId);
+        return ResponseResult.createBySuccess(postNewsDetail);
     }
 
     //获取平级回帖列表

@@ -4,6 +4,7 @@ public class RedisConstant {
     public static final String TOKEN_SALT="token:";
     public static final String USERS = "users:";
     public static final String USERINFOS="userinfos:";
+    public static final String POSTERS_INFO="posters_info:";
     public static final String PROPER_NOTICE_PREFIX="pnotice_prefix:";
     public static final String COMMUNITY_NOTICE_PREFIX="cnotice_prefix:";
     public static final String PROPER_NOTICE_ORDER="pnotice_order:";

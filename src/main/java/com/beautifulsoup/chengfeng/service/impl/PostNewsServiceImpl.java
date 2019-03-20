@@ -1,8 +1,10 @@
 package com.beautifulsoup.chengfeng.service.impl;
 
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
+import com.beautifulsoup.chengfeng.controller.vo.PostNewsDetailVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostReplyVo;
+import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.dao.PostNewsMapper;
 import com.beautifulsoup.chengfeng.dao.PostReplyMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
@@ -13,8 +15,12 @@ import com.beautifulsoup.chengfeng.service.PostNewsService;
 import com.beautifulsoup.chengfeng.service.dto.PostNewsDto;
 import com.beautifulsoup.chengfeng.service.dto.PostReplyDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
+import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +30,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
@@ -36,6 +43,10 @@ import java.util.stream.Collectors;
 
 import static com.beautifulsoup.chengfeng.utils.FastDfsClientUtil.uploadFiles;
 
+/**
+ * 贴吧模块基本使用redis解决
+ */
+@Slf4j
 @Service
 public class PostNewsServiceImpl implements PostNewsService {
 
@@ -52,35 +63,69 @@ public class PostNewsServiceImpl implements PostNewsService {
 
     @Transactional
     @Override
-    public PostNewsVo createPostNews(PostNewsDto postNewsDto, MultipartFile[] files) {
+    public PostNewsVo createPostNews(PostNewsDto postNewsDto, BindingResult result) {
+        ParamValidatorUtil.validateBindingResult(result);
         try {
             User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+
             PostNews postNews=new PostNews();
             BeanUtils.copyProperties(postNewsDto,postNews);
-            if (StringUtils.isBlank(postNewsDto.getImgUrl())){
-                postNews.setImgUrl(uploadFiles(files));
-            }
+
             postNews.setPosted(new Date());
             postNews.setStar(0);
             postNews.setComments(0);
+
             if (postNewsDto.getType()==null){
-                postNews.setType(new Integer(0).byteValue());
+                postNews.setType(Integer.valueOf(0).byteValue());
             }
+
             postNews.setUserId(user.getId());
-            postNewsMapper.insert(postNews);
+            postNewsMapper.insertSelective(postNews);
 
             PostNewsVo postNewsVo=new PostNewsVo();
-            BeanUtils.copyProperties(postNews,postNewsVo);
+            postNewsVo.setTitle(postNews.getTitle());
+            postNewsVo.setComments(postNews.getComments());
+            postNewsVo.setDescription(postNews.getDescription());
+            postNewsVo.setImgUrl(Strings.nullToEmpty(postNews.getImgUrl()));
+            postNewsVo.setNewsDetail(postNews.getNewsDetail());
+            postNewsVo.setUserId(postNews.getUserId());
+            postNewsVo.setId(postNews.getId());
+            postNewsVo.setStar(postNews.getStar());
+            postNewsVo.setType(postNews.getType());
+
+
             //加入redis方便维护点赞量和回复量
             redisTemplate.opsForZSet().add(RedisConstant.POST_NEWS_BELONGTO_ORDER+user.getNickname(),postNewsVo,postNews.getStar());
             redisTemplate.opsForHash().put(RedisConstant.POST_NEWS_BELONGTO+user.getNickname(),
                     RedisConstant.POST_NEWS_PREFIX+postNewsVo.getId(), postNewsVo);
             redisTemplate.opsForZSet().add(RedisConstant.POST_NEWS_COMMUNITY_ORDER+user.getCommunityId(),postNewsVo,postNews.getStar());
 
-            User user1 = (User) redisTemplate.opsForHash().get(RedisConstant.USERS, user.getNickname());
-            user1.setIntegral(user1.getIntegral()+1);
-            redisTemplate.opsForHash().put(RedisConstant.USERS, user.getNickname(),user1);
+            PosterVo poster = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
+            poster.setPosts(poster.getPosts()+1);
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),poster);
+            postNewsVo.setPosted(new Date());
             return postNewsVo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public PostNewsDetailVo getPostNewsDetail(Integer newsId) {
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            PostNewsVo postNewsVo = (PostNewsVo) redisTemplate.opsForHash().get(
+                    RedisConstant.POST_NEWS_BELONGTO + user.getNickname(), RedisConstant.POST_NEWS_PREFIX + newsId);
+        PostNewsDetailVo detailVo=new PostNewsDetailVo();
+        detailVo.setPostNewsVo(postNewsVo);
+        detailVo.setReplyVos(getPostReplysByNewsId(newsId));
+        return  detailVo;
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (MemcachedException e) {
@@ -198,6 +243,12 @@ public class PostNewsServiceImpl implements PostNewsService {
                 +user.getCommunityId(), pageNum - 1, pageSize).stream().forEach(e->{
             postNewsVoList.add((PostNewsVo) e);
         });
+        if (CollectionUtils.isEmpty(postNewsVoList)){
+            PostNews postNews=postNewsMapper.selectByCommunityId(user.getCommunityId());
+            PostNewsVo postNewsVo=new PostNewsVo();
+            BeanUtils.copyProperties(postNews,postNewsVo);
+            postNewsVoList.add(postNewsVo);
+        }
         return postNewsVoList;
     }
 

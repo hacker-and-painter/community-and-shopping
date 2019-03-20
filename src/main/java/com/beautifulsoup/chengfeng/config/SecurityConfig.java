@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/configuration/ui").permitAll()
                 .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/community/listall","/user/registry").permitAll()//指定可以直接访问的url
+                .antMatchers("/file/upload","/file/uploads").permitAll()//指定可以直接访问的url
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new TokenLoginConfigurer<>())
                 .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
                 .permissiveRequestUrls("/logout","/community/listall","/images/**","/user/registry","/swagger-resources/**","/swagger-ui.html")
-                .permissiveRequestUrls("/webjars/**","/v2/api-docs","/configuration/ui","/configuration/security")
+                .permissiveRequestUrls("/webjars/**","/v2/api-docs","/configuration/ui","/configuration/security","/file/upload","/file/uploads")
                 .and()
                 //登出的过滤器
                 .logout()

@@ -155,12 +155,8 @@
     select
     <include refid="Base_Column_List" />
     from tb_post_reply
-    <where>
-      <if test="newsId != null">
-        and post_id = #{newsId,jdbcType=INTEGER}
-      </if>
-        and parent_id = 0
-    </where>
+    where post_id = #{newsId,jdbcType=INTEGER}
+    and parent_id = 0
   </select>
 
 

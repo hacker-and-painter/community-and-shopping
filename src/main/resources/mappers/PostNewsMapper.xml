@@ -42,7 +42,7 @@
       comments, type, user_id, 
       news_detail)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{imgUrl,jdbcType=VARCHAR}, #{posted,jdbcType=TIMESTAMP}, #{star,jdbcType=INTEGER}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{posted,jdbcType=TIMESTAMP}, #{star,jdbcType=INTEGER},
       #{comments,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
       #{newsDetail,jdbcType=LONGVARCHAR})
   </insert>
@@ -175,4 +175,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
+  <select id="selectByCommunityId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_post_news left join tb_user on tb_post_news.user_id=tb_user.id left join tb_community on tb_user.community_id = tb_community.id
+    where tb_community.id = #{communityId,jdbcType=INTEGER}
+  </select>
 </mapper>

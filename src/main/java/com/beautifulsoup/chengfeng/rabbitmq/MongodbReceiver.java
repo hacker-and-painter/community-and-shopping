@@ -43,7 +43,7 @@ public class MongodbReceiver {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
         }catch (IOException e){
             //做其他的补偿处理
-            log.error(e.getMessage());
+            log.warn(e.getMessage());
         }
     }
 }

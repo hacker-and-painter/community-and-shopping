@@ -2,6 +2,7 @@ package com.beautifulsoup.chengfeng.service.impl;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
+import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.controller.vo.UserVo;
 import com.beautifulsoup.chengfeng.dao.CryptPasswordMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
@@ -79,6 +80,21 @@ public class UserServiceImpl implements UserService {
 
         stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
         redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
+        UserVo userVo1=new UserVo();
+
+        BeanUtils.copyProperties(user,userVo1);
+        userVo1.setIdcard(null);
+        userVo1.setGender(null);
+        userVo1.setPhone(null);
+        PosterVo posterVo=new PosterVo();
+
+        posterVo.setUserVo(userVo1);
+        posterVo.setPosts(0);
+        posterVo.setReplys(0);
+        posterVo.setCollections(0);
+        posterVo.setFollowerNums(0);
+        posterVo.setFollowingNums(0);
+        redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,posterVo.getUserVo().getNickname(),posterVo);//保存用户在社区的状态信息
 
         UserVo userVo=new UserVo();
         userVo.setId(user.getId());
@@ -119,16 +135,20 @@ public class UserServiceImpl implements UserService {
             user.setIdcard(MoreObjects.firstNonNull(Strings.emptyToNull(userVo.getIdcard()),user.getMotto()));
             userMapper.updateByPrimaryKeySelective(user);
 
+            UserVo vo=new UserVo();
+            BeanUtils.copyProperties(user,userVo);
 
             stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
             redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
+            PosterVo posterVo= (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO,rawNickname);
+            posterVo.setUserVo(userVo);
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,posterVo.getUserVo().getNickname(),posterVo);//更新用户在社区的状态信息
+
             SecurityContextHolder.getContext().setAuthentication(null);
             userInfoService.deleteUserLoginInfo(rawNickname);
 
-            UserVo vo=new UserVo();
-            vo.setId(user.getId());
-            vo.setNickname(user.getNickname());
-            vo.setSignUp(user.getSignUp());
+
+
             return vo;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -185,14 +205,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserVo findUserByNickname() {
+    public PosterVo findUserByNickname() {
         try {
             User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
             Boolean check = stringRedisTemplate.opsForHash().hasKey(RedisConstant.USERINFOS, user.getNickname());
             if (check){
-                UserVo userVo=new UserVo();
-                BeanUtils.copyProperties(user,userVo);
-                return userVo;
+                PosterVo posterVo= (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO,user.getNickname());//保存用户在社区的状态信息
+                return posterVo;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

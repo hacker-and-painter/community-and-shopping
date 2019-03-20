@@ -17,7 +17,7 @@ public class SecretaryBookDto {
     private String phone;
 
     @NotBlank(message = "邮箱不能为空")
-    @Pattern(regexp = ChengfengConstant.Validation.EMAIL_REGEX,message = "邮箱格式不正确")
+//    @Pattern(regexp = ChengfengConstant.Validation.EMAIL_REGEX,message = "邮箱格式不正确")
     private String email;
 
     @Length(max = 500,message = "描述内容过多")

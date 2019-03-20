@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.controller;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
+import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.controller.vo.UserVo;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.service.UserService;
@@ -33,15 +34,15 @@ public class UserController {
 
     @GetMapping(value = "/find",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseResult<UserVo> findUserByNickName(){
+    public ResponseResult<PosterVo> findUserByNickName(){
 
-        UserVo userVo = userService.findUserByNickname();
+        PosterVo posterVo = userService.findUserByNickname();
 
-        if(userVo!=null){
-            return ResponseResult.createBySuccess(userVo);
+        if(posterVo!=null){
+            return ResponseResult.createBySuccess(posterVo);
         }
 
-        return null;
+        return ResponseResult.createByErrorMessage("获取用户信息失败");
     }
 
 
