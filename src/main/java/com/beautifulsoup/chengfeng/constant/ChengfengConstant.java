@@ -3,7 +3,7 @@ package com.beautifulsoup.chengfeng.constant;
 public class ChengfengConstant {
 
     public interface Validation{
-        String PHONE_REGEX="^[1](([3][0-9])|([4][5,7,9])|([5][4,6,9])|([6][6])|([7][3,5,6,7,8])|([8][0-9])|([9][8,9]))[0-9]{8}$";
+        String PHONE_REGEX="^1[34578]\\d{9}$";
         String NUMBER_REGEX="^[0-9]*[1-9][0-9]*$";
         String EMAIL_REGEX="^\\\\w+@(\\\\w+\\\\.){1,2}\\\\w+$";
     }

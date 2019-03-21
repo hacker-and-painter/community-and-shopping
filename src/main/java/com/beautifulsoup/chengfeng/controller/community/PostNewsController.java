@@ -97,10 +97,9 @@ public class PostNewsController {
     @PostMapping(value="/reply/create",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseResult<PostReplyVo> createPostNews(@Valid @RequestBody PostReplyDto postReplyDto,
-                                                     @RequestParam(value = "images",required = false) MultipartFile[] files, BindingResult result){
-        ParamValidatorUtil.validateBindingResult(result);
+                                                     BindingResult result){
 
-        PostReplyVo vo = postNewsService.createNewPostReply(postReplyDto,files);
+        PostReplyVo vo = postNewsService.createNewPostReply(postReplyDto,result);
 
         if(null!=vo) {
             return ResponseResult.createBySuccess(vo);
@@ -123,5 +122,21 @@ public class PostNewsController {
         }
 
         return ResponseResult.createByErrorMessage("关注他人失败");
+    }
+
+    @ApiOperation(value="收藏帖子",notes="收藏帖子")
+    @PostMapping(value="/collect/{newsId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PosterVo> collectPostNews(@PathVariable("newsId")Integer newsId){
+
+        PosterVo vo = postNewsService.collectPostNews(newsId);
+
+        if(null!=vo) {
+
+            return ResponseResult.createBySuccess(vo);
+
+        }
+
+        return ResponseResult.createByErrorMessage("帖子收藏失败");
     }
 }

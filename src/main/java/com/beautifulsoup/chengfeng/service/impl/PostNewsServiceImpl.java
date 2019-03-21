@@ -100,9 +100,9 @@ public class PostNewsServiceImpl implements PostNewsService {
             redisTemplate.opsForHash().put(RedisConstant.POST_NEWS_BELONGTO+user.getNickname(),
                     RedisConstant.POST_NEWS_PREFIX+postNewsVo.getId(), postNewsVo);
             redisTemplate.opsForZSet().add(RedisConstant.POST_NEWS_COMMUNITY_ORDER+user.getCommunityId(),postNewsVo,postNews.getStar());
-
+            redisTemplate.opsForHash().put(RedisConstant.POST_ALLNEWS,RedisConstant.POST_NEWS_PREFIX+postNewsVo.getId(),postNewsVo);
             PosterVo poster = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
-            poster.setPosts(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_POST_NEWS).intValue());
+            poster.setPosts(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_POST_NEWS+user.getNickname()).intValue());
             if (CollectionUtils.isEmpty(poster.getPostNewsList())){
                 List<PostNewsVo> postNewsVoList=Lists.newArrayList();
                 poster.setPostNewsList(postNewsVoList);
@@ -200,46 +200,41 @@ public class PostNewsServiceImpl implements PostNewsService {
     }
 
     @Override
-    public PostReplyVo createNewPostReply(PostReplyDto postReplyDto, MultipartFile[] files) {
-
-        PostReply postReply=new PostReply();
-        BeanUtils.copyProperties(postReplyDto,postReply);
-        if (StringUtils.isBlank(postReply.getImgUrl())){
-            postReply.setImgUrl(uploadFiles(files));
-        }
-        postReply.setReplyTime(new Date());
-        if (postReplyDto.getIsParent()==null){
+    public PostReplyVo createNewPostReply(PostReplyDto postReplyDto, BindingResult result) {
+        ParamValidatorUtil.validateBindingResult(result);
+        try {
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            PostReply postReply=new PostReply();
+            BeanUtils.copyProperties(postReplyDto,postReply);
+            if (postReplyDto.getParentId()==null){
+                postReply.setParentId(0);
+            }
             postReply.setIsParent(0);
-        }
-        if (postReplyDto.getParentId()==null){
-            postReply.setParentId(0);
+            postReply.setReplyTime(new Date());
+            postReplyMapper.insert(postReply);
+            PostReplyVo postReplyVo=new PostReplyVo();
+            BeanUtils.copyProperties(postReply,postReplyVo);
+            PosterVo posterVo = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
+            posterVo.setReplys(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_POST_REPLYS+user.getNickname()).intValue());
+            if (CollectionUtils.isEmpty(posterVo.getPostReplyList())){
+                List<PostReplyVo> replyVos=Lists.newArrayList();
+                posterVo.setPostReplyList(replyVos);
+            }
+            posterVo.getPostReplyList().add(postReplyVo);
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),posterVo);
+
+            //评论非热点数据,直接加入数据库
+//            postReplyMapper.insert(postReply);
+            return postReplyVo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
 
-        postReplyMapper.insert(postReply);
-        PostReplyVo postReplyVo=new PostReplyVo();
-        BeanUtils.copyProperties(postReply,postReplyVo);
-
-        //加入redis方便维护点赞量
-        redisTemplate.opsForZSet().add(RedisConstant.POST_REPLY_BELONGTO_ORDER+postReply.getParentId(),postReplyVo,postReply.getStar());
-        redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
-                    RedisConstant.POST_REPLY_PREFIX+postReplyVo.getId(), postReplyVo);
-        //更新用户状态
-        User user = (User) redisTemplate.opsForHash().get(RedisConstant.USERS, postReplyDto.getNickname());
-        user.setIntegral(user.getIntegral()+1);
-        redisTemplate.opsForHash().put(RedisConstant.USERS, postReplyDto.getNickname(),user);
-        //更新帖子状态
-        PostNewsVo postNewsVo= (PostNewsVo) redisTemplate.opsForHash().get(RedisConstant.POST_NEWS_BELONGTO,RedisConstant.POST_NEWS_PREFIX+postReplyDto.getPostId());
-        postNewsVo.setComments(postNewsVo.getComments()+1);
-        redisTemplate.opsForHash().put(RedisConstant.POST_NEWS_BELONGTO,RedisConstant.POST_NEWS_PREFIX+postReplyDto.getPostId(),postNewsVo);
-        //判断是否有父节点
-        if (postReplyDto.getParentId()>0){
-            PostReplyVo replyVo= (PostReplyVo) redisTemplate.opsForHash().get(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
-                    RedisConstant.POST_REPLY_PREFIX+postReplyVo.getParentId());
-            replyVo.setStar(replyVo.getStar()+1);
-            redisTemplate.opsForHash().put(RedisConstant.POST_REPLY_BELONGTO+postReply.getParentId(),
-                    RedisConstant.POST_REPLY_PREFIX+postReplyVo.getParentId(),replyVo);
-        }
-        return postReplyVo;
+        return null;
     }
 
     @Override
@@ -299,6 +294,34 @@ public class PostNewsServiceImpl implements PostNewsService {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    @Override
+    public PosterVo collectPostNews(Integer newsId) {
+        try {
+            boolean b = redisTemplate.opsForHash().hasKey(RedisConstant.POST_ALLNEWS, RedisConstant.POST_NEWS_PREFIX + newsId).booleanValue();
+            if (!b){
+                throw new ParamException("帖子不存在,收藏失败");
+            }
+            PostNewsVo postNewsVo= (PostNewsVo) redisTemplate.opsForHash().get(RedisConstant.POST_ALLNEWS, RedisConstant.POST_NEWS_PREFIX + newsId);
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            PosterVo posterVo = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
+            posterVo.setCollections(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_COLLECTIONS+user.getNickname()).intValue());
+            if (CollectionUtils.isEmpty(posterVo.getCollectNews())){
+                List<PostNewsVo> postNewsVoList=Lists.newArrayList();
+                posterVo.setCollectNews(postNewsVoList);
+            }
+            posterVo.getCollectNews().add(postNewsVo);
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),posterVo);
+            return posterVo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

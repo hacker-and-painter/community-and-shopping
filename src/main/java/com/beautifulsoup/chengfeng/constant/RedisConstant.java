@@ -18,7 +18,7 @@ public class RedisConstant {
     public static final String POST_NEWS_BELONGTO="post_news_belongto:";
     public static final String POST_NEWS_COMMUNITY_ORDER="post_news_community_order:";
     public static final String POST_NEWS_PREFIX="post_news_prefix:";
-
+    public static final String POST_ALLNEWS="post_allnews:";
     public static final String POST_REPLY_BELONGTO_ORDER="post_reply_belongto_order:";
     public static final String POST_REPLY_BELONGTO="post_reply_belongto:";
     public static final String POST_REPLY_PREFIX="post_reply_prefix:";
@@ -31,5 +31,8 @@ public class RedisConstant {
     public static final String COUNTER_FOLLOWING="counter_following:";
     public static final String COUNTER_POST_NEWS="counter_post_news:";
     public static final String COUNTER_POST_REPLYS="counter_post_replys:";
+    public static final String COUNTER_COLLECTIONS="counter_collections:";
+    public static final String COUNTER_POST_VOTE="counter_post_vote:";
+    public static final String COUNTER_VOTE_OPTION_NUMS="counter_vote_option_nums:";
 
 }

@@ -28,6 +28,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PostReply" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_post_reply (id, content, img_url, 
       reply_time, star, parent_id, 
       is_parent, post_id, nickname, 
@@ -38,6 +41,9 @@
       #{avatar,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PostReply" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_post_reply
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -164,11 +170,8 @@
     select
     <include refid="Base_Column_List" />
     from tb_post_reply
-    <where>
-      <if test="newsId != null">
-        and parent_id = #{parentId,jdbcType=INTEGER}
-      </if>
-    </where>
+    where parent_id = #{parentId,jdbcType=INTEGER}
+
   </select>
   
 </mapper>

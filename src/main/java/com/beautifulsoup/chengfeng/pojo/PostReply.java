@@ -11,7 +11,7 @@ public class PostReply {
 
     private Date replyTime;
 
-    private Integer star;//注意,这里的star代表的评论数.这里不再必要记录评论的收藏点赞数
+    private Integer star;
 
     private Integer parentId;
 

@@ -3,6 +3,7 @@ package com.beautifulsoup.chengfeng.config;
 import com.beautifulsoup.chengfeng.handler.UserLoginSuccessHandler;
 import com.beautifulsoup.chengfeng.handler.TokenRefreshSuccessHandler;
 import com.beautifulsoup.chengfeng.handler.TokenClearLogoutHandler;
+import com.beautifulsoup.chengfeng.security.ChengfengAccessDeniedHandler;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.security.configurer.UserLoginConfigurer;
 import com.beautifulsoup.chengfeng.security.configurer.TokenLoginConfigurer;
@@ -47,12 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement().disable()
-                .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
-                new Header("Access-control-Allow-Origin","*"),
-                new Header("Access-Control-Expose-Headers","Authorization"))))
-                .and()
+
+//                .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
+//                new Header("Access-control-Allow-Origin","*"),
+//                new Header("Access-Control-Expose-Headers","Authorization"))))
+//                .and()
                 //登录请求的过滤
                 .apply(new UserLoginConfigurer<>()).loginSuccessHandler(userLoginSuccessHandler())
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
                 .and()
                 //token请求的过滤
                 .apply(new TokenLoginConfigurer<>())
@@ -66,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
                 .sessionManagement().disable()
-                .cors().disable();
+                .cors().disable().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     }
 
     @Override
@@ -78,6 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         return new UserInfoService();
     }
+
+
 
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -122,6 +128,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    protected ChengfengAccessDeniedHandler accessDeniedHandler(){
+        return new ChengfengAccessDeniedHandler();
+    }
+   /* @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
@@ -131,7 +141,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
+    }*/
 
 }
 

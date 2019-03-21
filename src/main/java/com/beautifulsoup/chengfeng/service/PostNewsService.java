@@ -18,6 +18,7 @@ public interface PostNewsService {
     List<PostNewsVo> getNicePostNewsByPage(Integer pageNum, Integer pageSize);
     List<PostReplyVo> getPostReplysByNewsId(Integer newsId);
     List<PostReplyVo> getPostReplysChildrenById(Integer replyId);
-    PostReplyVo createNewPostReply(PostReplyDto postReplyDto, MultipartFile[] files);
+    PostReplyVo createNewPostReply(PostReplyDto postReplyDto,BindingResult result);
     PosterVo followPoster(String nickname);
+    PosterVo collectPostNews(Integer newsId);
 }

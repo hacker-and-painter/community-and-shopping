@@ -18,22 +18,11 @@ public class PostReplyDto {
     private String content;
 
     @NotNull(message = "帖子id不能为空")
-    @ApiModelProperty(value="帖子id",name="postId",example="1",required=true)
+    @ApiModelProperty(value="帖子id",name="newsId",example="1",required=true)
     private Integer postId;
-
-    @NotBlank(message = "回帖人不能为空")
-    @Length(max=100,message="回帖人昵称过长")
-    @ApiModelProperty(value="回帖人昵称",name="nickname",example="王小灏",required=true)
-    private String nickname;
-
-    @Length(max=1000,message="头像地址过长")
-    private String avatar;
-
-
-    private Integer parentId;
-
-    private Integer isParent;
 
     @ApiModelProperty(value="图片地址",name="imgUrl",example="这里是图片的地址,逗号分隔,不传的话就上传文件",required=false)
     private String imgUrl;
+
+    private Integer parentId;
 }

@@ -23,14 +23,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.VoteOption" >
+    <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_vote_option (id, content, vote_id, 
       vote_nums, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{voteId,jdbcType=INTEGER}, 
-      #{voteNums,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{voteNums,jdbcType=INTEGER}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.VoteOption" >
+    <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_vote_option
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -66,10 +72,10 @@
         #{voteNums,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -86,10 +92,10 @@
         vote_nums = #{voteNums,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = now(),
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -99,8 +105,8 @@
     set content = #{content,jdbcType=VARCHAR},
       vote_id = #{voteId,jdbcType=INTEGER},
       vote_nums = #{voteNums,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      create_time = now(),
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
