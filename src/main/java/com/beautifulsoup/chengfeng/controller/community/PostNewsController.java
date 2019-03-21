@@ -4,6 +4,7 @@ import com.beautifulsoup.chengfeng.common.ResponseResult;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsDetailVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostReplyVo;
+import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.pojo.Journalism;
 import com.beautifulsoup.chengfeng.pojo.PostNews;
 import com.beautifulsoup.chengfeng.service.PostNewsService;
@@ -106,5 +107,21 @@ public class PostNewsController {
         }
 
         return ResponseResult.createByErrorMessage("帖子创建失败");
+    }
+
+    @ApiOperation(value="关注其他人",notes="关注其他人")
+    @PostMapping(value="/follow/poster/{nickname}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PosterVo> followPoster(@PathVariable("nickname")String nickname){
+
+        PosterVo vo = postNewsService.followPoster(nickname);
+
+        if(null!=vo) {
+
+            return ResponseResult.createBySuccess(vo);
+
+        }
+
+        return ResponseResult.createByErrorMessage("关注他人失败");
     }
 }

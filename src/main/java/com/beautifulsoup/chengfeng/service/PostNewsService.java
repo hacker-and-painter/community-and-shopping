@@ -3,6 +3,7 @@ package com.beautifulsoup.chengfeng.service;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsDetailVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostNewsVo;
 import com.beautifulsoup.chengfeng.controller.vo.PostReplyVo;
+import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.service.dto.PostNewsDto;
 import com.beautifulsoup.chengfeng.service.dto.PostReplyDto;
 import org.springframework.validation.BindingResult;
@@ -18,4 +19,5 @@ public interface PostNewsService {
     List<PostReplyVo> getPostReplysByNewsId(Integer newsId);
     List<PostReplyVo> getPostReplysChildrenById(Integer replyId);
     PostReplyVo createNewPostReply(PostReplyDto postReplyDto, MultipartFile[] files);
+    PosterVo followPoster(String nickname);
 }

@@ -26,5 +26,8 @@ public class RedisConstant {
     //购物车模块
     public static final String CART_BELONG_TO="cart_belong_to:";
     public static final String CART_PRODUCT_PREFIX="cart_product_prefix:";
+    //计数器
+    public static final String COUNTER_FOLLOWER="counter_follower:";
+    public static final String COUNTER_FOLLOWING="counter_following:";
 
 }

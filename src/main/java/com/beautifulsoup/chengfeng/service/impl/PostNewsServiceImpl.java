@@ -8,6 +8,7 @@ import com.beautifulsoup.chengfeng.controller.vo.PosterVo;
 import com.beautifulsoup.chengfeng.dao.PostNewsMapper;
 import com.beautifulsoup.chengfeng.dao.PostReplyMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
+import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.pojo.PostNews;
 import com.beautifulsoup.chengfeng.pojo.PostReply;
 import com.beautifulsoup.chengfeng.pojo.User;
@@ -234,6 +235,46 @@ public class PostNewsServiceImpl implements PostNewsService {
                     RedisConstant.POST_REPLY_PREFIX+postReplyVo.getParentId(),replyVo);
         }
         return postReplyVo;
+    }
+
+    @Override
+    public PosterVo followPoster(String nickname) {
+        try {
+            boolean isExists = redisTemplate.opsForHash().hasKey(RedisConstant.POSTERS_INFO, nickname).booleanValue();
+            if (!isExists){
+                throw new ParamException("用户不存在,关注失败");
+            }
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            PosterVo poster = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, nickname);
+            PosterVo follower = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
+            follower.setFollowingNums(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_FOLLOWING+user.getNickname()).intValue());
+            if (CollectionUtils.isEmpty(follower.getFollowings())){
+                List<PosterVo> following=Lists.newArrayList();
+                following.add(poster);
+                follower.setFollowings(following);
+            }else{
+                follower.getFollowings().add(poster);
+            }
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),follower);
+            poster.setFollowerNums(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_FOLLOWER+nickname).intValue());
+            if (CollectionUtils.isEmpty(poster.getFollowers())){
+                List<PosterVo> followers=Lists.newArrayList();
+                followers.add(follower);
+                poster.setFollowers(followers);
+            }else{
+                poster.getFollowers().add(follower);
+            }
+            redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,nickname,poster);
+            return follower;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private List<PostNewsVo> getAllPostNews(Integer pageNum,Integer pageSize) throws InterruptedException, MemcachedException, TimeoutException {
