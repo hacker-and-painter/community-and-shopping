@@ -16,7 +16,7 @@ public class TokenConferUtil {
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);
         response.getWriter().flush();
-//        response.reset();
+//        response.getWriter().close();
     }
 
     public static void warningAuthentication(HttpServletResponse response,String warningMsg) throws IOException {
@@ -26,5 +26,6 @@ public class TokenConferUtil {
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);
         response.getWriter().flush();
+//        response.getWriter().close();
     }
 }

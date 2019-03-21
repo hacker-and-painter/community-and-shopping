@@ -102,7 +102,12 @@ public class PostNewsServiceImpl implements PostNewsService {
             redisTemplate.opsForZSet().add(RedisConstant.POST_NEWS_COMMUNITY_ORDER+user.getCommunityId(),postNewsVo,postNews.getStar());
 
             PosterVo poster = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
-            poster.setPosts(poster.getPosts()+1);
+            poster.setPosts(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_POST_NEWS).intValue());
+            if (CollectionUtils.isEmpty(poster.getPostNewsList())){
+                List<PostNewsVo> postNewsVoList=Lists.newArrayList();
+                poster.setPostNewsList(postNewsVoList);
+            }
+            poster.getPostNewsList().add(postNewsVo);
             redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),poster);
             postNewsVo.setPosted(new Date());
             return postNewsVo;
@@ -244,26 +249,46 @@ public class PostNewsServiceImpl implements PostNewsService {
             if (!isExists){
                 throw new ParamException("用户不存在,关注失败");
             }
+
             User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
             PosterVo poster = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, nickname);
             PosterVo follower = (PosterVo) redisTemplate.opsForHash().get(RedisConstant.POSTERS_INFO, user.getNickname());
-            follower.setFollowingNums(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_FOLLOWING+user.getNickname()).intValue());
-            if (CollectionUtils.isEmpty(follower.getFollowings())){
-                List<PosterVo> following=Lists.newArrayList();
-                following.add(poster);
-                follower.setFollowings(following);
-            }else{
-                follower.getFollowings().add(poster);
+            if (!CollectionUtils.isEmpty(follower.getFollowings())){
+                boolean contains = CollectionUtils.contains(follower.getFollowings().iterator(), nickname);
+                if (contains){
+                    throw new ParamException("用户已经关注,请勿重复关注");
+                }
             }
+            follower.setFollowingNums(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_FOLLOWING+user.getNickname()).intValue());
+//            if (CollectionUtils.isEmpty(follower.getFollowings())){
+//                List<PosterVo> following=Lists.newArrayList();
+//                following.add(poster);
+//                follower.setFollowings(following);
+//            }else{
+//                follower.getFollowings().add(poster);
+//            }
+//            follower.getFollowings().add(nickname);
+            if (CollectionUtils.isEmpty(follower.getFollowings())){
+                List<String> followings=Lists.newArrayList();
+                follower.setFollowings(followings);
+            }
+            follower.getFollowings().add(nickname);
+
             redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,user.getNickname(),follower);
             poster.setFollowerNums(redisTemplate.opsForValue().increment(RedisConstant.COUNTER_FOLLOWER+nickname).intValue());
+//            if (CollectionUtils.isEmpty(poster.getFollowers())){
+//                List<PosterVo> followers=Lists.newArrayList();
+//                followers.add(follower);
+//                poster.setFollowers(followers);
+//            }else{
+//                poster.getFollowers().add(follower);
+//            }
+//            poster.getFollowers().add(user.getNickname());
             if (CollectionUtils.isEmpty(poster.getFollowers())){
-                List<PosterVo> followers=Lists.newArrayList();
-                followers.add(follower);
+                List<String> followers=Lists.newArrayList();
                 poster.setFollowers(followers);
-            }else{
-                poster.getFollowers().add(follower);
             }
+            poster.getFollowers().add(user.getNickname());
             redisTemplate.opsForHash().put(RedisConstant.POSTERS_INFO,nickname,poster);
             return follower;
         } catch (InterruptedException e) {

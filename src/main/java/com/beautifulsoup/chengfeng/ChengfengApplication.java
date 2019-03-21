@@ -11,13 +11,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 @ServletComponentScan
 @MapperScan("com.beautifulsoup.chengfeng.dao")
-public class ChengfengApplication {
+public class ChengfengApplication extends SpringBootServletInitializer{
 
-//    //tomcat war支持
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(ChengfengApplication.class);
-//    }
+    //tomcat war支持
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(ChengfengApplication.class);
+    }
 
     public static void main(String[] args) {
         System.setProperty("es.set.netty.runtime.available.processors", "false");//ElasticSearch启动报错
@@ -27,4 +27,4 @@ public class ChengfengApplication {
     }
 
 }
-//extends SpringBootServletInitializer
+//

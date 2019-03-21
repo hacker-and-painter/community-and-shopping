@@ -22,5 +22,6 @@ public class TokenRefreshFailureHandler implements AuthenticationFailureHandler 
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);
         response.getWriter().flush();
+//        response.getWriter().close();
     }
 }

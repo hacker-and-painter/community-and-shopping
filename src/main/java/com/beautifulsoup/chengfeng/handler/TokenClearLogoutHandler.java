@@ -35,6 +35,7 @@ public class TokenClearLogoutHandler implements LogoutHandler {
 			ObjectMapper mapper=new ObjectMapper();
 			mapper.writeValue(response.getWriter(),responseResult);
 			response.getWriter().flush();
+//			response.getWriter().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -26,11 +26,11 @@ public class PosterVo implements Serializable {
     private Integer posts;//发帖数
     private Integer replys;//回帖数
     private Integer collections;//帖子收藏数
-    private List<PostNews> collectNews;//收藏的帖子
-    private List<PostNews> postNewsList;
-    private List<PostReply> postReplyList;
+    private List<PostNewsVo> collectNews;//收藏的帖子
+    private List<PostNewsVo> postNewsList;
+    private List<PostReplyVo> postReplyList;
     private Integer followerNums;
     private Integer followingNums;
-    private List<PosterVo> followers;
-    private List<PosterVo> followings;
+    private List<String> followers;
+    private List<String> followings;
 }

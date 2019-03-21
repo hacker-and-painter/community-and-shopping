@@ -29,5 +29,7 @@ public class RedisConstant {
     //计数器
     public static final String COUNTER_FOLLOWER="counter_follower:";
     public static final String COUNTER_FOLLOWING="counter_following:";
+    public static final String COUNTER_POST_NEWS="counter_post_news:";
+    public static final String COUNTER_POST_REPLYS="counter_post_replys:";
 
 }
