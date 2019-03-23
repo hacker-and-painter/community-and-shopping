@@ -73,7 +73,7 @@ public class JournalismServiceImpl implements JournalismService {
         try {
             Sort sort=Sort.by(ImmutableList.of(new Sort.Order(Sort.Direction.DESC,"publishTime")));
             Integer communityId = AuthenticationInfoUtil.getUser(userMapper, memcachedClient).getCommunityId();
-            return journalismRepository.findByCommunityId(communityId, PageRequest.of(pageNum,pageSize,sort));
+            return journalismRepository.findByCommunityId(communityId, PageRequest.of(pageNum-1,pageSize,sort));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (MemcachedException e) {

@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng.controller.vo;
 
+import com.beautifulsoup.chengfeng.pojo.PurchaseProductSku;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,26 +21,18 @@ public class PurchaseProductVo {
     private Integer categoryId;
 
     private String name;
-
     private String subtitle;
-
-    private Integer sales;
-
-    private BigDecimal price;
+    private String detail;
 
     private Integer status;
-
-    private BigDecimal spellPrice;
 
     private Integer evaluationNums;
 
     private Integer goodEvaluationNums;
-
     private String mainImage;
-
     private String subImages;
 
-    private String detail;
+    private Double goodRatio;
 
-    private String category;
+    private List<PurchaseProductSku> purchaseProductSkus;
 }

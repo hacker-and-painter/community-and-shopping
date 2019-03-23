@@ -40,11 +40,11 @@ public class ChengfengInit implements InitializingBean {
                     stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS,user.getNickname(), JsonSerializableUtil.obj2String(user));
                     redisTemplate.opsForHash().put(RedisConstant.USERS,user.getNickname(),user);
                 });
-        productMapper.selectAllPurchaseProducts().stream().sorted(Comparator.comparing(PurchaseProduct::getSales))
+       /* productMapper.selectAllPurchaseProducts().stream().sorted(Comparator.comparing(PurchaseProduct::getSales))
                 .forEach(purchaseProduct -> {
                     //将商品库存信息加入redis,提高性能
                     stringRedisTemplate.opsForHash().put(RedisConstant.PRODUCT_STOCKS,RedisConstant.PRODUCT_PREFIX+purchaseProduct.getId(),String.valueOf(purchaseProduct.getStock()));
-                });
+                });*/
 
     }
 

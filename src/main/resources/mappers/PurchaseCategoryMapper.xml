@@ -117,6 +117,7 @@
       from tb_purchase_category t left join tb_purchase_image i on t.id=i.category_id
       left join tb_purchase_product p on t.id=p.category_id
       where t.id = #{categoryId,jdbcType=INTEGER}
+      order by p.sales DESC
   </select>
 
 </mapper>

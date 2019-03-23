@@ -73,7 +73,7 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
                 if (!CollectionUtils.isEmpty(subImages)){
                     cartItemDto.setSubImage(purchaseProduct.getSubImages());
                 }
-                cartItemDto.setPrice(purchaseProduct.getPrice().doubleValue());
+//                cartItemDto.setPrice(purchaseProduct.getPrice().doubleValue());
                 cartItemDto.setTotalPrice(cartItemDto.getPrice()*cartItemDto.getCount());
                 redisTemplate.opsForHash().put(RedisConstant.CART_BELONG_TO+user.getId(),RedisConstant.CART_PRODUCT_PREFIX+productId,cartItemDto);
             }

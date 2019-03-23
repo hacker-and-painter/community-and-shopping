@@ -1,14 +1,27 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Document(indexName = "evaluation", type = "docs", shards = 1, replicas = 0)
 public class PurchaseEvaluation {
+    @Id
     private Integer id;
-
-    private Integer userId;
-
-    private Integer star;
-
+    @Field(type = FieldType.Keyword, index = false)
+    private String nickname;
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
 
     private Date evaluationTime;
@@ -16,6 +29,8 @@ public class PurchaseEvaluation {
     private Integer type;
 
     private Integer productId;
+    @Field(type = FieldType.Keyword, index = false)
+    private String avatar;
 
     public Integer getId() {
         return id;
@@ -25,20 +40,12 @@ public class PurchaseEvaluation {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getStar() {
-        return star;
-    }
-
-    public void setStar(Integer star) {
-        this.star = star;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 
     public String getContent() {
@@ -71,5 +78,13 @@ public class PurchaseEvaluation {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 }

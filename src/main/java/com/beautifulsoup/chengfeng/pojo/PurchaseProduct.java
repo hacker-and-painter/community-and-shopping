@@ -9,15 +9,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Document(indexName = "product", type = "docs", shards = 1, replicas = 0)
-public class PurchaseProduct implements Serializable {
+public class PurchaseProduct {
     @Id
     private Integer id;
 
@@ -27,18 +26,10 @@ public class PurchaseProduct implements Serializable {
     private String name;
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String subtitle;
-
-    private Integer stock;
-
-    private Integer sales;
-
-    private BigDecimal price;
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    private String detail;
 
     private Integer status;
-
-    private BigDecimal spellPrice;
-
-    private Double goodRatio;
 
     private Integer evaluationNums;
 
@@ -47,10 +38,10 @@ public class PurchaseProduct implements Serializable {
     private String mainImage;
     @Field(type = FieldType.Keyword, index = false)
     private String subImages;
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
-    private String detail;
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
-    private String category;
+
+    private Double goodRatio;
+
+    private List<PurchaseProductSku> purchaseProductSkus;
 
     public Integer getId() {
         return id;
@@ -84,44 +75,12 @@ public class PurchaseProduct implements Serializable {
         this.subtitle = subtitle == null ? null : subtitle.trim();
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getSales() {
-        return sales;
-    }
-
-    public void setSales(Integer sales) {
-        this.sales = sales;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public BigDecimal getSpellPrice() {
-        return spellPrice;
-    }
-
-    public void setSpellPrice(BigDecimal spellPrice) {
-        this.spellPrice = spellPrice;
     }
 
     public Integer getEvaluationNums() {
@@ -156,20 +115,12 @@ public class PurchaseProduct implements Serializable {
         this.subImages = subImages == null ? null : subImages.trim();
     }
 
-    public String getDetail() {
-        return detail;
+    public List<PurchaseProductSku> getPurchaseProductSkus() {
+        return purchaseProductSkus;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPurchaseProductSkus(List<PurchaseProductSku> purchaseProductSkus) {
+        this.purchaseProductSkus = purchaseProductSkus;
     }
 
     public Double getGoodRatio() {
@@ -178,5 +129,13 @@ public class PurchaseProduct implements Serializable {
 
     public void setGoodRatio(Double goodRatio) {
         this.goodRatio = goodRatio;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }

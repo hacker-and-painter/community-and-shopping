@@ -22,13 +22,13 @@ public class AdvertiseServiceImpl implements AdvertiseService {
     @Override
     public List<PurchaseProductVo> getAllProductsByInfo(String info) {
         List<PurchaseProductVo> productVos= Lists.newArrayList();
-        List<PurchaseProduct> products=productRepository.findBySubtitle(info).stream().sorted(Comparator.comparing(PurchaseProduct::getSales).reversed())
+        /*List<PurchaseProduct> products=productRepository.findBySubtitle(info).stream().sorted(Comparator.comparing(PurchaseProduct::getSales).reversed())
                 .collect(Collectors.toList());
         products.stream().forEach(product->{
             PurchaseProductVo vo=new PurchaseProductVo();
             BeanUtils.copyProperties(product,vo);
             productVos.add(vo);
-        });
+        });*/
         return productVos;
     }
 }

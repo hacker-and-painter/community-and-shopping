@@ -6,19 +6,15 @@
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
-    <result column="stock" property="stock" jdbcType="INTEGER" />
-    <result column="sales" property="sales" jdbcType="INTEGER" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="spell_price" property="spellPrice" jdbcType="DECIMAL" />
     <result column="evaluation_nums" property="evaluationNums" jdbcType="INTEGER" />
     <result column="good_evaluation_nums" property="goodEvaluationNums" jdbcType="INTEGER" />
     <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
     <result column="sub_images" property="subImages" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, category_id, name, subtitle, stock, sales, price, status, spell_price, evaluation_nums, 
-    good_evaluation_nums, main_image, sub_images
+    id, category_id, name, subtitle, status, evaluation_nums, good_evaluation_nums, main_image, 
+    sub_images
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,15 +28,13 @@
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
     insert into tb_purchase_product (id, category_id, name, 
-      subtitle, stock, sales, 
-      price, status, spell_price, 
-      evaluation_nums, good_evaluation_nums, main_image, 
-      sub_images)
+      subtitle, status, evaluation_nums, 
+      good_evaluation_nums, main_image, sub_images
+      )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{subtitle,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{spellPrice,jdbcType=DECIMAL}, 
-      #{evaluationNums,jdbcType=INTEGER}, #{goodEvaluationNums,jdbcType=INTEGER}, #{mainImage,jdbcType=VARCHAR}, 
-      #{subImages,jdbcType=VARCHAR})
+      #{subtitle,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{evaluationNums,jdbcType=INTEGER}, 
+      #{goodEvaluationNums,jdbcType=INTEGER}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" >
     insert into tb_purchase_product
@@ -57,20 +51,8 @@
       <if test="subtitle != null" >
         subtitle,
       </if>
-      <if test="stock != null" >
-        stock,
-      </if>
-      <if test="sales != null" >
-        sales,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
       <if test="status != null" >
         status,
-      </if>
-      <if test="spellPrice != null" >
-        spell_price,
       </if>
       <if test="evaluationNums != null" >
         evaluation_nums,
@@ -98,20 +80,8 @@
       <if test="subtitle != null" >
         #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="stock != null" >
-        #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="sales != null" >
-        #{sales,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
-      </if>
-      <if test="spellPrice != null" >
-        #{spellPrice,jdbcType=DECIMAL},
       </if>
       <if test="evaluationNums != null" >
         #{evaluationNums,jdbcType=INTEGER},
@@ -139,20 +109,8 @@
       <if test="subtitle != null" >
         subtitle = #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="stock != null" >
-        stock = #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="sales != null" >
-        sales = #{sales,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
-      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="spellPrice != null" >
-        spell_price = #{spellPrice,jdbcType=DECIMAL},
       </if>
       <if test="evaluationNums != null" >
         evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
@@ -174,30 +132,48 @@
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
-      stock = #{stock,jdbcType=INTEGER},
-      sales = #{sales,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
-      spell_price = #{spellPrice,jdbcType=DECIMAL},
       evaluation_nums = #{evaluationNums,jdbcType=INTEGER},
       good_evaluation_nums = #{goodEvaluationNums,jdbcType=INTEGER},
       main_image = #{mainImage,jdbcType=VARCHAR},
       sub_images = #{subImages,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_purchase_product
-    where category_id = #{categoryId,jdbcType=INTEGER}
-    ORDER BY sales desc
+
+  <resultMap id="AllResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseProduct" extends="BaseResultMap">
+    <collection property="purchaseProductSkus" column="id" ofType="com.beautifulsoup.chengfeng.pojo.PurchaseProductSku">
+      <id column="s_id" property="id" jdbcType="INTEGER" />
+      <result column="s_attribute_name" property="attributeName" jdbcType="VARCHAR" />
+      <result column="s_sales" property="sales" jdbcType="INTEGER" />
+      <result column="s_stock" property="stock" jdbcType="INTEGER" />
+      <result column="s_price" property="price" jdbcType="DECIMAL" />
+      <result column="s_spell_price" property="spellPrice" jdbcType="DECIMAL" />
+      <result column="s_product_id" property="productId" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+
+<!--  <id column="id" property="id" jdbcType="INTEGER" />
+  <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+  <result column="name" property="name" jdbcType="VARCHAR" />
+  <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+  <result column="status" property="status" jdbcType="INTEGER" />
+  <result column="evaluation_nums" property="evaluationNums" jdbcType="INTEGER" />
+  <result column="good_evaluation_nums" property="goodEvaluationNums" jdbcType="INTEGER" />
+  <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+  <result column="sub_images" property="subImages" jdbcType="VARCHAR" />-->
+
+  <select id="selectProductDetailById" resultMap="AllResultMap" parameterType="java.lang.Integer" >
+    select p.id,p.category_id,p.name,p.subtitle,p.status,p.evaluation_nums,p.good_evaluation_nums,p.main_image,p.sub_images,
+    s.id s_id,s.attribute_name s_attribute_name,s.sales s_sales,s.stock s_stock,s.price s_price,s.spell_price s_spell_price,s.product_id s_product_id
+    from tb_purchase_product p left join tb_purchase_product_sku s
+    on p.id=s.product_id
+    where p.id=#{productId,jdbcType=INTEGER}
   </select>
 
-  <select id="selectAllPurchaseProducts" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_purchase_product
+  <select id="selectAllPurchaseProducts" resultMap="AllResultMap" parameterType="java.lang.Integer" >
+    select p.id,p.category_id,p.name,p.subtitle,p.status,p.evaluation_nums,p.good_evaluation_nums,p.main_image,p.sub_images,
+    s.id s_id,s.attribute_name s_attribute_name,s.sales s_sales,s.stock s_stock,s.price s_price,s.spell_price s_spell_price,s.product_id s_product_id
+    from tb_purchase_product p left join tb_purchase_product_sku s
+    on p.id=s.product_id
   </select>
-
 </mapper>
