@@ -8,4 +8,5 @@ import java.util.List;
 public interface PurchaseProductService {
     List<ProductSimpleVo> findSimpleProductsByCategoryId(Integer categoryId, Integer pageNum, Integer pageSize);
     PurchaseProductVo findProductDetailInfoById(Integer productId);
+    List<ProductSimpleVo> findProductByBanner(Integer pageNum, Integer pageSize,String keyword);
 }

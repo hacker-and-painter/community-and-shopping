@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
 
     @Override
     public List<ProductSimpleVo> findSimpleProductsByCategoryId(Integer categoryId, Integer pageNum, Integer pageSize) {
-        PageRequest pageRequest=PageRequest.of(pageNum,pageSize, Sort.Direction.DESC,"sales");
+        PageRequest pageRequest=PageRequest.of(pageNum,pageSize, Sort.Direction.DESC,"goodRatio");
         List<PurchaseProduct> byCategoryId = productRepository.findByCategoryId(categoryId, pageRequest);
         List<ProductSimpleVo> productSimpleVos=Lists.newArrayList();
         byCategoryId.stream().forEach(purchaseProduct -> {
@@ -44,5 +45,20 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
             return purchaseProductVo;
         }
         return null;
+    }
+
+    @Override
+    public List<ProductSimpleVo> findProductByBanner(Integer pageNum, Integer pageSize,String keyword) {
+//        PageRequest pageRequest=PageRequest.of(pageNum,pageSize, Sort.Direction.DESC,"goodRatio");
+        List<PurchaseProduct> products = productRepository.findBySubtitle(keyword);
+        List<ProductSimpleVo> productVos=Lists.newArrayList();
+        products.parallelStream().forEach(product->{
+            ProductSimpleVo simpleVo=new ProductSimpleVo();
+            BeanUtils.copyProperties(product,simpleVo);
+            if (!CollectionUtils.isEmpty(product.getPurchaseProductSkus())){
+                simpleVo.setProductSku(product.getPurchaseProductSkus().get(0));
+            }
+        });
+        return productVos;
     }
 }

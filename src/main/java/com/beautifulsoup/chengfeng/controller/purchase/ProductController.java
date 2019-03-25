@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,4 +41,14 @@ public class ProductController {
         return ResponseResult.createBySuccess(product);
     }
 
+
+    @ApiOperation(value="根据banner获取商品列表",notes="根据banner获取商品列表")
+    @GetMapping(value="/get/{keyword}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<ProductSimpleVo>> getProductByBanner(@PathVariable("keyword")String keyword,
+                                                                      @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+                                                                      @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize) {
+        List<ProductSimpleVo> products = purchaseProductService.findProductByBanner(pageNum,pageSize,keyword);
+        return ResponseResult.createBySuccess(products);
+    }
 }
