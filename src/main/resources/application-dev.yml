@@ -6,7 +6,7 @@ spring:
     username: root
     password: password
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/chengfeng1_5?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true
+    url: jdbc:mysql://127.0.0.1:3306/chengfeng1_5?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 3
@@ -43,9 +43,9 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 192.168.123.92:9300
+      cluster-nodes: 192.168.123.50:9300
     mongodb:
-      uri: mongodb://localhost/chengfeng
+      uri: mongodb://192.168.123.50/chengfeng
       username: chengfeng
       password: password
 

@@ -25,6 +25,7 @@ import java.util.Map;
 
 @Api(value="用户信息",tags= {"用户信息Controller"},description = "用户信息",protocols = "http")
 @Slf4j
+@CrossOrigin
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {

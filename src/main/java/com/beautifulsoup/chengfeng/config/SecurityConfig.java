@@ -8,6 +8,7 @@ import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.security.configurer.UserLoginConfigurer;
 import com.beautifulsoup.chengfeng.security.configurer.TokenLoginConfigurer;
 import com.beautifulsoup.chengfeng.security.provider.TokenAuthenticationProvider;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,7 +25,12 @@ import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Arrays;
 
@@ -42,15 +48,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/configuration/ui").permitAll()
                 .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/community/listall","/user/registry").permitAll()//指定可以直接访问的url
-                .antMatchers("/file/upload","/file/uploads").permitAll()//指定可以直接访问的url
+                .antMatchers("/file/upload","/file/uploads","/user/login").permitAll()//指定可以直接访问的url
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement().disable()
-
 //                .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
 //                new Header("Access-control-Allow-Origin","*"),
+//                new Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"),
+//                new Header("Access-Control-Max-Age", "3600"),
+//                new Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
 //                new Header("Access-Control-Expose-Headers","Authorization"))))
 //                .and()
                 //登录请求的过滤
@@ -62,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new TokenLoginConfigurer<>())
                 .tokenValidSuccessHandler(tokenRefreshSuccessHandler())
                 .permissiveRequestUrls("/logout","/community/listall","/images/**","/user/registry","/swagger-resources/**","/swagger-ui.html")
-                .permissiveRequestUrls("/webjars/**","/v2/api-docs","/configuration/ui","/configuration/security","/file/upload","/file/uploads")
+                .permissiveRequestUrls("/webjars/**","/v2/api-docs","/configuration/ui","/configuration/security","/file/upload","/file/uploads","/user/login")
                 .and()
                 //登出的过滤器
                 .logout()
@@ -70,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
                 .sessionManagement().disable()
-                .cors().disable().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+                .cors().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     }
 
     @Override
@@ -131,17 +141,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected ChengfengAccessDeniedHandler accessDeniedHandler(){
         return new ChengfengAccessDeniedHandler();
     }
-   /* @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "OPTION"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.addExposedHeader("Authorization");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }*/
+
+
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurerAdapter() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**").allowedOrigins("*").allowedHeaders("*").allowedMethods("*");
+//            }
+//        };
+//    }
+//
+//    @Bean
+//    public FilterRegistrationBean corsFilter(){
+//        FilterRegistrationBean bean=new FilterRegistrationBean(new CorsFilter(corsConfigurationSource()));
+//        bean.setOrder(0);
+//        return bean;
+//    }
+//
+//
+//    @Bean
+//    protected CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addExposedHeader("Authorization");
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 }
 

@@ -7,6 +7,7 @@ import com.beautifulsoup.chengfeng.utils.TokenConferUtil;
 import net.rubyeye.xmemcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         boolean saltCheck = stringRedisTemplate.hasKey(RedisConstant.TOKEN_SALT + authentication.getName()).booleanValue();
         if (saltCheck){
+            response.setStatus(HttpStatus.FORBIDDEN.value());
             TokenConferUtil.warningAuthentication(response,"用户已经登录请勿重复登录");
             return;
         }
