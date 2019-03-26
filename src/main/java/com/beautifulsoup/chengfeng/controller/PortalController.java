@@ -5,6 +5,7 @@ import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
 import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
 import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
+import com.beautifulsoup.chengfeng.pojo.BannerImage;
 import com.beautifulsoup.chengfeng.service.PortalService;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
@@ -94,5 +95,12 @@ public class PortalController {
     public ResponseResult<WaterBookVo> bookWatersuplyInfo(@Valid @RequestBody WatersuplyDto watersuplyDto,BindingResult result){
         WaterBookVo waterBookVo = portalService.bookWaterSuply(watersuplyDto,result);
         return ResponseResult.createBySuccess(waterBookVo);
+    }
+
+    @GetMapping(value = "/carousal",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<BannerImage>> getCarousalImage(){
+        List<BannerImage> bannerImages = portalService.findCarousalImages();
+        return ResponseResult.createBySuccess(bannerImages);
     }
 }

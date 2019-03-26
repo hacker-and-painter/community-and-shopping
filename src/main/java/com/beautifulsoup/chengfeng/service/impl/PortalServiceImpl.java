@@ -70,6 +70,9 @@ public class PortalServiceImpl implements PortalService {
     @Autowired
     private WatersuplyDetailsMapper watersuplyDetailsMapper;
 
+    @Autowired
+    private BannerImageMapper bannerImageMapper;
+
 
     @Override
     public List<CommunityNoticeVo> findAllCommunityNoticeVos(Integer pageNum, Integer pageSize){
@@ -242,6 +245,12 @@ public class PortalServiceImpl implements PortalService {
         BeanUtils.copyProperties(watersuplyBook,waterBookVo);
         waterBookVo.setDetailsList(watersuplyDetails);
         return waterBookVo;
+    }
+
+    @Override
+    public List<BannerImage> findCarousalImages() {
+        List<BannerImage> carousalImages = bannerImageMapper.getCarousalImage();
+        return carousalImages;
     }
 
 
