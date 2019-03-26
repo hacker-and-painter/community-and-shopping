@@ -83,9 +83,9 @@ public class UserServiceImpl implements UserService {
         UserVo userVo1=new UserVo();
 
         BeanUtils.copyProperties(user,userVo1);
-        userVo1.setIdcard(null);
-        userVo1.setGender(null);
-        userVo1.setPhone(null);
+//        userVo1.setIdcard(null);
+//        userVo1.setGender(null);
+//        userVo1.setPhone(null);
         PosterVo posterVo=new PosterVo();
 
         posterVo.setUserVo(userVo1);
