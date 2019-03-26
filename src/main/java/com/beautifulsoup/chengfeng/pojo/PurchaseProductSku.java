@@ -17,6 +17,8 @@ public class PurchaseProductSku {
 
     private Integer productId;
 
+    private PurchaseProduct purchaseProduct;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class PurchaseProductSku {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
+    }
+
+    public PurchaseProduct getPurchaseProduct() {
+        return purchaseProduct;
+    }
+
+    public void setPurchaseProduct(PurchaseProduct purchaseProduct) {
+        this.purchaseProduct = purchaseProduct;
     }
 }

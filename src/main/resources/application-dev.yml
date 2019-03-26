@@ -68,7 +68,7 @@ memcached:
   opTimeout: 6000
 
 rabbitmq:
-  addresses: 47.95.244.237
+  addresses: 127.0.0.1
   port: 5672
   virtualHost: /
   username: guest

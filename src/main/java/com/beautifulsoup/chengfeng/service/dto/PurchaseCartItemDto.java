@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,10 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PurchaseCartItemDto implements Serializable {
     private Integer productId;
+    private Integer skuId;
     private String name;
     private String subtitle;
     private String subImage;

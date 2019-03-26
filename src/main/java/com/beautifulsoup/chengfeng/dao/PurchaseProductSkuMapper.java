@@ -14,4 +14,6 @@ public interface PurchaseProductSkuMapper {
     int updateByPrimaryKeySelective(PurchaseProductSku record);
 
     int updateByPrimaryKey(PurchaseProductSku record);
+
+    PurchaseProductSku selectAllByPrimaryKey(Integer id);
 }

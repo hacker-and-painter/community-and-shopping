@@ -1,5 +1,6 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Document(collection = "journalism")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Journalism implements Serializable {
     @Id
     private String id;

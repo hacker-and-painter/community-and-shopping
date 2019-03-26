@@ -2,14 +2,12 @@ package com.beautifulsoup.chengfeng.service.impl;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
-import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
+import com.beautifulsoup.chengfeng.controller.vo.*;
 import com.beautifulsoup.chengfeng.dao.*;
 import com.beautifulsoup.chengfeng.exception.BaseException;
 import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.pojo.*;
+import com.beautifulsoup.chengfeng.service.JournalismService;
 import com.beautifulsoup.chengfeng.service.PortalService;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
@@ -72,6 +70,9 @@ public class PortalServiceImpl implements PortalService {
 
     @Autowired
     private BannerImageMapper bannerImageMapper;
+
+    @Autowired
+    private JournalismService journalismService;
 
 
     @Override
@@ -251,6 +252,16 @@ public class PortalServiceImpl implements PortalService {
     public List<BannerImage> findCarousalImages() {
         List<BannerImage> carousalImages = bannerImageMapper.getCarousalImage();
         return carousalImages;
+    }
+
+    @Override
+    public PortalVo getAllInformation() {
+        PortalVo portalVo=new PortalVo();
+        portalVo.setCarousals(findCarousalImages());
+        portalVo.setCommunityNoticeVos(findLatestCommunityNoticeVos(3));
+        portalVo.setProperNoticeVos(findLatestProperNoticeVos(3));
+        portalVo.setJournalisms(journalismService.getTop5JournalismsOrderByPublishTime());
+        return portalVo;
     }
 
 

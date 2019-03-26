@@ -1,9 +1,6 @@
 package com.beautifulsoup.chengfeng.service;
 
-import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
+import com.beautifulsoup.chengfeng.controller.vo.*;
 import com.beautifulsoup.chengfeng.pojo.BannerImage;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
@@ -22,4 +19,5 @@ public interface PortalService {
     List<WaterBrandVo> findAllWaterBrands();
     WaterBookVo bookWaterSuply(WatersuplyDto watersuplyDto,BindingResult bindingResult);
     List<BannerImage> findCarousalImages();
+    PortalVo getAllInformation();
 }

@@ -12,7 +12,7 @@ public class RedisConstant {
     public static final String PROPER_NOTICES="proper_notices:";
     public static final String COMMUNITY_NOTICES="community_notices:";
     public static final String PRODUCT_STOCKS="product_stocks:";
-    public static final String PRODUCT_PREFIX="product_prefix:";
+    public static final String PRODUCT_PREFIX_SKU="product_prefix_sku:";
     //帖子模块
     public static final String POST_NEWS_BELONGTO_ORDER="post_news_belongto_order:";
     public static final String POST_NEWS_BELONGTO="post_news_belongto:";

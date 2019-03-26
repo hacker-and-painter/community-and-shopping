@@ -176,4 +176,6 @@
     from tb_purchase_product p left join tb_purchase_product_sku s
     on p.id=s.product_id
   </select>
+
+
 </mapper>

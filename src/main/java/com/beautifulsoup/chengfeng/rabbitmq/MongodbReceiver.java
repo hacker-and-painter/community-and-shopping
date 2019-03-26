@@ -17,7 +17,6 @@ import java.util.Random;
 
 @Slf4j
 @Component
-
 public class MongodbReceiver {
 
     @Autowired

@@ -1,10 +1,7 @@
 package com.beautifulsoup.chengfeng.controller;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
-import com.beautifulsoup.chengfeng.controller.vo.CommunityNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.ProperNoticeVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBookVo;
-import com.beautifulsoup.chengfeng.controller.vo.WaterBrandVo;
+import com.beautifulsoup.chengfeng.controller.vo.*;
 import com.beautifulsoup.chengfeng.pojo.BannerImage;
 import com.beautifulsoup.chengfeng.service.PortalService;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
@@ -12,6 +9,7 @@ import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
 import com.beautifulsoup.chengfeng.service.dto.WatersuplyDto;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.action.ValidateActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -102,5 +100,11 @@ public class PortalController {
     public ResponseResult<List<BannerImage>> getCarousalImage(){
         List<BannerImage> bannerImages = portalService.findCarousalImages();
         return ResponseResult.createBySuccess(bannerImages);
+    }
+
+    @GetMapping(value = "/index",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PortalVo> getAllInformation(){
+        return ResponseResult.createBySuccess(portalService.getAllInformation());
     }
 }

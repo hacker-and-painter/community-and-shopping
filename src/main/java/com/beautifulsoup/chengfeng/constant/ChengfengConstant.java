@@ -13,12 +13,16 @@ public class ChengfengConstant {
         String QUEUE_NAME_CHENGFENG="chengfeng";
         String TOPIC_EXCHANGE="topicExchange";
         String ORDER_EXCHANGE="order_exchange:";
+        String SPELL_ORDER_DELAY_EXCHANGE="spell_order_delay_exchange";
         String QUEUE_NAME_ORDER="order";
         String QUEUE_NAME_MONGODB="mongodb";
         String QUEUE_NAME_ELASTICSEARCH="elasticsearch";
+        String QUEUE_NAME_STOCK="stock";
+        String QUEUE_NAME_SPELL_ORDER="spell_order";
 
         String MESSAGE_MONGODB_INIT="MONGODB_INIT";
         String MESSAGE_ELASTICSEARCH_INIT="ELASTICSEARCH_INIT";
+        String MESSAGE_STOCK_UPDATE="MESSAGE_STOCK_UPDATE";
     }
 
     public interface Memcached{
