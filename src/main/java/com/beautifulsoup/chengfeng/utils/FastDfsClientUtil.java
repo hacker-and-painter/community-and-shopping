@@ -2,6 +2,7 @@ package com.beautifulsoup.chengfeng.utils;
 
 import com.beautifulsoup.chengfeng.common.FastDfsFile;
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Slf4j
 public class FastDfsClientUtil {
@@ -26,7 +28,7 @@ public class FastDfsClientUtil {
     }
 
     public static String uploadFiles(MultipartFile[] files){
-        StringBuffer buffer=new StringBuffer();
+        List<String> paths= Lists.newArrayList();
         if (files!=null&&files.length>0){
             for (int i=0;i<files.length;i++){
                 if(files[i].isEmpty()){
@@ -34,17 +36,13 @@ public class FastDfsClientUtil {
                 }
                 try {
                     String path = saveFile(files[i]);
-                    if (i!=files.length-1){
-                        buffer.append(path).append(",");
-                    }else{
-                        buffer.append(path);
-                    }
+                    paths.add(path);
                 } catch (IOException e) {
                     throw new MultipartException(ChengfengConstant.File.UPLOAD_FAILURE);
                 }
             }
         }
-        return buffer.toString();
+        return String.join(",",paths);//java 8
     }
 
     public static String saveFile(MultipartFile multipartFile) throws IOException {

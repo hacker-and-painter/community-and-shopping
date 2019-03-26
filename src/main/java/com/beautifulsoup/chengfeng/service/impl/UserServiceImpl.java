@@ -15,12 +15,16 @@ import com.beautifulsoup.chengfeng.service.UserService;
 import com.beautifulsoup.chengfeng.service.dto.UserDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
+import com.beautifulsoup.chengfeng.utils.MailSenderUtil;
 import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
+import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +38,20 @@ import org.springframework.validation.BindingResult;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
+import static com.beautifulsoup.chengfeng.constant.RedisConstant.EMAIL_VALIDATE_CODE;
+import static com.beautifulsoup.chengfeng.constant.RedisConstant.EMAIL_VALIDATE_CODE_PREFIX;
 
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+
+    private static final Joiner joiner=Joiner.on("").skipNulls();
 
     @Autowired
     private UserMapper userMapper;
@@ -59,6 +70,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private MailSenderUtil mailSenderUtil;
+
 
     @Transactional
     @Override
@@ -162,10 +177,25 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public void sendEmail(String nickname,String email) {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!StringUtils.equals(principal.getUsername(),nickname)){
+            throw new ParamException("当前用户昵称错误");
+        }
+        ImmutableList<Integer> immutableList = ImmutableList.of(RandomUtils.nextInt(1,10)
+                ,RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),
+                RandomUtils.nextInt(1,10));
+        String validateCode = immutableList.parallelStream().map(String::valueOf).collect(Collectors.joining(""));
+        stringRedisTemplate.opsForValue().set(EMAIL_VALIDATE_CODE_PREFIX+nickname,validateCode);
+        stringRedisTemplate.expire(EMAIL_VALIDATE_CODE_PREFIX+nickname,10, TimeUnit.MINUTES);
+        mailSenderUtil.sendSimpleMail(email,"【城风网验证码】","亲，感谢您选择城风社区平台。您的本次验证码为:"+validateCode);
+    }
+
 
     @Transactional
     @Override
-    public String resetPassword(String nickname, String rawPassword, String newPassword, String phone, String email) {
+    public String resetPassword(String nickname, String rawPassword, String newPassword, String validateCode) {
         boolean checkNickname = stringRedisTemplate.opsForHash().hasKey(RedisConstant.USERINFOS, nickname).booleanValue();
         if (!checkNickname){
             throw new ParamException("用户不存在,用户信息更新失败");
@@ -178,7 +208,15 @@ public class UserServiceImpl implements UserService {
         try {
             User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
             if (user.getNickname().equals(nickname)){
-                //TODO 基于手机号和邮箱的验证方式
+
+                boolean check = stringRedisTemplate.hasKey(EMAIL_VALIDATE_CODE_PREFIX + nickname).booleanValue();
+                if (!check){
+                    throw new ParamException("验证码已失效,重置密码失败");
+                }
+                String code = stringRedisTemplate.opsForValue().get(EMAIL_VALIDATE_CODE_PREFIX + nickname);
+                if (!StringUtils.equals(code,validateCode)){
+                    throw new ParamException("验证码不正确,重置密码失败");
+                }
 
                 CryptPassword cryptPassword=checkPassword(nickname,rawPassword);
 

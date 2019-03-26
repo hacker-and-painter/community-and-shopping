@@ -24,7 +24,7 @@ public class ProductController {
     private PurchaseProductService purchaseProductService;
 
     @ApiOperation(value="分页列出商品简单信息",notes="分页列出商品简单信息")
-    @GetMapping(value="/list/simple/{categoryId}/{pageSize}/{pageNum}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value="/list/simple/{categoryId}/{pageNum}/{pageSize}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseResult<List<ProductSimpleVo>> getSimpleProductsByCategoryId(
             @PathVariable("categoryId")Integer categoryId,@PathVariable("pageNum")Integer pageNum, @PathVariable("pageSize")Integer pageSize) {

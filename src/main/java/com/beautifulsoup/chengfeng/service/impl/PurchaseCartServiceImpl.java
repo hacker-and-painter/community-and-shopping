@@ -106,17 +106,8 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
             rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.TOPIC_EXCHANGE,
                     "topic.stock",skuId+","+(stock-count)+","+count);
 
-            PurchaseCartVo purchaseCartVo=new PurchaseCartVo();
-            if (CollectionUtils.isEmpty(purchaseCartVo.getCartItems())){
-                purchaseCartVo.setCartItems(Lists.newArrayList());
-            }
-            purchaseCartVo.setNickname(user.getNickname());
-            redisTemplate.opsForHash().keys(RedisConstant.CART_BELONG_TO+user.getId()).stream().forEach(key->{
-                PurchaseCartItemDto cartItem = (PurchaseCartItemDto) redisTemplate.opsForHash().get(RedisConstant.CART_BELONG_TO + user.getId(), key);
 
-                purchaseCartVo.getCartItems().add(cartItem);
-            });
-            return purchaseCartVo;
+            return listAllCartProducts();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (MemcachedException e) {
@@ -128,9 +119,32 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
         return null;
     }
 
+    @Override
+    public PurchaseCartVo listAllCartProducts() {
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            PurchaseCartVo purchaseCartVo=new PurchaseCartVo();
+            if (CollectionUtils.isEmpty(purchaseCartVo.getCartItems())){
+                purchaseCartVo.setCartItems(Lists.newArrayList());
+            }
+            purchaseCartVo.setNickname(user.getNickname());
+            redisTemplate.opsForHash().keys(RedisConstant.CART_BELONG_TO+user.getId()).stream().forEach(key->{
+                PurchaseCartItemDto cartItem = (PurchaseCartItemDto) redisTemplate.opsForHash().get(
+                        RedisConstant.CART_BELONG_TO + user.getId(), key);
+                purchaseCartVo.getCartItems().add(cartItem);
+            });
+            return purchaseCartVo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
-    
 }
 //rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.STOCK_DELAY_EXCHANGE, "spell_order_delay_queue", "", new MessagePostProcessor() {
 //@Override

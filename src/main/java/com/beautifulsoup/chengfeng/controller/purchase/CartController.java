@@ -28,4 +28,14 @@ public class CartController {
         }
         return ResponseResult.createByErrorMessage("商品添加购物车失败");
     }
+
+    @GetMapping(value = "/listall", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<PurchaseCartVo> getAllCartProducts(){
+        PurchaseCartVo purchaseCartVo = purchaseCartService.listAllCartProducts();
+        return ResponseResult.createBySuccess(purchaseCartVo);
+    }
+
+//    @PutMapping(value = "/update/{skuId}/{count}")
+
 }

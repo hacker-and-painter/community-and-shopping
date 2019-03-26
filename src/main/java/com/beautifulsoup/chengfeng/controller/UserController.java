@@ -6,6 +6,7 @@ import com.beautifulsoup.chengfeng.controller.vo.UserVo;
 import com.beautifulsoup.chengfeng.security.UserInfoService;
 import com.beautifulsoup.chengfeng.service.UserService;
 import com.beautifulsoup.chengfeng.service.dto.UserDto;
+import com.beautifulsoup.chengfeng.utils.MailSenderUtil;
 import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -73,9 +74,18 @@ public class UserController {
     @PostMapping(value = "/password/reset",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseResult resetPassword(@RequestParam("nickname")String nickname,@RequestParam("rawpassword")String rawpassword
-            ,@RequestParam("newpassword")String newPassword,@RequestParam("phone")String phone,@RequestParam(value = "email",required = false)String email){
-        String result = userService.resetPassword(nickname,rawpassword,newPassword,phone,email);
+            ,@RequestParam("newpassword")String newPassword,@RequestParam("code")String validateCode){
+        String result = userService.resetPassword(nickname,rawpassword,newPassword,validateCode);
         return ResponseResult.createBySuccess(result);
+    }
+
+
+
+    @PostMapping("/send/mail")
+    @ResponseBody
+    public ResponseResult<String> sendMail(@RequestParam(value = "nickname")String nickname,@RequestParam(value = "email")String email){
+        userService.sendEmail(nickname,email);
+        return ResponseResult.createBySuccess("发送邮件成功");
     }
 
     @GetMapping(value = "/token",produces = "application/json;charset=UTF-8")

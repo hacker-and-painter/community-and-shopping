@@ -25,7 +25,7 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
 
     @Override
     public List<ProductSimpleVo> findSimpleProductsByCategoryId(Integer categoryId, Integer pageNum, Integer pageSize) {
-        PageRequest pageRequest=PageRequest.of(pageNum,pageSize, Sort.Direction.DESC,"goodRatio");
+        PageRequest pageRequest=PageRequest.of(pageNum-1,pageSize, Sort.Direction.DESC,"goodRatio");
         List<PurchaseProduct> byCategoryId = productRepository.findByCategoryId(categoryId, pageRequest);
         List<ProductSimpleVo> productSimpleVos=Lists.newArrayList();
         byCategoryId.stream().forEach(purchaseProduct -> {
@@ -50,7 +50,7 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
     @Override
     public List<ProductSimpleVo> findProductByBanner(Integer pageNum, Integer pageSize,String keyword) {
 //        PageRequest pageRequest=PageRequest.of(pageNum,pageSize, Sort.Direction.DESC,"goodRatio");
-        List<PurchaseProduct> products = productRepository.findBySubtitle(keyword);
+        List<PurchaseProduct> products = productRepository.findByDetail(keyword);
         List<ProductSimpleVo> productVos=Lists.newArrayList();
         products.parallelStream().forEach(product->{
             ProductSimpleVo simpleVo=new ProductSimpleVo();
@@ -58,6 +58,7 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
             if (!CollectionUtils.isEmpty(product.getPurchaseProductSkus())){
                 simpleVo.setProductSku(product.getPurchaseProductSkus().get(0));
             }
+            productVos.add(simpleVo);
         });
         return productVos;
     }

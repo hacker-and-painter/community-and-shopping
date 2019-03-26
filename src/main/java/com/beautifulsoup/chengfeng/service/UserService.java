@@ -10,5 +10,6 @@ public interface UserService {
     PosterVo findUserByNickname();
     UserVo registryUserInfo(UserDto userDto, BindingResult result);
     UserVo updateUserInfo(UserVo userVo, BindingResult result);
-    String resetPassword(String nickname,String rawPassword,String newPassword,String phone,String email);
+    String resetPassword(String nickname,String rawPassword,String newPassword,String validateCode);
+    void sendEmail(String nickname,String email);
 }

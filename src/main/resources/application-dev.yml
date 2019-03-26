@@ -48,6 +48,11 @@ spring:
       uri: mongodb://localhost/chengfeng
       username: chengfeng
       password: password
+  mail:
+    host: smtp.qq.com
+    username: 2375872953@qq.com
+    password: wmsmfzchmzpjdiai
+    default-encoding: UTF-8
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
@@ -73,3 +78,4 @@ rabbitmq:
   virtualHost: /
   username: guest
   password: guest
+
