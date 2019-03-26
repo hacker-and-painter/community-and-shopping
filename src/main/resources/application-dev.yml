@@ -66,7 +66,7 @@ logging:
     com.beautifulsoup.chengfeng.service.impl: DEBUG
 
 memcached:
-  servers: 47.95.244.237:9999
+  servers: 127.0.0.1:11211
   # 连接池
   poolSize: 10
   #操作超时时间
