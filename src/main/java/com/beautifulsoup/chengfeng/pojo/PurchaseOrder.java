@@ -1,15 +1,16 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PurchaseOrder implements Serializable {
+public class PurchaseOrder {
     private Integer id;
 
     private Long orderNo;
 
-    private Integer userId;
+    private String nickname;
+
+    private String avatar;
 
     private Integer shippingId;
 
@@ -45,12 +46,20 @@ public class PurchaseOrder implements Serializable {
         this.orderNo = orderNo;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Integer getShippingId() {

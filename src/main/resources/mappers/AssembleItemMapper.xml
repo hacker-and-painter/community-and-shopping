@@ -5,12 +5,13 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="assemble_id" property="assembleId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, nickname, avatar
+    id, nickname, avatar, assemble_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
     from tb_purchase_assemble_item
     where id = #{id,jdbcType=INTEGER}
@@ -20,12 +21,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.AssembleItem" >
-    insert into tb_purchase_assemble_item (id, nickname, avatar
-      )
-    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}
-      )
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_purchase_assemble_item (id, nickname, avatar, 
+      assemble_id)
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{assembleId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.AssembleItem" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_assemble_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -36,6 +43,9 @@
       </if>
       <if test="avatar != null" >
         avatar,
+      </if>
+      <if test="assembleId != null" >
+        assemble_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -48,6 +58,9 @@
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
       </if>
+      <if test="assembleId != null" >
+        #{assembleId,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.AssembleItem" >
@@ -59,13 +72,17 @@
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
+      <if test="assembleId != null" >
+        assemble_id = #{assembleId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.AssembleItem" >
     update tb_purchase_assemble_item
     set nickname = #{nickname,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR}
+      avatar = #{avatar,jdbcType=VARCHAR},
+      assemble_id = #{assembleId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

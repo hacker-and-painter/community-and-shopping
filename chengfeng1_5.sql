@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 27/03/2019 11:13:30
+ Date: 27/03/2019 11:55:11
 */
 
 SET NAMES utf8mb4;
@@ -533,6 +533,7 @@ CREATE TABLE `tb_purchase_assemble_item`  (
                                             `id` int(11) NOT NULL AUTO_INCREMENT,
                                             `nickname` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单人昵称',
                                             `avatar` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单人头像',
+                                            `assemble_id` int(11) NULL DEFAULT NULL COMMENT '所属拼单id',
                                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -769,7 +770,7 @@ CREATE TABLE `tb_user`  (
 -- Records of tb_user
 -- ----------------------------
 INSERT INTO `tb_user` VALUES (1, 'BeautifulSoup', 'BeautifulSoup', '372330199706290001', 129, 'male', '1997-06-29', 'xxxx', '万事起于忽微,量变引起质变', 'beautifulsoup@163.com', '17864195311', 1, '2019-03-13 11:04:25', '2019-02-12 15:56:26', '2019-02-12 15:56:29');
-INSERT INTO `tb_user` VALUES (2, 'hanson', 'BeautifulSoup2', '372330199706290000', 100, 'male', '2019-02-05', 'http://pmt5ma5mu.bkt.clouddn.com/34a19b7f-7b6a-4710-9431-01d3279277cd.jpg', '6666666', 'beautifulsoup@163.com', '18864190000', 2, '2019-03-14 12:16:22', '2019-03-05 16:44:44', '2019-03-05 16:44:44');
+INSERT INTO `tb_user` VALUES (2, '王福运', 'BeautifulSoup2', '372330199706290000', 100, 'male', '2019-02-05', 'http://pmt5ma5mu.bkt.clouddn.com/34a19b7f-7b6a-4710-9431-01d3279277cd.jpg', '6666666', 'beautifulsoup@163.com', '18864190000', 2, '2019-03-14 12:16:22', '2019-03-05 16:44:44', '2019-03-05 16:44:44');
 INSERT INTO `tb_user` VALUES (3, '王小灏', 'BeautifulSoup3', '159100754214', NULL, 'female', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '生命不息,奋斗不止', 'beautifulsoup@126.com', '18062195241', 2, '2019-03-14 12:16:17', NULL, NULL);
 INSERT INTO `tb_user` VALUES (4, 'Gopher', 'BeautifulSoup4', '159100754214', NULL, 'female', '1997-06-29', 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '', 'beautifulsoup@126.com', '18062195241', 1, '2019-03-13 11:14:11', '2019-02-26 17:27:35', '2019-02-26 17:27:35');
 INSERT INTO `tb_user` VALUES (5, '赵云', 'BeautifulSoup5', '15987416639522', NULL, 'male', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '书山有路勤为径 学海无涯苦作舟', 'zhaoyun@qq.com', '17466541298', 1, '2019-03-13 11:14:12', '2019-02-22 13:08:17', '2019-02-22 13:08:17');

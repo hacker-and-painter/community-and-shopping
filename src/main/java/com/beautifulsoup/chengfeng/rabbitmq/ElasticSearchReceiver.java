@@ -36,27 +36,26 @@ public class ElasticSearchReceiver {
     private PurchaseEvaluationMapper purchaseEvaluationMapper;
 
     @RabbitListener(queues = ChengfengConstant.RabbitMQ.QUEUE_NAME_ELASTICSEARCH)
-    public void process(String init, Message message, Channel channel){
-            try{
-                log.info(init+"消息收到"+"初始化数据库内容到elasticsearch");
+    public void process(String init, Message message, Channel channel) throws IOException {
+            try {
+                log.info(init + "消息收到" + "初始化数据库内容到elasticsearch");
                 List<PurchaseProduct> purchaseProducts = productMapper.selectAllPurchaseProducts();
                 purchaseProducts.stream().forEach(purchaseProduct -> {
-                    double ratio=purchaseProduct.getGoodEvaluationNums().doubleValue()/purchaseProduct.getEvaluationNums().doubleValue();
-                    BigDecimal ratioDecimal=new BigDecimal(ratio);
+                    double ratio = purchaseProduct.getGoodEvaluationNums().doubleValue() / purchaseProduct.getEvaluationNums().doubleValue();
+                    BigDecimal ratioDecimal = new BigDecimal(ratio);
                     purchaseProduct.setGoodRatio(ratioDecimal.setScale(2, RoundingMode.HALF_UP).doubleValue());
                     log.info(purchaseProduct.getGoodRatio().toString());
                     purchaseProduct.setDetail(new StringBuilder().append(purchaseProduct.getName()).append(purchaseProduct.getSubtitle()).toString());
                     productRepository.save(purchaseProduct);
                 });
                 List<PurchaseEvaluation> allPurchaseEvaluations = purchaseEvaluationMapper.getAllPurchaseEvaluations();
-                allPurchaseEvaluations.parallelStream().forEach(evaluation->{
+                allPurchaseEvaluations.parallelStream().forEach(evaluation -> {
                     evaluationRepository.save(evaluation);
                 });
+            }finally {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-            }catch (IOException e){
-                //做其他的补偿处理
-                log.warn(e.getMessage());
             }
+
     }
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.beautifulsoup.chengfeng.dao.PurchaseOrderItemMapper" >
   <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseOrderItem" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="order_no" property="orderNo" jdbcType="BIGINT" />
     <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
@@ -13,11 +13,11 @@
     <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, order_no, product_id, product_name, product_image, current_unit_price, 
+    id, nickname, order_no, product_id, product_name, product_image, current_unit_price,
     quantity, total_price
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_purchase_order_item
     where id = #{id,jdbcType=INTEGER}
@@ -27,23 +27,29 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrderItem" >
-    insert into tb_purchase_order_item (id, user_id, order_no, 
-      product_id, product_name, product_image, 
+    <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_purchase_order_item (id, nickname, order_no,
+      product_id, product_name, product_image,
       current_unit_price, quantity, total_price
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
-      #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{orderNo,jdbcType=BIGINT},
+      #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR},
       #{currentUnitPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrderItem" >
+    <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="nickname != null" >
+        nickname,
       </if>
       <if test="orderNo != null" >
         order_no,
@@ -71,8 +77,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=BIGINT},
@@ -100,8 +106,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrderItem" >
     update tb_purchase_order_item
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=BIGINT},
@@ -129,7 +135,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrderItem" >
     update tb_purchase_order_item
-    set user_id = #{userId,jdbcType=INTEGER},
+    set nickname = #{nickname,jdbcType=VARCHAR},
       order_no = #{orderNo,jdbcType=BIGINT},
       product_id = #{productId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},

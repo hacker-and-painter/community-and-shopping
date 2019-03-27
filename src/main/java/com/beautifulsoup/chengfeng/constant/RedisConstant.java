@@ -36,5 +36,11 @@ public class RedisConstant {
     public static final String COUNTER_COLLECTIONS="counter_collections:";
     public static final String COUNTER_POST_VOTE="counter_post_vote:";
     public static final String COUNTER_VOTE_OPTION_NUMS="counter_vote_option_nums:";
+    public static final String COUNTER_ORDER="COUNTER_ORDER:";
+
+    public interface Redisson{
+        String REDIS_ADDRESS="redis://47.95.244.237:6379";
+        String LOCK_SPELL_ORDER="lock_spell_order";
+    }
 
 }

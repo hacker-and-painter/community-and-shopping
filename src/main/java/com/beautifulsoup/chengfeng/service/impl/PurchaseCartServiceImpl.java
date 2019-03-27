@@ -102,11 +102,6 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
             //减库存
             stringRedisTemplate.opsForHash().put(RedisConstant.PRODUCT_STOCKS,
                     RedisConstant.PRODUCT_PREFIX_SKU + skuId,String.valueOf(stock-count));
-
-            rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.TOPIC_EXCHANGE,
-                    "topic.stock",skuId+","+(stock-count)+","+count);
-
-
             return listAllCartProducts();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -146,10 +141,3 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
 
 
 }
-//rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.STOCK_DELAY_EXCHANGE, "spell_order_delay_queue", "", new MessagePostProcessor() {
-//@Override
-//public Message postProcessMessage(Message message) throws AmqpException {
-//        message.getMessageProperties().setHeader("x-delay",3000);
-//        return message;
-//        }
-//        });

@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Assemble {
     private Integer id;
@@ -14,6 +15,8 @@ public class Assemble {
     private Integer status;
 
     private Date deadline;
+
+    private List<AssembleItem> assembleItems;
 
     public Integer getId() {
         return id;
@@ -61,5 +64,13 @@ public class Assemble {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public List<AssembleItem> getAssembleItems() {
+        return assembleItems;
+    }
+
+    public void setAssembleItems(List<AssembleItem> assembleItems) {
+        this.assembleItems = assembleItems;
     }
 }

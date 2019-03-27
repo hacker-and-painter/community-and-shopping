@@ -39,10 +39,13 @@ public class MongodbReceiver {
                 journalism.setStarNums(random.nextInt(300));
                 mongoRepository.save(journalism);
             });
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-        }catch (IOException e){
-            //做其他的补偿处理
-            log.warn(e.getMessage());
+        }finally {
+            try {
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

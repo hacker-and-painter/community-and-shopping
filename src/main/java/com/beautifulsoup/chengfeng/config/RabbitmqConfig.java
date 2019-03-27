@@ -36,7 +36,7 @@ public class RabbitmqConfig {
         connectionFactory.setPassword(rabbitmqProperties.getPassword());
         connectionFactory.setVirtualHost(rabbitmqProperties.getVirtualHost());
         connectionFactory.setPublisherConfirms(true);
-        connectionFactory.setPublisherReturns(true);
+
         return connectionFactory;
     }
 
@@ -45,16 +45,16 @@ public class RabbitmqConfig {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMandatory(true);
-        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause));
-        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", exchange, routingKey, replyCode, replyText, message));
+//        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause));
+//        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", exchange, routingKey, replyCode, replyText, message));
         return rabbitTemplate;
     }
 
-    @Bean
+   @Bean
     public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(){
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory());
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+//        factory.setMessageConverter(new Jackson2JsonMessageConverter());
         factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         return factory;
     }
@@ -86,12 +86,24 @@ public class RabbitmqConfig {
     }
 
     @Bean
+    public Queue updateOrderQueue(){
+        return new Queue(QUEUE_NAME_UPDATE_ORDER,true);
+    }
+
+    @Bean
     public TopicExchange chengfengExchange(){
         return new TopicExchange(TOPIC_EXCHANGE,true,false);
     }
 
     @Bean
     public FanoutExchange orderExchange(){return new FanoutExchange(ORDER_EXCHANGE,true,false);}
+
+    @Bean
+    public CustomExchange updateOrderExchange(){
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-delayed-type", "direct");
+        return new CustomExchange(UPDATE_ORDER_EXCHANGE, "x-delayed-message",true, false,args);
+    }
 
     @Bean
     public CustomExchange spellOrderDelayExchange() {
@@ -136,4 +148,8 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(spellOrderQueue()).to(spellOrderDelayExchange()).with("spell_order_delay_queue").noargs();
     }
 
+    @Bean
+    Binding bindingUpdateOrderDelay() {
+       return BindingBuilder.bind(spellOrderQueue()).to(spellOrderDelayExchange()).with("update_order_queue").noargs();
+    }
 }

@@ -7,6 +7,8 @@ public class AssembleItem {
 
     private String avatar;
 
+    private Integer assembleId;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class AssembleItem {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    public Integer getAssembleId() {
+        return assembleId;
+    }
+
+    public void setAssembleId(Integer assembleId) {
+        this.assembleId = assembleId;
     }
 }

@@ -1,12 +1,16 @@
 package com.beautifulsoup.chengfeng.initialize;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
+import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -19,7 +23,10 @@ public class StartupLoadMongodb implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.TOPIC_EXCHANGE,"topic.mongodb",ChengfengConstant.RabbitMQ.MESSAGE_MONGODB_INIT);
+
+        this.rabbitTemplate.convertAndSend(ChengfengConstant.RabbitMQ.TOPIC_EXCHANGE,
+                "topic.mongodb",
+               ChengfengConstant.RabbitMQ.MESSAGE_MONGODB_INIT);
         log.info(ChengfengConstant.RabbitMQ.MESSAGE_MONGODB_INIT+"消息发送");
     }
 }

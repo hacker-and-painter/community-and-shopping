@@ -23,6 +23,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.Assemble" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_assemble (id, title, spell_nums,
       product_id, status, deadline
       )
@@ -31,6 +34,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.Assemble" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_assemble
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -103,4 +109,35 @@
       deadline = #{deadline,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="AllResultMap" type="com.beautifulsoup.chengfeng.pojo.Assemble" >
+    <id column="a_id" property="id" jdbcType="INTEGER" />
+    <result column="a_title" property="title" jdbcType="VARCHAR" />
+    <result column="a_spell_nums" property="spellNums" jdbcType="INTEGER" />
+    <result column="a_product_id" property="productId" jdbcType="INTEGER" />
+    <result column="a_status" property="status" jdbcType="INTEGER" />
+    <result column="a_deadline" property="deadline" jdbcType="TIMESTAMP" />
+    <collection property="assembleItems" column="id" ofType="com.beautifulsoup.chengfeng.pojo.AssembleItem">
+      <id column="i_id" property="id"/>
+      <result column="i_nickname" property="nickname"/>
+      <result column="i_avatar" property="avatar"/>
+    </collection>
+  </resultMap>
+
+
+  <select id="listAllAssemblesByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_assemble
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAssembleDetailInfoById" resultMap="AllResultMap" parameterType="java.lang.Integer" >
+    select
+      a.id a_id,a.title a_title,a.spell_nums a_spell_nums,a.product_id a_product_id,a.status a_status,a.deadline a_deadline,
+      i.id i_id,i.nickname i_nickname,i.avatar i_avatar
+    from tb_purchase_assemble a left join tb_purchase_assemble_item i on a.id=i.assemble_id
+    where a.id = #{assembleId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

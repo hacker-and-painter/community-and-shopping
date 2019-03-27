@@ -161,6 +161,11 @@
 
         <!--工具类-->
         <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.10.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>
             <version>1.27-SNAPSHOT</version>

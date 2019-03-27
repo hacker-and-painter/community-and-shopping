@@ -1,12 +1,11 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PurchaseOrderItem implements Serializable {
+public class PurchaseOrderItem {
     private Integer id;
 
-    private Integer userId;
+    private String nickname;
 
     private Long orderNo;
 
@@ -30,12 +29,12 @@ public class PurchaseOrderItem implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 
     public Long getOrderNo() {

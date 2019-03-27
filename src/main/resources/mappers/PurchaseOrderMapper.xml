@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseOrder" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="BIGINT" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="shipping_id" property="shippingId" jdbcType="INTEGER" />
     <result column="payment" property="payment" jdbcType="DECIMAL" />
     <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
@@ -16,8 +17,8 @@
     <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_no, user_id, shipping_id, payment, payment_type, postage, status, payment_time, 
-    send_time, end_time, close_time
+    id, order_no, nickname, avatar, shipping_id, payment, payment_type, postage, status, 
+    payment_time, send_time, end_time, close_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,18 +31,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrder" >
-    insert into tb_purchase_order (id, order_no, user_id, 
-      shipping_id, payment, payment_type, 
-      postage, status, payment_time, 
-      send_time, end_time, close_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
-      #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
-      #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
-      #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}
-      )
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_purchase_order (id, order_no, nickname, 
+      avatar, shipping_id, payment, 
+      payment_type, postage, status, 
+      payment_time, send_time, end_time, 
+      close_time)
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, 
+      #{paymentType,jdbcType=INTEGER}, #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{paymentTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{closeTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrder" >
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -50,8 +57,11 @@
       <if test="orderNo != null" >
         order_no,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="avatar != null" >
+        avatar,
       </if>
       <if test="shippingId != null" >
         shipping_id,
@@ -88,8 +98,11 @@
       <if test="orderNo != null" >
         #{orderNo,jdbcType=BIGINT},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="shippingId != null" >
         #{shippingId,jdbcType=INTEGER},
@@ -126,8 +139,11 @@
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=BIGINT},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="shippingId != null" >
         shipping_id = #{shippingId,jdbcType=INTEGER},
@@ -162,7 +178,8 @@
   <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseOrder" >
     update tb_purchase_order
     set order_no = #{orderNo,jdbcType=BIGINT},
-      user_id = #{userId,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
       shipping_id = #{shippingId,jdbcType=INTEGER},
       payment = #{payment,jdbcType=DECIMAL},
       payment_type = #{paymentType,jdbcType=INTEGER},
@@ -174,4 +191,18 @@
       close_time = #{closeTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByNickname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_order
+    where nickname = #{nickname,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByAssembleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_order
+    where payment_type = #{assembleId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.PurchaseOrder;
 
+import java.util.List;
+
 public interface PurchaseOrderMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,8 @@ public interface PurchaseOrderMapper {
     int updateByPrimaryKeySelective(PurchaseOrder record);
 
     int updateByPrimaryKey(PurchaseOrder record);
+
+    List<PurchaseOrder> selectByNickname(String nickname);
+
+    List<PurchaseOrder> selectByAssembleId(Integer assembleId);
 }
