@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 25/03/2019 11:17:11
+ Date: 27/03/2019 11:13:30
 */
 
 SET NAMES utf8mb4;
@@ -22,10 +22,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_banner_image`;
 CREATE TABLE `tb_banner_image`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接地址',
-  `journalism_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                                  `image_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接地址',
+                                  `journalism_id` int(11) NULL DEFAULT NULL,
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -41,15 +41,15 @@ INSERT INTO `tb_banner_image` VALUES (4, 'http://47.95.244.237:8888/group1/M00/0
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_book_repair`;
 CREATE TABLE `tb_book_repair`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `telephone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
-  `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '地址',
-  `description` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '报修描述',
-  `hope_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '期望上门修复时间',
-  `user_id` int(11) NULL DEFAULT 1 COMMENT '报修用户',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` int(11) NOT NULL AUTO_INCREMENT,
+                                 `telephone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
+                                 `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '地址',
+                                 `description` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '报修描述',
+                                 `hope_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '期望上门修复时间',
+                                 `user_id` int(11) NULL DEFAULT 1 COMMENT '报修用户',
+                                 `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -67,13 +67,13 @@ INSERT INTO `tb_book_repair` VALUES (6, '17864195273', '描述信息', '内容�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_book_secretary`;
 CREATE TABLE `tb_book_secretary`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '书记电话',
-  `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '书记邮箱',
-  `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述信息',
-  `user_id` int(11) NOT NULL COMMENT '用户id',
-  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                                    `phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '书记电话',
+                                    `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '书记邮箱',
+                                    `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述信息',
+                                    `user_id` int(11) NOT NULL COMMENT '用户id',
+                                    `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '时间',
+                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -86,14 +86,14 @@ INSERT INTO `tb_book_secretary` VALUES (1, '17864195273', '2375872953@qq.com', '
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_book_watersuply`;
 CREATE TABLE `tb_book_watersuply`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
-  `hope_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '期望送水时间',
-  `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '送水地址',
-  `description` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他附加信息',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` int(11) NOT NULL AUTO_INCREMENT,
+                                     `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
+                                     `hope_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '期望送水时间',
+                                     `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '送水地址',
+                                     `description` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他附加信息',
+                                     `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+                                     `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -119,13 +119,13 @@ INSERT INTO `tb_book_watersuply` VALUES (14, '17864195273', '2019-03-18 14:21:02
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_brand_water`;
 CREATE TABLE `tb_brand_water`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '品牌',
-  `price` decimal(10, 0) NOT NULL DEFAULT 0 COMMENT '价格',
-  `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属用户',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` int(11) NOT NULL AUTO_INCREMENT,
+                                 `brand` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '品牌',
+                                 `price` decimal(10, 0) NOT NULL DEFAULT 0 COMMENT '价格',
+                                 `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属用户',
+                                 `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -143,13 +143,13 @@ INSERT INTO `tb_brand_water` VALUES (6, '恒大天然', 24, 2, '2019-02-23 22:20
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_community`;
 CREATE TABLE `tb_community`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区名',
-  `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区地址',
-  `admin` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区管理员',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区名',
+                               `address` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区地址',
+                               `admin` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '社区管理员',
+                               `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -164,13 +164,13 @@ INSERT INTO `tb_community` VALUES (3, '邹平县西董社区', '山东省邹平�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_crypt_password`;
 CREATE TABLE `tb_crypt_password`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `crypt_password` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密生成的密码',
-  `crypt_mode` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密模式',
-  `crypt_salt` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密盐值',
-  `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '用户id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+                                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                                    `crypt_password` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密生成的密码',
+                                    `crypt_mode` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密模式',
+                                    `crypt_salt` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '加密盐值',
+                                    `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '用户id',
+                                    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_crypt_password
@@ -211,22 +211,24 @@ INSERT INTO `tb_crypt_password` VALUES (39, '123a1', '', '', 39);
 INSERT INTO `tb_crypt_password` VALUES (40, '123a1', '', '', 40);
 INSERT INTO `tb_crypt_password` VALUES (41, '123a1', '', '', 41);
 INSERT INTO `tb_crypt_password` VALUES (42, '123a1', '', '', 42);
+INSERT INTO `tb_crypt_password` VALUES (43, '123456', '', '', 43);
+INSERT INTO `tb_crypt_password` VALUES (44, '123456', '', '', 44);
 
 -- ----------------------------
 -- Table structure for tb_journalism
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_journalism`;
 CREATE TABLE `tb_journalism`  (
-  `id` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `title` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '新闻标题',
-  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者名字',
-  `description` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻描述',
-  `images` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻中的图片地址,逗号分隔',
-  `videos` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻中的视频地址,逗号分隔',
-  `publish_time` timestamp(0) NULL DEFAULT NULL COMMENT '发布时间',
-  `publish_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布者',
-  `community_id` int(11) NULL DEFAULT 3 COMMENT '社区id',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                `title` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '新闻标题',
+                                `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者名字',
+                                `description` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻描述',
+                                `images` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻中的图片地址,逗号分隔',
+                                `videos` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻中的视频地址,逗号分隔',
+                                `publish_time` timestamp(0) NULL DEFAULT NULL COMMENT '发布时间',
+                                `publish_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布者',
+                                `community_id` int(11) NULL DEFAULT 3 COMMENT '社区id',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -254,14 +256,14 @@ INSERT INTO `tb_journalism` VALUES ('9', '山东大学新闻', NULL, '这里是�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_journalism_comment`;
 CREATE TABLE `tb_journalism_comment`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论标题',
-  `content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论内容',
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论人名',
-  `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论人头像',
-  `comment_time` timestamp(0) NULL DEFAULT NULL COMMENT '评论日期',
-  `journalism_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻主键',
-  PRIMARY KEY (`id`) USING BTREE
+                                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                                        `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论标题',
+                                        `content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论内容',
+                                        `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论人名',
+                                        `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论人头像',
+                                        `comment_time` timestamp(0) NULL DEFAULT NULL COMMENT '评论日期',
+                                        `journalism_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻主键',
+                                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -269,12 +271,12 @@ CREATE TABLE `tb_journalism_comment`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_journalism_content`;
 CREATE TABLE `tb_journalism_content`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '文字内容',
-  `image_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片内容',
-  `video_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频内容',
-  `journalism_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻id',
-  PRIMARY KEY (`id`) USING BTREE
+                                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                                        `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '文字内容',
+                                        `image_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片内容',
+                                        `video_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频内容',
+                                        `journalism_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新闻id',
+                                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -298,14 +300,14 @@ INSERT INTO `tb_journalism_content` VALUES (12, '现在电脑加密已经有很�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_notice_community`;
 CREATE TABLE `tb_notice_community`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `notice` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '通知名称',
-  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述信息',
-  `showtime` timestamp(0) NULL DEFAULT NULL COMMENT '添加的时间',
-  `community_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属社区',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                                      `notice` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '通知名称',
+                                      `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述信息',
+                                      `showtime` timestamp(0) NULL DEFAULT NULL COMMENT '添加的时间',
+                                      `community_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属社区',
+                                      `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                      `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -352,14 +354,14 @@ INSERT INTO `tb_notice_community` VALUES (36, '3月份补缴水费通知', '万�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_notice_proper`;
 CREATE TABLE `tb_notice_proper`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `notice` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '通知名称',
-  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述信息',
-  `showtime` timestamp(0) NULL DEFAULT NULL COMMENT '添加的时间',
-  `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属用户',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                   `id` int(11) NOT NULL AUTO_INCREMENT,
+                                   `notice` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '通知名称',
+                                   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述信息',
+                                   `showtime` timestamp(0) NULL DEFAULT NULL COMMENT '添加的时间',
+                                   `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属用户',
+                                   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -406,17 +408,17 @@ INSERT INTO `tb_notice_proper` VALUES (36, '3月份补缴水费通知', '万事�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_post_news`;
 CREATE TABLE `tb_post_news`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '帖子标题',
-  `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '帖子描述',
-  `news_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '帖子详情',
-  `img_url` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '图片url地址,多张图片地址，分隔',
-  `posted` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '帖子发布的时间',
-  `star` int(11) NULL DEFAULT 0 COMMENT '点赞数',
-  `comments` int(11) NULL DEFAULT 0 COMMENT '评论数',
-  `type` tinyint(10) NULL DEFAULT 0 COMMENT '帖子的类型,0表示普通帖子,1表示热门帖子,2表示精华帖子',
-  `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '发布者id',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '帖子标题',
+                               `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '帖子描述',
+                               `news_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '帖子详情',
+                               `img_url` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '图片url地址,多张图片地址，分隔',
+                               `posted` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '帖子发布的时间',
+                               `star` int(11) NULL DEFAULT 0 COMMENT '点赞数',
+                               `comments` int(11) NULL DEFAULT 0 COMMENT '评论数',
+                               `type` tinyint(10) NULL DEFAULT 0 COMMENT '帖子的类型,0表示普通帖子,1表示热门帖子,2表示精华帖子',
+                               `user_id` int(11) NOT NULL DEFAULT 1 COMMENT '发布者id',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -451,17 +453,17 @@ INSERT INTO `tb_post_news` VALUES (36, '兄弟，用大白话告诉你小白都�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_post_reply`;
 CREATE TABLE `tb_post_reply`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '回帖内容',
-  `img_url` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '图片url,多张图片,分隔',
-  `reply_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '回帖的时间',
-  `star` int(11) NULL DEFAULT 0 COMMENT '回帖点赞数',
-  `parent_id` int(11) NULL DEFAULT 0 COMMENT '0表示没有父级id,表明这就是回帖而不是回帖的回帖',
-  `is_parent` int(11) NULL DEFAULT 0 COMMENT '是否含有子结点,0表示不含子结点,1表示含子结点',
-  `post_id` int(11) NULL DEFAULT 1 COMMENT '帖子id或者回帖id',
-  `nickname` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论人昵称',
-  `avatar` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论人头像地址',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` int(11) NOT NULL AUTO_INCREMENT,
+                                `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '回帖内容',
+                                `img_url` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '图片url,多张图片,分隔',
+                                `reply_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '回帖的时间',
+                                `star` int(11) NULL DEFAULT 0 COMMENT '回帖点赞数',
+                                `parent_id` int(11) NULL DEFAULT 0 COMMENT '0表示没有父级id,表明这就是回帖而不是回帖的回帖',
+                                `is_parent` int(11) NULL DEFAULT 0 COMMENT '是否含有子结点,0表示不含子结点,1表示含子结点',
+                                `post_id` int(11) NULL DEFAULT 1 COMMENT '帖子id或者回帖id',
+                                `nickname` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论人昵称',
+                                `avatar` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论人头像地址',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -488,14 +490,14 @@ INSERT INTO `tb_post_reply` VALUES (18, '大佬的图文清晰易懂，不过因
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_post_vote`;
 CREATE TABLE `tb_post_vote`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '投票标题',
-  `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '标题描述',
-  `vote_total` int(11) NULL DEFAULT NULL COMMENT '总的投票人数',
-  `choice` int(11) NULL DEFAULT 0 COMMENT '1表示单选2表示多选',
-  `user_id` int(11) NULL DEFAULT 0 COMMENT '创建者id',
-  `validity_time` timestamp(0) NULL DEFAULT NULL COMMENT '截止日期',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '投票标题',
+                               `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '标题描述',
+                               `vote_total` int(11) NULL DEFAULT NULL COMMENT '总的投票人数',
+                               `choice` int(11) NULL DEFAULT 0 COMMENT '1表示单选2表示多选',
+                               `user_id` int(11) NULL DEFAULT 0 COMMENT '创建者id',
+                               `validity_time` timestamp(0) NULL DEFAULT NULL COMMENT '截止日期',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -510,14 +512,39 @@ INSERT INTO `tb_post_vote` VALUES (6, 'xxx投票', 'xxx描述', NULL, 0, 1, NULL
 INSERT INTO `tb_post_vote` VALUES (7, '针对大学生上网的投票', '针对于大学生上网情况进行投票', 2, 1, 27, '2019-03-21 15:16:33');
 
 -- ----------------------------
+-- Table structure for tb_purchase_assemble
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_purchase_assemble`;
+CREATE TABLE `tb_purchase_assemble`  (
+                                       `id` int(11) NOT NULL AUTO_INCREMENT,
+                                       `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单名称',
+                                       `spell_nums` int(11) NULL DEFAULT NULL COMMENT '拼单人数',
+                                       `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
+                                       `status` int(11) NULL DEFAULT NULL COMMENT '拼单状态,1表示正在拼单,0表示拼单失效,2表示拼单成功',
+                                       `deadline` timestamp(0) NULL DEFAULT NULL COMMENT '拼单截止日期',
+                                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tb_purchase_assemble_item
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_purchase_assemble_item`;
+CREATE TABLE `tb_purchase_assemble_item`  (
+                                            `id` int(11) NOT NULL AUTO_INCREMENT,
+                                            `nickname` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单人昵称',
+                                            `avatar` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单人头像',
+                                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for tb_purchase_category
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_category`;
 CREATE TABLE `tb_purchase_category`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '父类别id当id=0时说明是根节点,一级类别',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '类别名称',
-  PRIMARY KEY (`id`) USING BTREE
+                                       `id` int(11) NOT NULL AUTO_INCREMENT,
+                                       `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '父类别id当id=0时说明是根节点,一级类别',
+                                       `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '类别名称',
+                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -559,14 +586,14 @@ INSERT INTO `tb_purchase_category` VALUES (30, 5, '进口洋酒');
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_evaluation`;
 CREATE TABLE `tb_purchase_evaluation`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '评论昵称',
-  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '评价内容',
-  `evaluation_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '评价时间',
-  `type` int(11) NULL DEFAULT 1 COMMENT '1表示好评,2表示中评,3表示差评',
-  `product_id` int(11) NULL DEFAULT 1 COMMENT '商品id',
-  `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论者头像',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                                         `nickname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '评论昵称',
+                                         `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '评价内容',
+                                         `evaluation_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '评价时间',
+                                         `type` int(11) NULL DEFAULT 1 COMMENT '1表示好评,2表示中评,3表示差评',
+                                         `product_id` int(11) NULL DEFAULT 1 COMMENT '商品id',
+                                         `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论者头像',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -582,13 +609,13 @@ INSERT INTO `tb_purchase_evaluation` VALUES (4, '小灏哥', '这个冰箱还可
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_image`;
 CREATE TABLE `tb_purchase_image`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接地址',
-  `category_id` int(11) NULL DEFAULT NULL COMMENT '分类id',
-  `is_valid` tinyint(4) NULL DEFAULT NULL COMMENT '是否有效1表示有效0表示无效',
-  `add_time` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `keyword` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
-  PRIMARY KEY (`id`) USING BTREE
+                                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                                    `image_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接地址',
+                                    `category_id` int(11) NULL DEFAULT NULL COMMENT '分类id',
+                                    `is_valid` tinyint(4) NULL DEFAULT NULL COMMENT '是否有效1表示有效0表示无效',
+                                    `add_time` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
+                                    `keyword` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
+                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -604,20 +631,20 @@ INSERT INTO `tb_purchase_image` VALUES (4, 'dadsafsd', 1, 1, '2019-03-17 12:42:2
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_order`;
 CREATE TABLE `tb_purchase_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
-  `order_no` bigint(20) NULL DEFAULT NULL COMMENT '订单号',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
-  `shipping_id` int(11) NULL DEFAULT NULL,
-  `payment` decimal(20, 2) NULL DEFAULT NULL COMMENT '实际付款金额,单位是元,保留两位小数',
-  `payment_type` int(4) NULL DEFAULT NULL COMMENT '支付类型,1-在线支付',
-  `postage` int(10) NULL DEFAULT NULL COMMENT '运费,单位是元',
-  `status` int(10) NULL DEFAULT NULL COMMENT '订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭',
-  `payment_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
-  `send_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '交易完成时间',
-  `close_time` datetime(0) NULL DEFAULT NULL COMMENT '交易关闭时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `order_no_index`(`order_no`) USING BTREE
+                                    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
+                                    `order_no` bigint(20) NULL DEFAULT NULL COMMENT '订单号',
+                                    `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+                                    `shipping_id` int(11) NULL DEFAULT NULL,
+                                    `payment` decimal(20, 2) NULL DEFAULT NULL COMMENT '实际付款金额,单位是元,保留两位小数',
+                                    `payment_type` int(4) NULL DEFAULT NULL COMMENT '支付类型,1-在线支付',
+                                    `postage` int(10) NULL DEFAULT NULL COMMENT '运费,单位是元',
+                                    `status` int(10) NULL DEFAULT NULL COMMENT '订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭',
+                                    `payment_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
+                                    `send_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
+                                    `end_time` datetime(0) NULL DEFAULT NULL COMMENT '交易完成时间',
+                                    `close_time` datetime(0) NULL DEFAULT NULL COMMENT '交易关闭时间',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE INDEX `order_no_index`(`order_no`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -625,18 +652,18 @@ CREATE TABLE `tb_purchase_order`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_order_item`;
 CREATE TABLE `tb_purchase_order_item`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单子表id',
-  `user_id` int(11) NULL DEFAULT NULL,
-  `order_no` bigint(20) NULL DEFAULT NULL,
-  `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
-  `product_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品名称',
-  `product_image` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品图片地址',
-  `current_unit_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '生成订单时的商品单价，单位是元,保留两位小数',
-  `quantity` int(10) NULL DEFAULT NULL COMMENT '商品数量',
-  `total_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '商品总价,单位是元,保留两位小数',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `order_no_index`(`order_no`) USING BTREE,
-  INDEX `order_no_user_id_index`(`user_id`, `order_no`) USING BTREE
+                                         `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单子表id',
+                                         `user_id` int(11) NULL DEFAULT NULL,
+                                         `order_no` bigint(20) NULL DEFAULT NULL,
+                                         `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
+                                         `product_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品名称',
+                                         `product_image` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品图片地址',
+                                         `current_unit_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '生成订单时的商品单价，单位是元,保留两位小数',
+                                         `quantity` int(10) NULL DEFAULT NULL COMMENT '商品数量',
+                                         `total_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '商品总价,单位是元,保留两位小数',
+                                         PRIMARY KEY (`id`) USING BTREE,
+                                         INDEX `order_no_index`(`order_no`) USING BTREE,
+                                         INDEX `order_no_user_id_index`(`user_id`, `order_no`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -644,16 +671,16 @@ CREATE TABLE `tb_purchase_order_item`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_product`;
 CREATE TABLE `tb_purchase_product`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL COMMENT '商品分类id',
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品标题',
-  `subtitle` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品副标题',
-  `status` int(255) NULL DEFAULT NULL COMMENT '商品状态1表示正常0表示下架',
-  `evaluation_nums` int(11) NULL DEFAULT NULL COMMENT '商品评价数',
-  `good_evaluation_nums` int(11) NULL DEFAULT NULL COMMENT '商品好评数',
-  `main_image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品主图',
-  `sub_images` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品子图',
-  PRIMARY KEY (`id`) USING BTREE
+                                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                                      `category_id` int(11) NOT NULL COMMENT '商品分类id',
+                                      `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品标题',
+                                      `subtitle` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品副标题',
+                                      `status` int(255) NULL DEFAULT NULL COMMENT '商品状态1表示正常0表示下架',
+                                      `evaluation_nums` int(11) NULL DEFAULT NULL COMMENT '商品评价数',
+                                      `good_evaluation_nums` int(11) NULL DEFAULT NULL COMMENT '商品好评数',
+                                      `main_image` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品主图',
+                                      `sub_images` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品子图',
+                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -672,14 +699,14 @@ INSERT INTO `tb_purchase_product` VALUES (10, 1, '康佳(KONKA)LED65X7S ', ' 65�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_product_sku`;
 CREATE TABLE `tb_purchase_product_sku`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '属性名',
-  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
-  `stock` int(11) NULL DEFAULT NULL COMMENT '库存',
-  `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '商品单价',
-  `spell_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '商品拼团价',
-  `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
-  PRIMARY KEY (`id`) USING BTREE
+                                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                                          `attribute_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '属性名',
+                                          `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
+                                          `stock` int(11) NULL DEFAULT NULL COMMENT '库存',
+                                          `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '商品单价',
+                                          `spell_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '商品拼团价',
+                                          `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
+                                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -688,60 +715,61 @@ CREATE TABLE `tb_purchase_product_sku`  (
 INSERT INTO `tb_purchase_product_sku` VALUES (1, '黑色', 369, 1222, 4788.00, 4533.00, 1);
 INSERT INTO `tb_purchase_product_sku` VALUES (2, '银色', 450, 1300, 4900.00, 4600.00, 1);
 INSERT INTO `tb_purchase_product_sku` VALUES (3, '金色', 400, 1000, 4700.00, 4400.00, 1);
-INSERT INTO `tb_purchase_product_sku` VALUES (4, '太空灰', 440, 1155, 5111.00, 4999.00, 1);
+INSERT INTO `tb_purchase_product_sku` VALUES (4, '太空灰', 540, 1055, 5111.00, 4999.00, 1);
 
 -- ----------------------------
 -- Table structure for tb_purchase_shipping
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_purchase_shipping`;
 CREATE TABLE `tb_purchase_shipping`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
-  `receiver_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货姓名',
-  `receiver_phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货固定电话',
-  `receiver_province` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省份',
-  `receiver_city` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市',
-  `receiver_district` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '区/县',
-  `receiver_address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详细地址',
-  `receiver_zip` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮编',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+                                       `id` int(11) NOT NULL AUTO_INCREMENT,
+                                       `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+                                       `receiver_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货姓名',
+                                       `receiver_phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货固定电话',
+                                       `receiver_province` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省份',
+                                       `receiver_city` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市',
+                                       `receiver_district` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '区/县',
+                                       `receiver_address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详细地址',
+                                       `receiver_zip` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮编',
+                                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_purchase_shipping
 -- ----------------------------
 INSERT INTO `tb_purchase_shipping` VALUES (1, 1, 'BeautifulSoup', '17864195333', '山东省', '济南市', '长清区', '山东省济南市长清区崮云湖街道山东师范大学', '250358');
 INSERT INTO `tb_purchase_shipping` VALUES (2, 1, 'BeautifulSoup', '17864195333', NULL, NULL, NULL, '北京市海淀区', '250358');
+INSERT INTO `tb_purchase_shipping` VALUES (4, 44, 'hanson24', '17864195300', '山东省', '济南市', '长清区', '山东省济南市长清区山东师范大学', '250358');
 
 -- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户名',
-  `nickname` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称不能重复',
-  `idcard` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '身份证号',
-  `integral` int(11) NULL DEFAULT 0 COMMENT '积分',
-  `gender` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'female表示女,male表示男',
-  `birthday` date NULL DEFAULT NULL COMMENT '出生日期',
-  `avatar` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户头像地址',
-  `motto` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '个性签名',
-  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '邮箱地址',
-  `phone` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
-  `community_id` int(11) NULL DEFAULT 0 COMMENT '社区id',
-  `sign_up` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '注册时间',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_nickname`(`nickname`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户名',
+                          `nickname` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称不能重复',
+                          `idcard` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '身份证号',
+                          `integral` int(11) NULL DEFAULT 0 COMMENT '积分',
+                          `gender` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'female表示女,male表示男',
+                          `birthday` date NULL DEFAULT NULL COMMENT '出生日期',
+                          `avatar` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '用户头像地址',
+                          `motto` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '个性签名',
+                          `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '邮箱地址',
+                          `phone` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
+                          `community_id` int(11) NULL DEFAULT 0 COMMENT '社区id',
+                          `sign_up` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '注册时间',
+                          `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+                          `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+                          PRIMARY KEY (`id`) USING BTREE,
+                          INDEX `index_nickname`(`nickname`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
 INSERT INTO `tb_user` VALUES (1, 'BeautifulSoup', 'BeautifulSoup', '372330199706290001', 129, 'male', '1997-06-29', 'xxxx', '万事起于忽微,量变引起质变', 'beautifulsoup@163.com', '17864195311', 1, '2019-03-13 11:04:25', '2019-02-12 15:56:26', '2019-02-12 15:56:29');
-INSERT INTO `tb_user` VALUES (2, '王福运', 'BeautifulSoup2', '372330199706290000', 100, 'male', '2019-02-05', 'http://pmt5ma5mu.bkt.clouddn.com/34a19b7f-7b6a-4710-9431-01d3279277cd.jpg', '6666666', 'beautifulsoup@163.com', '18864190000', 2, '2019-03-14 12:16:22', '2019-03-05 16:44:44', '2019-03-05 16:44:44');
+INSERT INTO `tb_user` VALUES (2, 'hanson', 'BeautifulSoup2', '372330199706290000', 100, 'male', '2019-02-05', 'http://pmt5ma5mu.bkt.clouddn.com/34a19b7f-7b6a-4710-9431-01d3279277cd.jpg', '6666666', 'beautifulsoup@163.com', '18864190000', 2, '2019-03-14 12:16:22', '2019-03-05 16:44:44', '2019-03-05 16:44:44');
 INSERT INTO `tb_user` VALUES (3, '王小灏', 'BeautifulSoup3', '159100754214', NULL, 'female', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '生命不息,奋斗不止', 'beautifulsoup@126.com', '18062195241', 2, '2019-03-14 12:16:17', NULL, NULL);
 INSERT INTO `tb_user` VALUES (4, 'Gopher', 'BeautifulSoup4', '159100754214', NULL, 'female', '1997-06-29', 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '', 'beautifulsoup@126.com', '18062195241', 1, '2019-03-13 11:14:11', '2019-02-26 17:27:35', '2019-02-26 17:27:35');
 INSERT INTO `tb_user` VALUES (5, '赵云', 'BeautifulSoup5', '15987416639522', NULL, 'male', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/avatar.jpg', '书山有路勤为径 学海无涯苦作舟', 'zhaoyun@qq.com', '17466541298', 1, '2019-03-13 11:14:12', '2019-02-22 13:08:17', '2019-02-22 13:08:17');
@@ -776,19 +804,21 @@ INSERT INTO `tb_user` VALUES (39, '', 'hanson11', '', 0, '', NULL, '', '', '', '
 INSERT INTO `tb_user` VALUES (40, '', 'hanson12', '', 0, '', NULL, '', '', '', '15065410987', 1, '2019-03-21 15:53:20', NULL, NULL);
 INSERT INTO `tb_user` VALUES (41, '', 'hanson13', '', 0, '', NULL, '', '', '', '15065410987', 1, '2019-03-21 15:54:11', NULL, NULL);
 INSERT INTO `tb_user` VALUES (42, '', 'hanson14', '', 0, '', NULL, '', '', '', '15065410987', 1, '2019-03-21 16:42:12', NULL, NULL);
+INSERT INTO `tb_user` VALUES (43, '', 'hanson18', '', 0, '', NULL, '', '', '', '17864195300', 1, '2019-03-26 11:04:36', NULL, NULL);
+INSERT INTO `tb_user` VALUES (44, '', 'hanson24', '', 0, '', NULL, '', '', '', '17864195300', 1, '2019-03-26 13:00:52', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_vote_option
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_vote_option`;
 CREATE TABLE `tb_vote_option`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '投票选项内容',
-  `vote_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属投票id',
-  `vote_nums` int(11) NULL DEFAULT 0 COMMENT '投票数',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` int(11) NOT NULL AUTO_INCREMENT,
+                                 `content` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '投票选项内容',
+                                 `vote_id` int(11) NOT NULL DEFAULT 1 COMMENT '所属投票id',
+                                 `vote_nums` int(11) NULL DEFAULT 0 COMMENT '投票数',
+                                 `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -816,11 +846,11 @@ INSERT INTO `tb_vote_option` VALUES (16, '通宵上网,天天工作', 7, 0, '201
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_watersuply_details`;
 CREATE TABLE `tb_watersuply_details`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `suply_id` int(11) NOT NULL COMMENT '送水主表id',
-  `brand_id` int(11) NOT NULL COMMENT '水品牌id',
-  `water_nums` int(11) NULL DEFAULT NULL COMMENT '水的数量',
-  PRIMARY KEY (`id`) USING BTREE
+                                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                                        `suply_id` int(11) NOT NULL COMMENT '送水主表id',
+                                        `brand_id` int(11) NOT NULL COMMENT '水品牌id',
+                                        `water_nums` int(11) NULL DEFAULT NULL COMMENT '水的数量',
+                                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
