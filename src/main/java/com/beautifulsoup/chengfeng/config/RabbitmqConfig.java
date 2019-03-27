@@ -98,12 +98,12 @@ public class RabbitmqConfig {
     @Bean
     public FanoutExchange orderExchange(){return new FanoutExchange(ORDER_EXCHANGE,true,false);}
 
-    @Bean
+    /*@Bean
     public CustomExchange updateOrderExchange(){
         Map<String, Object> args = new HashMap<>();
         args.put("x-delayed-type", "direct");
         return new CustomExchange(UPDATE_ORDER_EXCHANGE, "x-delayed-message",true, false,args);
-    }
+    }*/
 
     @Bean
     public CustomExchange spellOrderDelayExchange() {
@@ -150,6 +150,6 @@ public class RabbitmqConfig {
 
     @Bean
     Binding bindingUpdateOrderDelay() {
-       return BindingBuilder.bind(spellOrderQueue()).to(spellOrderDelayExchange()).with("update_order_queue").noargs();
+       return BindingBuilder.bind(updateOrderQueue()).to(spellOrderDelayExchange()).with("update_order_queue").noargs();
     }
 }

@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 27/03/2019 11:55:11
+ Date: 27/03/2019 21:08:20
 */
 
 SET NAMES utf8mb4;
@@ -334,20 +334,6 @@ INSERT INTO `tb_notice_community` VALUES (18, '9月份补缴水费通知\r\n', '
 INSERT INTO `tb_notice_community` VALUES (19, '8月份补缴水费通知\r\n', '基本上是不会同意的，但是就算心理建设时候可以做到以后和家人一刀两断因为够独立，但是请不要说或者做，因为我们是社会人，父母的感情真的不能断，是可以有能力而不能切断的感情，各个层次都是。', '2018-12-03 00:00:00', 1, '2019-02-22 16:40:15', '2019-02-22 16:40:15');
 INSERT INTO `tb_notice_community` VALUES (20, '东门社区党群服务中心3月份活动预告', '感情有着极大的鼓舞力量，因此，它是一切道德行为的重要前提，谁要是没有强烈的志向，也就不能够热烈地把这个志向体现于事业中。', '2018-11-03 00:00:00', 1, '2019-02-22 16:41:44', '2019-02-22 16:41:44');
 INSERT INTO `tb_notice_community` VALUES (21, '东门社区党群服务中心3月份活动预告', '生活赋予我们一种巨大的和无限高贵的礼品，这就是青春：充满着力量，充满着期待志愿，充满着求知和斗争的志向，充满着希望信心和青春', '2018-10-01 16:45:45', 1, '2019-02-22 16:43:50', '2019-02-22 16:43:50');
-INSERT INTO `tb_notice_community` VALUES (22, '5月份补缴水费通知', '有时候，总觉得自己的梦想很大，终点很远，像是异想天开，但其实也没有那么遥远，就这样一步一步的走，走着走着就到了', '2018-09-22 16:46:16', 1, '2019-02-22 16:43:57', '2019-02-22 16:43:57');
-INSERT INTO `tb_notice_community` VALUES (23, '4月份补缴水费通知', '你的假装努力，欺骗的只有你自己，永远不要用战术上的勤奋，来掩饰战略上的懒惰。　　2、成长是一场和自己的比赛，不要担心别人会做得比你好，你只需要每天都做得比前一天好就可以了', '2018-08-22 16:46:36', 1, '2019-02-22 16:44:04', '2019-02-22 16:44:04');
-INSERT INTO `tb_notice_community` VALUES (24, '3月份补缴水费通知', '命运要你成长的时候，总会安排一些让你不顺心的人或事刺激你　　1、不要做刺猬，能不与人结仇就不与人结仇，谁也不跟谁一辈子，有些事情没必要记在心上。', '2018-07-12 16:46:59', 1, '2019-02-22 16:44:28', '2019-02-22 16:44:28');
-INSERT INTO `tb_notice_community` VALUES (25, '2月份补缴水费通知', '一定不要把别人都当傻子，事实上，所有你能遇到的人都比你聪明。如果你能抱着这样的心态为人处世，那么你的人脉会越来越宽，财富越来越多，人生也就越来越好！', '2018-06-09 16:47:07', 1, '2019-02-22 16:44:32', '2019-02-22 16:44:32');
-INSERT INTO `tb_notice_community` VALUES (26, '1月份补缴水费通知', '慢慢的才知道：坚持未必就是胜利，放弃未必就是认输，。给自己一个迂回的空间，学会思索，学会等待，学会调整。人生没有假设，当下即是全部。背不动的，放下了；伤不起的，看淡了；想', '2018-05-08 16:47:15', 1, '2019-02-22 16:44:34', '2019-02-22 16:44:34');
-INSERT INTO `tb_notice_community` VALUES (27, '4月份补缴水费通知', '你们应该培养对自己，对自己的力量的信心，百这种信心是靠克服障碍，培养意志和锻炼意志而获得的。　　3、坚强的信念能赢得强者的心，并使他们变得更坚强。', '2018-04-24 16:47:25', 1, '2019-02-22 16:44:35', '2019-02-22 16:44:35');
-INSERT INTO `tb_notice_community` VALUES (28, '3月份补缴水费通知', '离别过方知道相聚的欢乐，失去过方知道拥有的满足。故此应珍惜眼前之人，彼此要懂得相亲相爱。', '2018-03-16 16:47:36', 1, '2019-02-22 16:44:37', '2019-02-22 16:44:37');
-INSERT INTO `tb_notice_community` VALUES (29, '2月份补缴水费通知', '人为善，福虽未至，祸已远离；人为恶，祸虽未至，福已远离。　　2、身安不如心安，屋宽不如心宽。　　3、择善人而交，择善书而读，择善言而听，择善行而从。　　', '2018-02-22 16:47:44', 1, '2019-02-22 16:44:39', '2019-02-22 16:44:39');
-INSERT INTO `tb_notice_community` VALUES (30, '1月份补缴水费通知', '智者顺时而谋，愚者逆时而动。　　2、“我欲”是贫穷的标志。事能常足，心常惬，人到无求品自高。　　3、人之心胸，多欲则窄，寡欲则宽。', '2018-01-10 16:47:52', 1, '2019-02-22 16:44:41', '2019-02-22 16:44:41');
-INSERT INTO `tb_notice_community` VALUES (31, '12月份补缴水费通知', '青春并不是生命中一段时光，它是心灵上的一种状况。它跟丰润的面颊，殷红的嘴唇，柔滑的膝盖无关。它是一种沉静的意志，想象的能力，感情的活力，它更是生命之泉的新血液。 —', '2017-12-31 16:48:14', 1, '2019-02-22 16:44:43', '2019-02-22 16:44:43');
-INSERT INTO `tb_notice_community` VALUES (32, '11月份补缴水费通知', '大多数人想要改造这个世界，但却罕有人想改造自己。　　2、积极的人在每一次忧患中都看到一个机会， 而消极的人则在每个机会都看到某种忧患。', '2017-11-01 16:48:21', 1, '2019-02-22 16:44:46', '2019-02-22 16:44:46');
-INSERT INTO `tb_notice_community` VALUES (34, '7月份补缴水费通知', '大多数人想要改造这个世界，但却罕有人想改造自己。　　2、积极的人在每一次忧患中都看到一个机会， 而消极的人则在每个机会都看到某种忧患。', '2019-02-23 10:10:24', 1, '2019-02-23 10:10:10', '2019-02-23 10:10:10');
-INSERT INTO `tb_notice_community` VALUES (35, '5月份补缴水费通知', '青春并不是生命中一段时光，它是心灵上的一种状况。它跟丰润的面颊，殷红的嘴唇，柔滑的膝盖无关。它是一种沉静的意志，想象的能力，感情的活力，它更是生命之泉的新血液。 —', '2016-05-23 10:15:23', 1, '2019-02-23 10:15:17', '2019-02-23 10:15:17');
-INSERT INTO `tb_notice_community` VALUES (36, '3月份补缴水费通知', '万事起于忽微，量变引起质变', '2019-03-01 22:49:27', 1, '2019-02-23 22:49:36', '2019-02-23 22:49:36');
 
 -- ----------------------------
 -- Table structure for tb_notice_proper
@@ -385,23 +371,7 @@ INSERT INTO `tb_notice_proper` VALUES (15, '12月份补缴水费通知', '青春
 INSERT INTO `tb_notice_proper` VALUES (16, '11月份补缴水费通知', '大多数人想要改造这个世界，但却罕有人想改造自己。　　2、积极的人在每一次忧患中都看到一个机会， 而消极的人则在每个机会都看到某种忧患。', '2017-11-01 16:48:21', 1, '2019-02-22 16:44:46', '2019-02-22 16:44:46');
 INSERT INTO `tb_notice_proper` VALUES (17, '10月份补缴水费通知', '没法直视他的舞蹈，令人反胃。性感的顶胯动作可以为舞蹈增添魅力，可是性感不等于骚，他做出来的动作，不是让我脸红心跳，是反胃想吐，明白吗？', '2017-01-06 00:00:00', 1, '2019-02-22 16:39:14', '2019-02-22 16:39:14');
 INSERT INTO `tb_notice_proper` VALUES (18, '9月份补缴水费通知\r\n', '这是淘宝造物节走红毯的蔡徐坤，视觉中国拍的图，都说能经过视觉中国检验的才是真帅哥，蔡徐坤显然脸塌下来了，这身材五五分，脸上油腻腻，他嘴巴本来就很厚，香肠嘴，又没气质，这图还没脖子？看起来好猥琐。', '2016-01-03 00:00:00', 1, '2019-02-22 16:39:27', '2019-02-22 16:39:27');
-INSERT INTO `tb_notice_proper` VALUES (19, '8月份补缴水费通知\r\n', '基本上是不会同意的，但是就算心理建设时候可以做到以后和家人一刀两断因为够独立，但是请不要说或者做，因为我们是社会人，父母的感情真的不能断，是可以有能力而不能切断的感情，各个层次都是。', '2018-12-03 00:00:00', 1, '2019-02-22 16:40:15', '2019-02-22 16:40:15');
-INSERT INTO `tb_notice_proper` VALUES (20, '7月份补缴水费通知', '感情有着极大的鼓舞力量，因此，它是一切道德行为的重要前提，谁要是没有强烈的志向，也就不能够热烈地把这个志向体现于事业中。', '2018-11-03 00:00:00', 1, '2019-02-22 16:41:44', '2019-02-22 16:41:44');
-INSERT INTO `tb_notice_proper` VALUES (21, '6月份补缴水费通知', '生活赋予我们一种巨大的和无限高贵的礼品，这就是青春：充满着力量，充满着期待志愿，充满着求知和斗争的志向，充满着希望信心和青春', '2018-10-01 16:45:45', 1, '2019-02-22 16:43:50', '2019-02-22 16:43:50');
-INSERT INTO `tb_notice_proper` VALUES (22, '5月份补缴水费通知', '有时候，总觉得自己的梦想很大，终点很远，像是异想天开，但其实也没有那么遥远，就这样一步一步的走，走着走着就到了', '2018-09-22 16:46:16', 1, '2019-02-22 16:43:57', '2019-02-22 16:43:57');
-INSERT INTO `tb_notice_proper` VALUES (23, '4月份补缴水费通知', '你的假装努力，欺骗的只有你自己，永远不要用战术上的勤奋，来掩饰战略上的懒惰。　　2、成长是一场和自己的比赛，不要担心别人会做得比你好，你只需要每天都做得比前一天好就可以了', '2018-08-22 16:46:36', 1, '2019-02-22 16:44:04', '2019-02-22 16:44:04');
-INSERT INTO `tb_notice_proper` VALUES (24, '3月份补缴水费通知', '命运要你成长的时候，总会安排一些让你不顺心的人或事刺激你　　1、不要做刺猬，能不与人结仇就不与人结仇，谁也不跟谁一辈子，有些事情没必要记在心上。', '2018-07-12 16:46:59', 1, '2019-02-22 16:44:28', '2019-02-22 16:44:28');
-INSERT INTO `tb_notice_proper` VALUES (25, '2月份补缴水费通知', '一定不要把别人都当傻子，事实上，所有你能遇到的人都比你聪明。如果你能抱着这样的心态为人处世，那么你的人脉会越来越宽，财富越来越多，人生也就越来越好！', '2018-06-09 16:47:07', 1, '2019-02-22 16:44:32', '2019-02-22 16:44:32');
-INSERT INTO `tb_notice_proper` VALUES (26, '1月份补缴水费通知', '慢慢的才知道：坚持未必就是胜利，放弃未必就是认输，。给自己一个迂回的空间，学会思索，学会等待，学会调整。人生没有假设，当下即是全部。背不动的，放下了；伤不起的，看淡了；想', '2018-05-08 16:47:15', 1, '2019-02-22 16:44:34', '2019-02-22 16:44:34');
-INSERT INTO `tb_notice_proper` VALUES (27, '4月份补缴水费通知', '你们应该培养对自己，对自己的力量的信心，百这种信心是靠克服障碍，培养意志和锻炼意志而获得的。　　3、坚强的信念能赢得强者的心，并使他们变得更坚强。', '2018-04-24 16:47:25', 1, '2019-02-22 16:44:35', '2019-02-22 16:44:35');
-INSERT INTO `tb_notice_proper` VALUES (28, '3月份补缴水费通知', '离别过方知道相聚的欢乐，失去过方知道拥有的满足。故此应珍惜眼前之人，彼此要懂得相亲相爱。', '2018-03-16 16:47:36', 1, '2019-02-22 16:44:37', '2019-02-22 16:44:37');
-INSERT INTO `tb_notice_proper` VALUES (29, '2月份补缴水费通知', '人为善，福虽未至，祸已远离；人为恶，祸虽未至，福已远离。　　2、身安不如心安，屋宽不如心宽。　　3、择善人而交，择善书而读，择善言而听，择善行而从。　　', '2018-02-22 16:47:44', 1, '2019-02-22 16:44:39', '2019-02-22 16:44:39');
-INSERT INTO `tb_notice_proper` VALUES (30, '1月份补缴水费通知', '智者顺时而谋，愚者逆时而动。　　2、“我欲”是贫穷的标志。事能常足，心常惬，人到无求品自高。　　3、人之心胸，多欲则窄，寡欲则宽。', '2018-01-10 16:47:52', 1, '2019-02-22 16:44:41', '2019-02-22 16:44:41');
-INSERT INTO `tb_notice_proper` VALUES (31, '12月份补缴水费通知', '青春并不是生命中一段时光，它是心灵上的一种状况。它跟丰润的面颊，殷红的嘴唇，柔滑的膝盖无关。它是一种沉静的意志，想象的能力，感情的活力，它更是生命之泉的新血液。 —', '2017-12-31 16:48:14', 1, '2019-02-22 16:44:43', '2019-02-22 16:44:43');
-INSERT INTO `tb_notice_proper` VALUES (32, '11月份补缴水费通知', '大多数人想要改造这个世界，但却罕有人想改造自己。　　2、积极的人在每一次忧患中都看到一个机会， 而消极的人则在每个机会都看到某种忧患。', '2017-11-01 16:48:21', 1, '2019-02-22 16:44:46', '2019-02-22 16:44:46');
-INSERT INTO `tb_notice_proper` VALUES (34, '7月份补缴水费通知', '大多数人想要改造这个世界，但却罕有人想改造自己。　　2、积极的人在每一次忧患中都看到一个机会， 而消极的人则在每个机会都看到某种忧患。', '2019-02-23 10:10:24', 1, '2019-02-23 10:10:10', '2019-02-23 10:10:10');
-INSERT INTO `tb_notice_proper` VALUES (35, '5月份补缴水费通知', '青春并不是生命中一段时光，它是心灵上的一种状况。它跟丰润的面颊，殷红的嘴唇，柔滑的膝盖无关。它是一种沉静的意志，想象的能力，感情的活力，它更是生命之泉的新血液。 —', '2016-05-23 10:15:23', 1, '2019-02-23 10:15:17', '2019-02-23 10:15:17');
-INSERT INTO `tb_notice_proper` VALUES (36, '3月份补缴水费通知', '万事起于忽微，量变引起质变', '2019-03-01 22:49:27', 1, '2019-02-23 22:49:36', '2019-02-23 22:49:36');
+
 
 -- ----------------------------
 -- Table structure for tb_post_news
@@ -435,18 +405,6 @@ INSERT INTO `tb_post_news` VALUES (8, '我最近都在做什么呢?', '从前有
 INSERT INTO `tb_post_news` VALUES (9, '我最近都在做什么呢?', '从前有座山,山上有个庙', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/52350542-29b6-4c96-988c-b251ac649c9b.jpg', '2019-02-26 20:11:08', 0, 0, 0, 10);
 INSERT INTO `tb_post_news` VALUES (10, '我最近都在做什么呢?', '从前有座山,山上有个庙', NULL, 'http://pmt5ma5mu.bkt.clouddn.com/52350542-29b6-4c96-988c-b251ac649c9b.jpg', '2019-03-04 14:35:34', 0, 0, 0, 11);
 INSERT INTO `tb_post_news` VALUES (11, '阿里面试题BIO和NIO数量问题附答案和代码', 'BIO 和 NIO 作为 Server 端，当建立了 10 个连接时，分别产生多少个线程？', '因为传统的 IO 也就是 BIO 是同步线程堵塞的，所以每个连接都要分配一个专用线程来处理请求，这样 10 个连接就会创建 10 个线程去处理。而 NIO 是一种同步非阻塞的 I/O 模型，它的核心技术是多路复用，可以使用一个链接上的不同通道来处理不同的请求，所以即使有 10 个连接，对于 NIO 来说，开启 1 个线程就够了。', '', '2019-03-16 12:39:56', 0, 0, 0, 1);
-INSERT INTO `tb_post_news` VALUES (12, 'HellowORLD', '描述信息', '内容详情', '', '2019-03-16 13:45:35', 0, 0, 0, 1);
-INSERT INTO `tb_post_news` VALUES (14, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', NULL, '2019-03-19 18:41:35', 0, 0, 1, 17);
-INSERT INTO `tb_post_news` VALUES (15, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', NULL, '2019-03-19 18:48:18', 0, 0, 1, 17);
-INSERT INTO `tb_post_news` VALUES (16, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', NULL, '2019-03-19 18:49:25', 0, 0, 1, 17);
-INSERT INTO `tb_post_news` VALUES (19, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', NULL, '2019-03-19 19:03:04', 0, 0, 1, 17);
-INSERT INTO `tb_post_news` VALUES (27, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', '', '2019-03-19 19:54:57', 0, 0, 1, 16);
-INSERT INTO `tb_post_news` VALUES (28, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', '', '2019-03-19 19:57:53', 0, 0, 1, 16);
-INSERT INTO `tb_post_news` VALUES (30, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', '', '2019-03-19 20:03:53', 0, 0, 1, 16);
-INSERT INTO `tb_post_news` VALUES (32, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', '', '2019-03-20 12:52:48', 0, 0, 1, 19);
-INSERT INTO `tb_post_news` VALUES (34, 'Java 基础与提高干货系列—Java 反射机制', 'Java反射机制是指在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。', '前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？总结如下：获取成员方法Method获取成员变量Field获取构造函数Constructor下面来具体介绍获取成员方法信息单独获取某一个方法是通过Class类的以下方法获得的：public Method getDeclaredMethod(String name, Class<?>... parameterTypes) // 得到该类所有的方法，不包括父类的public Method getMethod(String name, Class<?>... parameterTypes) // 得到该类所有的public方法，包括', '', '2019-03-20 13:39:02', 0, 0, 1, 20);
-INSERT INTO `tb_post_news` VALUES (35, '老司机生产实践经验：线上系统的JVM内存是越大越好吗？', '先说明白一个前提，本文主要讨论的是Kafka和Elasticsearch两种分布式系统的线上部署情况，不是普通的Java应用系统。', '先说明一点，不管是我们自己开发的Java应用系统，还是一些中间件系统，在实现的时候都需要选择是否基于自己Java进程的内存来处理数据。大家应该都知道，Java、Scala等编程语言底层依赖的都是JVM，那么只要是使用JVM，就可以考虑在JVM进程的内存中来放置大量的数据。还是给大家举个例子，大家应该还记得之前聊过消息中间件系统。', '', '2019-03-21 11:37:26', 0, 0, 0, 27);
-INSERT INTO `tb_post_news` VALUES (36, '兄弟，用大白话告诉你小白都能看懂的Hadoop架构原理', 'Hadoop是目前大数据领域最主流的一套技术体系，包含了多种技术。包括HDFS（分布式文件系统），YARN（分布式资源调度系统），MapReduce（分布式计算系统），等等。', '你说，我可以搞多台MySQL数据库服务器，分库分表啊！每台服务器放一部分数据不就得了。如上图所示！好，没问题，那咱们搞3台数据库服务器，3个MySQL实例，然后每台服务器都可以2T的数据。现在我问你一个问题，所谓的大数据是在干什么？我们来说一下大数据最初级的一个使用场景。假设你有一个电商网站，现在要把这个电商网站里所有的用户在页面和APP上的点击、购买、浏览的行为日志都存放起来分析。你现在把这些数据全都放在了3台MySQL服务器，数据量很大，但还是勉强可以放的下。', '', '2019-03-21 12:58:39', 0, 0, 0, 27);
 
 -- ----------------------------
 -- Table structure for tb_post_reply
@@ -523,7 +481,40 @@ CREATE TABLE `tb_purchase_assemble`  (
                                        `status` int(11) NULL DEFAULT NULL COMMENT '拼单状态,1表示正在拼单,0表示拼单失效,2表示拼单成功',
                                        `deadline` timestamp(0) NULL DEFAULT NULL COMMENT '拼单截止日期',
                                        PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_purchase_assemble
+-- ----------------------------
+INSERT INTO `tb_purchase_assemble` VALUES (1, 'hanson24 的拼单', 1, 1, 1, '2019-03-29 12:30:50');
+INSERT INTO `tb_purchase_assemble` VALUES (2, 'hanson24 的拼单', 1, 1, 1, '2019-03-29 12:53:12');
+INSERT INTO `tb_purchase_assemble` VALUES (3, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 15:52:44');
+INSERT INTO `tb_purchase_assemble` VALUES (4, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 15:57:54');
+INSERT INTO `tb_purchase_assemble` VALUES (5, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 16:07:16');
+INSERT INTO `tb_purchase_assemble` VALUES (6, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 16:09:55');
+INSERT INTO `tb_purchase_assemble` VALUES (7, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 16:28:30');
+INSERT INTO `tb_purchase_assemble` VALUES (8, 'hanson18 的拼单', 1, 1, 1, '2019-03-29 16:39:38');
+INSERT INTO `tb_purchase_assemble` VALUES (9, 'hanson18 的拼单', 1, 1, 0, '2019-03-29 16:44:56');
+INSERT INTO `tb_purchase_assemble` VALUES (10, 'hanson18 的拼单', 1, 1, 0, '2019-03-29 16:48:12');
+INSERT INTO `tb_purchase_assemble` VALUES (11, 'hanson24 的拼单', 1, 1, 0, '2019-03-29 17:28:35');
+INSERT INTO `tb_purchase_assemble` VALUES (12, 'hanson24 的拼单', 1, 1, 0, '2019-03-29 17:44:23');
+INSERT INTO `tb_purchase_assemble` VALUES (13, 'hanson24 的拼单', 1, 1, 0, '2019-03-29 17:44:40');
+INSERT INTO `tb_purchase_assemble` VALUES (14, 'hanson24 的拼单', 1, 1, 0, '2019-03-29 17:45:00');
+INSERT INTO `tb_purchase_assemble` VALUES (15, 'hanson24 的拼单', 1, 1, 2, '2019-03-29 17:46:58');
+INSERT INTO `tb_purchase_assemble` VALUES (16, 'hanson24 的拼单', 1, 1, 0, '2019-03-29 17:47:16');
+INSERT INTO `tb_purchase_assemble` VALUES (18, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:24:02');
+INSERT INTO `tb_purchase_assemble` VALUES (19, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:24:21');
+INSERT INTO `tb_purchase_assemble` VALUES (20, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:33:07');
+INSERT INTO `tb_purchase_assemble` VALUES (21, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:33:42');
+INSERT INTO `tb_purchase_assemble` VALUES (22, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 20:36:34');
+INSERT INTO `tb_purchase_assemble` VALUES (23, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 20:47:28');
+INSERT INTO `tb_purchase_assemble` VALUES (24, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 20:48:33');
+INSERT INTO `tb_purchase_assemble` VALUES (25, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:52:43');
+INSERT INTO `tb_purchase_assemble` VALUES (26, 'hanson24 的拼单', 1, 3, 0, '2019-03-29 20:53:06');
+INSERT INTO `tb_purchase_assemble` VALUES (27, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 20:53:16');
+INSERT INTO `tb_purchase_assemble` VALUES (28, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 20:54:15');
+INSERT INTO `tb_purchase_assemble` VALUES (29, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 21:00:21');
+INSERT INTO `tb_purchase_assemble` VALUES (30, 'hanson24 的拼单', 1, 3, 2, '2019-03-29 21:00:45');
 
 -- ----------------------------
 -- Table structure for tb_purchase_assemble_item
@@ -535,7 +526,48 @@ CREATE TABLE `tb_purchase_assemble_item`  (
                                             `avatar` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拼单人头像',
                                             `assemble_id` int(11) NULL DEFAULT NULL COMMENT '所属拼单id',
                                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_purchase_assemble_item
+-- ----------------------------
+INSERT INTO `tb_purchase_assemble_item` VALUES (1, 'hanson24', '', 1);
+INSERT INTO `tb_purchase_assemble_item` VALUES (2, 'hanson24', '', 2);
+INSERT INTO `tb_purchase_assemble_item` VALUES (3, 'hanson18', '', 3);
+INSERT INTO `tb_purchase_assemble_item` VALUES (4, 'hanson18', '', 4);
+INSERT INTO `tb_purchase_assemble_item` VALUES (5, 'hanson18', '', 5);
+INSERT INTO `tb_purchase_assemble_item` VALUES (6, 'hanson18', '', 6);
+INSERT INTO `tb_purchase_assemble_item` VALUES (7, 'hanson18', '', 7);
+INSERT INTO `tb_purchase_assemble_item` VALUES (8, 'hanson18', '', 8);
+INSERT INTO `tb_purchase_assemble_item` VALUES (9, 'hanson18', '', 9);
+INSERT INTO `tb_purchase_assemble_item` VALUES (10, 'hanson18', '', 10);
+INSERT INTO `tb_purchase_assemble_item` VALUES (11, 'hanson24', '', 11);
+INSERT INTO `tb_purchase_assemble_item` VALUES (12, 'hanson24', '', 12);
+INSERT INTO `tb_purchase_assemble_item` VALUES (13, 'hanson24', '', 13);
+INSERT INTO `tb_purchase_assemble_item` VALUES (14, 'hanson24', '', 14);
+INSERT INTO `tb_purchase_assemble_item` VALUES (15, 'hanson24', '', 15);
+INSERT INTO `tb_purchase_assemble_item` VALUES (16, 'hanson24', '', 16);
+INSERT INTO `tb_purchase_assemble_item` VALUES (18, 'hanson24', '', 18);
+INSERT INTO `tb_purchase_assemble_item` VALUES (19, 'hanson24', '', 19);
+INSERT INTO `tb_purchase_assemble_item` VALUES (20, 'hanson24', '', 20);
+INSERT INTO `tb_purchase_assemble_item` VALUES (21, 'hanson24', '', 21);
+INSERT INTO `tb_purchase_assemble_item` VALUES (22, 'hanson18', '', 21);
+INSERT INTO `tb_purchase_assemble_item` VALUES (23, 'hanson24', '', 22);
+INSERT INTO `tb_purchase_assemble_item` VALUES (24, 'hanson18', '', 22);
+INSERT INTO `tb_purchase_assemble_item` VALUES (25, 'hanson24', '', 23);
+INSERT INTO `tb_purchase_assemble_item` VALUES (26, 'hanson18', '', 23);
+INSERT INTO `tb_purchase_assemble_item` VALUES (27, 'hanson24', '', 24);
+INSERT INTO `tb_purchase_assemble_item` VALUES (28, 'hanson18', '', 24);
+INSERT INTO `tb_purchase_assemble_item` VALUES (29, 'hanson24', '', 25);
+INSERT INTO `tb_purchase_assemble_item` VALUES (30, 'hanson24', '', 26);
+INSERT INTO `tb_purchase_assemble_item` VALUES (31, 'hanson24', '', 27);
+INSERT INTO `tb_purchase_assemble_item` VALUES (32, 'hanson18', '', 27);
+INSERT INTO `tb_purchase_assemble_item` VALUES (33, 'hanson24', '', 28);
+INSERT INTO `tb_purchase_assemble_item` VALUES (34, 'hanson18', '', 28);
+INSERT INTO `tb_purchase_assemble_item` VALUES (35, 'hanson24', '', 29);
+INSERT INTO `tb_purchase_assemble_item` VALUES (36, 'hanson18', '', 29);
+INSERT INTO `tb_purchase_assemble_item` VALUES (37, 'hanson24', '', 30);
+INSERT INTO `tb_purchase_assemble_item` VALUES (38, 'hanson18', '', 30);
 
 -- ----------------------------
 -- Table structure for tb_purchase_category
@@ -633,20 +665,45 @@ INSERT INTO `tb_purchase_image` VALUES (4, 'dadsafsd', 1, 1, '2019-03-17 12:42:2
 DROP TABLE IF EXISTS `tb_purchase_order`;
 CREATE TABLE `tb_purchase_order`  (
                                     `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
-                                    `order_no` bigint(20) NULL DEFAULT NULL COMMENT '订单号',
-                                    `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
-                                    `shipping_id` int(11) NULL DEFAULT NULL,
+                                    `order_no` bigint(20) NULL DEFAULT NULL COMMENT '订单号,uuid',
+                                    `nickname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户昵称',
+                                    `avatar` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户头像',
+                                    `shipping_id` int(11) NULL DEFAULT NULL COMMENT '收获地址id',
                                     `payment` decimal(20, 2) NULL DEFAULT NULL COMMENT '实际付款金额,单位是元,保留两位小数',
-                                    `payment_type` int(4) NULL DEFAULT NULL COMMENT '支付类型,1-在线支付',
+                                    `payment_type` int(11) NULL DEFAULT NULL COMMENT '支付类型,拼团还是单独支付。0表示单独支付,拼团就为拼单id',
                                     `postage` int(10) NULL DEFAULT NULL COMMENT '运费,单位是元',
-                                    `status` int(10) NULL DEFAULT NULL COMMENT '订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭',
+                                    `status` int(10) NULL DEFAULT NULL COMMENT '订单状态:0表示取消,1表示未支付,2表示已支付,3表示未收货,4表示已收货',
                                     `payment_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
                                     `send_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间',
                                     `end_time` datetime(0) NULL DEFAULT NULL COMMENT '交易完成时间',
                                     `close_time` datetime(0) NULL DEFAULT NULL COMMENT '交易关闭时间',
                                     PRIMARY KEY (`id`) USING BTREE,
                                     UNIQUE INDEX `order_no_index`(`order_no`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_purchase_order
+-- ----------------------------
+INSERT INTO `tb_purchase_order` VALUES (1, 1, 'hanson24', '', 4, 44000.00, 18, NULL, 2, '2019-03-27 20:24:02', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (2, 2, 'hanson24', '', 4, 44000.00, 19, NULL, 2, '2019-03-27 20:24:22', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (3, 3, 'hanson24', '', 4, 44000.00, 20, NULL, 2, '2019-03-27 20:33:07', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (4, 4, 'hanson24', '', 4, 44000.00, 21, NULL, 2, '2019-03-27 20:33:42', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (5, 5, 'hanson24', '', 4, 44000.00, 22, NULL, 3, '2019-03-27 20:36:34', '2019-03-27 20:36:37', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (6, 6, 'hanson18', '', 2, 49990.00, 22, NULL, 2, '2019-03-27 20:36:37', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (7, 7, 'hanson24', '', 4, 44000.00, 23, NULL, 3, '2019-03-27 20:47:28', '2019-03-27 20:47:33', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (8, 8, 'hanson18', '', 2, 49990.00, 23, NULL, 3, '2019-03-27 20:47:33', '2019-03-27 20:47:33', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (9, 9, 'hanson24', '', 4, 44000.00, 24, NULL, 3, '2019-03-27 20:48:33', '2019-03-27 20:48:40', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (10, 10, 'hanson18', '', 2, 49990.00, 24, NULL, 2, '2019-03-27 20:48:40', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (11, 11, 'hanson24', '', 4, 44000.00, 25, NULL, 2, '2019-03-27 20:52:43', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (12, 12, 'hanson24', '', 4, 44000.00, 26, NULL, 2, '2019-03-27 20:53:06', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (13, 13, 'hanson24', '', 4, 44000.00, 27, NULL, 3, '2019-03-27 20:53:16', '2019-03-27 20:53:37', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (14, 14, 'hanson18', '', 2, 49990.00, 27, NULL, 3, '2019-03-27 20:53:19', '2019-03-27 20:53:37', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (15, 15, 'hanson24', '', 4, 44000.00, 28, NULL, 3, '2019-03-27 20:54:15', '2019-03-27 20:54:59', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (16, 16, 'hanson18', '', 2, 49990.00, 28, NULL, 2, '2019-03-27 20:54:20', NULL, NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (17, 17, 'hanson24', '', 4, 44000.00, 29, NULL, 3, '2019-03-27 21:00:21', '2019-03-27 21:00:25', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (18, 18, 'hanson18', '', 2, 49990.00, 29, NULL, 3, '2019-03-27 21:00:25', '2019-03-27 21:00:25', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (19, 19, 'hanson24', '', 4, 44000.00, 30, NULL, 3, '2019-03-27 21:00:45', '2019-03-27 21:00:48', NULL, NULL);
+INSERT INTO `tb_purchase_order` VALUES (20, 20, 'hanson18', '', 2, 49990.00, 30, NULL, 3, '2019-03-27 21:00:48', '2019-03-27 21:00:48', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_purchase_order_item
@@ -654,8 +711,8 @@ CREATE TABLE `tb_purchase_order`  (
 DROP TABLE IF EXISTS `tb_purchase_order_item`;
 CREATE TABLE `tb_purchase_order_item`  (
                                          `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单子表id',
-                                         `user_id` int(11) NULL DEFAULT NULL,
-                                         `order_no` bigint(20) NULL DEFAULT NULL,
+                                         `nickname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户昵称',
+                                         `order_no` bigint(20) NULL DEFAULT NULL COMMENT '订单编号',
                                          `product_id` int(11) NULL DEFAULT NULL COMMENT '商品id',
                                          `product_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品名称',
                                          `product_image` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品图片地址',
@@ -664,8 +721,32 @@ CREATE TABLE `tb_purchase_order_item`  (
                                          `total_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '商品总价,单位是元,保留两位小数',
                                          PRIMARY KEY (`id`) USING BTREE,
                                          INDEX `order_no_index`(`order_no`) USING BTREE,
-                                         INDEX `order_no_user_id_index`(`user_id`, `order_no`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+                                         INDEX `order_no_user_id_index`(`nickname`, `order_no`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_purchase_order_item
+-- ----------------------------
+INSERT INTO `tb_purchase_order_item` VALUES (1, 'hanson24', 1, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (2, 'hanson24', 2, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (3, 'hanson24', 3, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (4, 'hanson24', 4, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (5, 'hanson24', 5, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (6, 'hanson18', 6, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (7, 'hanson24', 7, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (8, 'hanson18', 8, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (9, 'hanson24', 9, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (10, 'hanson18', 10, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (11, 'hanson24', 11, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (12, 'hanson24', 12, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (13, 'hanson24', 13, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (14, 'hanson18', 14, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (15, 'hanson24', 15, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (16, 'hanson18', 16, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (17, 'hanson24', 17, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (18, 'hanson18', 18, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
+INSERT INTO `tb_purchase_order_item` VALUES (19, 'hanson24', 19, 3, '长虹 55D2P 金色', '', 4400.00, 10, 44000.00);
+INSERT INTO `tb_purchase_order_item` VALUES (20, 'hanson18', 20, 4, '长虹 55D2P 太空灰', '', 4999.00, 10, 49990.00);
 
 -- ----------------------------
 -- Table structure for tb_purchase_product

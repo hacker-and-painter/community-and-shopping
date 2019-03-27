@@ -121,6 +121,7 @@
       <id column="i_id" property="id"/>
       <result column="i_nickname" property="nickname"/>
       <result column="i_avatar" property="avatar"/>
+      <result column="i_assemble_id" property="assembleId"/>
     </collection>
   </resultMap>
 
@@ -135,7 +136,7 @@
   <select id="selectAssembleDetailInfoById" resultMap="AllResultMap" parameterType="java.lang.Integer" >
     select
       a.id a_id,a.title a_title,a.spell_nums a_spell_nums,a.product_id a_product_id,a.status a_status,a.deadline a_deadline,
-      i.id i_id,i.nickname i_nickname,i.avatar i_avatar
+      i.id i_id,i.nickname i_nickname,i.avatar i_avatar,i.assemble_id i_assemble_id
     from tb_purchase_assemble a left join tb_purchase_assemble_item i on a.id=i.assemble_id
     where a.id = #{assembleId,jdbcType=INTEGER}
   </select>
