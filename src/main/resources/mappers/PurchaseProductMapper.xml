@@ -162,6 +162,9 @@
   <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
   <result column="sub_images" property="subImages" jdbcType="VARCHAR" />-->
 
+  <!--缓存-->
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
   <select id="selectProductDetailById" resultMap="AllResultMap" parameterType="java.lang.Integer" >
     select p.id,p.category_id,p.name,p.subtitle,p.status,p.evaluation_nums,p.good_evaluation_nums,p.main_image,p.sub_images,
     s.id s_id,s.attribute_name s_attribute_name,s.sales s_sales,s.stock s_stock,s.price s_price,s.spell_price s_spell_price,s.product_id s_product_id

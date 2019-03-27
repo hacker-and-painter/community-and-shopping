@@ -17,12 +17,12 @@ public class AuthenticationInfoUtil {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return principal;
     }
-
+    //memcached保存用户认证信息
     public static com.beautifulsoup.chengfeng.pojo.User getUser(UserMapper userMapper, MemcachedClient memcachedClient) throws InterruptedException, MemcachedException, TimeoutException {
         User authenticationInfo = AuthenticationInfoUtil.getAuthenticationInfo();
         String userJson = memcachedClient.get(authenticationInfo.getUsername());
         com.beautifulsoup.chengfeng.pojo.User user;
-        if (StringUtils.isBlank(userJson)){
+        if (!StringUtils.isBlank(userJson)){
             user= JsonSerializableUtil.string2Obj(userJson, com.beautifulsoup.chengfeng.pojo.User.class);
 
         }else{

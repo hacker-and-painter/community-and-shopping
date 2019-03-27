@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.pojo;
 
-public class PurchaseShipping {
+import java.io.Serializable;
+
+public class PurchaseShipping implements Serializable {
     private Integer id;
 
     private Integer userId;

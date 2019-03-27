@@ -50,13 +50,16 @@ public class UserInfoService implements UserDetailsService {
         if (StringUtils.isBlank(username)){
             throw new ParamException("用户名或密码不正确");
         }
-        com.beautifulsoup.chengfeng.pojo.User user = userMapper.selectByNicknameAndPassword(username);
-        if(null==user){
-            throw new UserAuthenticationException("用户不存在,登陆失败");
-        }
 
-        return  User.builder().username(user.getNickname())
-                .password(passwordEncoder.encode(user.getCryptPassword().getCryptPassword())).authorities("/admin").build();
+
+            com.beautifulsoup.chengfeng.pojo.User user ;
+                user= userMapper.selectByNicknameAndPassword(username);
+            if(null==user){
+                throw new UserAuthenticationException("用户不存在,登陆失败");
+            }
+
+            return  User.builder().username(user.getNickname())
+                    .password(passwordEncoder.encode(user.getCryptPassword().getCryptPassword())).authorities("/admin").build();
     }
 
     public UserDetails getUserLoginInfo(String username) {

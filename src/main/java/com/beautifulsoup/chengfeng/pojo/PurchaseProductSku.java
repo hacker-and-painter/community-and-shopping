@@ -1,8 +1,9 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PurchaseProductSku {
+public class PurchaseProductSku implements Serializable {
     private Integer id;
 
     private String attributeName;

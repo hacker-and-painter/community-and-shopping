@@ -1,9 +1,10 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PurchaseOrder {
+public class PurchaseOrder implements Serializable {
     private Integer id;
 
     private Long orderNo;

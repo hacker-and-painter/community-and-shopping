@@ -1,8 +1,9 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PostReply {
+public class PostReply implements Serializable {
     private Integer id;
 
     private String content;

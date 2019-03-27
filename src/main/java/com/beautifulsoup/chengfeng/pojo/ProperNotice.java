@@ -1,8 +1,9 @@
 package com.beautifulsoup.chengfeng.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ProperNotice {
+public class ProperNotice implements Serializable {
     private Integer id;
 
     private String notice;

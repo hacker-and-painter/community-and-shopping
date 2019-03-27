@@ -2,10 +2,11 @@ package com.beautifulsoup.chengfeng.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PurchaseCategory {
+public class PurchaseCategory implements Serializable {
     private Integer id;
 
     private Integer parentId;

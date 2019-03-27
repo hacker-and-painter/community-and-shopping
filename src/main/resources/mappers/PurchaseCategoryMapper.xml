@@ -99,9 +99,6 @@
         <result column="p_category_id" property="categoryId" jdbcType="INTEGER" />
         <result column="p_name" property="name" jdbcType="VARCHAR" />
         <result column="p_subtitle" property="subtitle" jdbcType="VARCHAR" />
-        <result column="p_sales" property="sales" jdbcType="INTEGER" />
-        <result column="p_price" property="price" jdbcType="DECIMAL" />
-        <result column="p_spell_price" property="spellPrice" jdbcType="DECIMAL" />
         <result column="p_evaluation_nums" property="evaluationNums" jdbcType="INTEGER" />
         <result column="p_good_evaluation_nums" property="goodEvaluationNums" jdbcType="INTEGER" />
         <result column="p_main_image" property="mainImage" jdbcType="VARCHAR" />
@@ -109,15 +106,14 @@
     </collection>
   </resultMap>
   <!--长sql加入缓存,ehcache-->
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
   <select id="selectAllPurchaseInfoByCategoryId" resultMap="PurchaseIndexMap" parameterType="java.lang.Integer">
       select t.id,t.parent_id,t.name,i.id i_id,i.image_url i_image_url,i.category_id i_category_id,i.add_time i_add_time,
-      i.keyword i_keyword,p.id p_id,p.category_id p_category_id,p.name p_name,p.subtitle p_subtitle,p.sales p_sales,
-      p.price p_price,p.spell_price p_spell_price,
+      i.keyword i_keyword,p.id p_id,p.category_id p_category_id,p.name p_name,p.subtitle p_subtitle,
       p.evaluation_nums p_evaluation_nums,p.good_evaluation_nums p_good_evaluation_nums,p.main_image p_main_image,p.sub_images p_sub_images
       from tb_purchase_category t left join tb_purchase_image i on t.id=i.category_id
       left join tb_purchase_product p on t.id=p.category_id
       where t.id = #{categoryId,jdbcType=INTEGER}
-      order by p.sales DESC
   </select>
 
 </mapper>

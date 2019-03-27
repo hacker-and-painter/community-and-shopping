@@ -2,8 +2,9 @@ package com.beautifulsoup.chengfeng.pojo;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class WatersuplyDetails {
+public class WatersuplyDetails implements Serializable {
     private Integer id;
 
     private Integer suplyId;

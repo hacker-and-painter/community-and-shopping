@@ -1,11 +1,11 @@
-<ehcache>
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    updateCheck="false" monitoring="autodetect"
+    dynamicConfig="true">
 
-    <!--缓存持久化硬盘策略为临时目录-->
-    <diskStore path="java.io.tmpdir" />
+    <diskStore path="C:\cache"/>
 
-
-    <!--指定缓存名称、缓存对象的大小上限、设置缓存可以失效、指定缓存Idle和Live状态下的存活时间、指定缓存可以刷到硬盘上-->
-    <cache name="chengfengCache" maxElementsInMemory="10000" eternal="false"
-           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+    <defaultCache maxElementsInMemory="3000" eternal="false" copyOnRead="true" copyOnWrite="true" timeToIdleSeconds="3600"
+    timeToLiveSeconds="3600" overflowToDisk="true" diskPersistent="true"/>
 
 </ehcache>

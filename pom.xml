@@ -153,6 +153,11 @@
             <artifactId>ehcache</artifactId>
             <version>2.10.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0.3</version>
+        </dependency>
 
         <!--工具类-->
         <dependency>

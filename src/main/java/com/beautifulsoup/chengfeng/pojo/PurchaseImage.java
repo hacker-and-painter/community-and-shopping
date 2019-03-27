@@ -4,10 +4,11 @@ import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PurchaseImage {
+public class PurchaseImage implements Serializable {
     private Integer id;
 
     private String imageUrl;

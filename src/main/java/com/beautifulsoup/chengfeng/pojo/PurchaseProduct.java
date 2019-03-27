@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Document(indexName = "product", type = "docs", shards = 1, replicas = 0)
-public class PurchaseProduct {
+public class PurchaseProduct implements Serializable {
     @Id
     private Integer id;
 
