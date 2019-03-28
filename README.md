@@ -33,9 +33,11 @@
    
    1. 长sql加入ehcache缓存
    
-   2.  用户认证信息加入memcached缓存
+   2. 用户认证信息加入memcached缓存
    
-   3. 热点数据预加入Redis(如商品的库存信息),采用Redis预减操作,然后采用定时任务同步缓存及数据库
+   3. 采用spring cache缓存热点数据
+   
+   4. 热点数据预加入Redis(如商品的库存信息),采用Redis预减操作,然后采用定时任务同步缓存及数据库
 5. Kafka收集订单信息,ElasticSearch进行数据分析,产生热卖商品并推荐
 
     
