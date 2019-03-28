@@ -9,7 +9,7 @@ public class PurchaseOrderItem {
 
     private Long orderNo;
 
-    private Integer productId;
+    private Integer productId; //skuId
 
     private String productName;
 

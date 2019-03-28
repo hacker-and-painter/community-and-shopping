@@ -2,8 +2,7 @@ package com.beautifulsoup.chengfeng.service.impl;
 
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
-import com.beautifulsoup.chengfeng.controller.vo.AssembleDetailVo;
-import com.beautifulsoup.chengfeng.controller.vo.AssembleSimpleVo;
+import com.beautifulsoup.chengfeng.controller.vo.*;
 import com.beautifulsoup.chengfeng.dao.*;
 import com.beautifulsoup.chengfeng.enums.OrderStatus;
 import com.beautifulsoup.chengfeng.exception.ParamException;
@@ -27,8 +26,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +67,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private PurchaseShippingMapper purchaseShippingMapper;
 
     @Override
     public List<AssembleSimpleVo> listAllSimpleAssembleLists(Integer productId) {
@@ -204,13 +204,88 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return null;
     }
-    private void checkSpellArguments(Integer skuId,Integer count){
+
+    @Transactional
+    @Override
+    public PurchaseOrderVo placeSeparateOrder(Integer skuId, Integer count, Integer shippingId) {
+        checkSpellArguments(skuId,count);
+        //使用分布式锁
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress(RedisConstant.Redisson.REDIS_ADDRESS);
+        RedissonClient redisson = Redisson.create(config);
+        RLock lock = redisson.getLock(RedisConstant.Redisson.LOCK_SPELL_ORDER);
+        boolean locked = false;
+        try{
+            User user = AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            log.info("尝试获取下单锁");
+            locked = lock.tryLock(10,TimeUnit.SECONDS);
+            log.info("获取锁的状态:{}",locked);
+            if(locked) {
+                    PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);
+                    Long orderNo=Long.parseLong(stringRedisTemplate.opsForValue().increment(RedisConstant.COUNTER_ORDER).toString());
+                    PurchaseOrderItem purchaseOrderItem=new PurchaseOrderItem();
+                    purchaseOrderItem.setCurrentUnitPrice(productSku.getPrice());
+                    purchaseOrderItem.setOrderNo(orderNo);
+                    purchaseOrderItem.setQuantity(count);
+                    purchaseOrderItem.setNickname(user.getNickname());
+                    purchaseOrderItem.setProductName(String.join(" ",productSku.getPurchaseProduct().getName(),productSku.getAttributeName()));
+                    purchaseOrderItem.setProductId(skuId);
+                    purchaseOrderItem.setProductImage(MoreObjects.firstNonNull(productSku.getPurchaseProduct().getMainImage(),""));
+                    purchaseOrderItem.setTotalPrice(productSku.getPrice().multiply(new BigDecimal(count)));
+                    orderItemMapper.insert(purchaseOrderItem);
+                    PurchaseOrder purchaseOrder=new PurchaseOrder();
+                    purchaseOrder.setCloseTime(null);
+                    purchaseOrder.setEndTime(null);
+                    purchaseOrder.setSendTime(new Date());
+                    purchaseOrder.setOrderNo(orderNo);
+                    purchaseOrder.setPayment(productSku.getPrice().multiply(new BigDecimal(count)));
+                    purchaseOrder.setPaymentType(0);//非拼单
+                    purchaseOrder.setPaymentTime(new Date());
+                    purchaseOrder.setShippingId(shippingId);
+                    purchaseOrder.setStatus(OrderStatus.UNRECEIVED.getCode());
+                    purchaseOrder.setAvatar(user.getAvatar());
+                    purchaseOrder.setNickname(user.getNickname());
+                    purchaseOrderMapper.insert(purchaseOrder);
+                    //更新库存
+                    Integer stock = Integer.parseInt(stringRedisTemplate.opsForHash().get(RedisConstant.PRODUCT_STOCKS,
+                            RedisConstant.PRODUCT_PREFIX_SKU + skuId).toString());
+                    stringRedisTemplate.opsForHash().put(RedisConstant.PRODUCT_STOCKS,
+                            RedisConstant.PRODUCT_PREFIX_SKU + skuId,String.valueOf(stock-count));
+                    PurchaseOrderVo purchaseOrderVo=new PurchaseOrderVo();
+                    PurchaseOrderItemVo orderItemVo=new PurchaseOrderItemVo();
+                    BeanUtils.copyProperties(purchaseOrderItem,orderItemVo);
+                    BeanUtils.copyProperties(purchaseOrder,purchaseOrderVo);
+                    List<PurchaseOrderItemVo> orderItemVos=Lists.newArrayList();
+                    purchaseOrderVo.setOrderItems(orderItemVos);
+                    purchaseOrderVo.getOrderItems().add(orderItemVo);
+                    PurchaseShipping shipping=purchaseShippingMapper.selectByPrimaryKey(shippingId);
+                ShippingVo shippingVo=new ShippingVo();
+                if (shipping != null) {
+                    BeanUtils.copyProperties(shipping,shippingVo);
+                }
+                purchaseOrderVo.setShippingVo(shippingVo);
+                    return purchaseOrderVo;
+                }
+        }catch (Exception e) {
+            log.error("下单失败");
+        }finally {
+            log.info("释放锁");
+            if(locked){
+                lock.unlock();
+            }
+        }
+        return null;
+    }
+        private void checkSpellArguments(Integer skuId,Integer count){
         Boolean checkProduct = stringRedisTemplate.opsForHash().hasKey(RedisConstant.PRODUCT_STOCKS,
                 RedisConstant.PRODUCT_PREFIX_SKU + skuId);
         Preconditions.checkArgument(checkProduct,"商品不存在");
         Integer stock = Integer.parseInt(stringRedisTemplate.opsForHash().get(RedisConstant.PRODUCT_STOCKS,
                 RedisConstant.PRODUCT_PREFIX_SKU + skuId).toString());
-        Preconditions.checkArgument(stock>count,"商品库存不足");
+        if (stock<count){
+            throw new ParamException("商品库存不足,下单失败");
+        }
     }
 
     private void generateOrder(User user,Integer skuId,Integer count,Assemble assemble,Integer shippingId){

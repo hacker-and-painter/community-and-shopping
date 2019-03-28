@@ -13,6 +13,7 @@
 10. Spring Data ElasticSearch
 8. Redis+Codis+Redisson
 9. RabbitMQ
+11. Kafka
 12. Memcached
 13. FastDFS
 14. Quartz
@@ -35,6 +36,7 @@
    2.  用户认证信息加入memcached缓存
    
    3. 热点数据预加入Redis(如商品的库存信息),采用Redis预减操作,然后采用定时任务同步缓存及数据库
+5. Kafka收集订单信息,ElasticSearch进行数据分析,产生热卖商品并推荐
 
     
    
