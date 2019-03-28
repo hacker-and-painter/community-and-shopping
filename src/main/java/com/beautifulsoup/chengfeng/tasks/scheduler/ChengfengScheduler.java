@@ -1,11 +1,13 @@
 package com.beautifulsoup.chengfeng.tasks.scheduler;
 
+import com.beautifulsoup.chengfeng.annotation.NotUsed;
 import com.beautifulsoup.chengfeng.tasks.job.ChengfengJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@NotUsed
+//@Configuration
 public class ChengfengScheduler {
 
     @Bean
