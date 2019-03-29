@@ -3,28 +3,29 @@ package com.beautifulsoup.chengfeng.service.impl;
 import com.beautifulsoup.chengfeng.constant.ChengfengConstant;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.controller.vo.PurchaseCartVo;
+import com.beautifulsoup.chengfeng.dao.PurchaseCategoryMapper;
 import com.beautifulsoup.chengfeng.dao.PurchaseProductMapper;
 import com.beautifulsoup.chengfeng.dao.PurchaseProductSkuMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
 import com.beautifulsoup.chengfeng.exception.ParamException;
+import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProductSku;
 import com.beautifulsoup.chengfeng.pojo.User;
 import com.beautifulsoup.chengfeng.service.PurchaseCartService;
 import com.beautifulsoup.chengfeng.service.dto.PurchaseCartItemDto;
+import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
+import com.beautifulsoup.chengfeng.utils.AssemblyDataUtil;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -41,6 +42,10 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
 
     @Autowired
     private PurchaseProductSkuMapper productSkuMapper;
+
+    @Autowired
+    private PurchaseCategoryMapper purchaseCategoryMapper;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -54,7 +59,7 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
     private MemcachedClient memcachedClient;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private KafkaTemplate<String,PurchaseInfoDto> kafkaTemplate;
 
     @Override
     public PurchaseCartVo addNewPurchaseProduct(Integer skuId, Integer count) {
@@ -81,6 +86,14 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
 
                 redisTemplate.opsForHash().put(RedisConstant.CART_BELONG_TO+user.getId(),
                         RedisConstant.CART_PRODUCT_PREFIX+skuId,cartItemDto);
+                PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);//sql已经在cache中
+                PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+                //记录数据用于分析处理
+                PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+
+                kafkaTemplate.send("topic-demo",purchaseInfoDto);
+
+
             }else{
                 PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);
                 PurchaseCartItemDto cartItemDto=new PurchaseCartItemDto();
@@ -98,7 +111,15 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
                 cartItemDto.setTotalPrice(cartItemDto.getPrice()*cartItemDto.getCount());
                 redisTemplate.opsForHash().put(RedisConstant.CART_BELONG_TO+user.getId(),
                         RedisConstant.CART_PRODUCT_PREFIX+skuId,cartItemDto);
+
+                PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+                PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+
+                kafkaTemplate.send("topic-demo",purchaseInfoDto);
+
             }
+
+
             //减库存
             stringRedisTemplate.opsForHash().put(RedisConstant.PRODUCT_STOCKS,
                     RedisConstant.PRODUCT_PREFIX_SKU + skuId,String.valueOf(stock-count));

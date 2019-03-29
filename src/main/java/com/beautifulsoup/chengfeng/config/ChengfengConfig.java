@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableCaching
-@Import(value = {SwaggerConfig.class,RabbitmqConfig.class,MemcachedConfig.class, RedisConfig.class,SecurityConfig.class,CorsConfig.class})
+@Import(value = {SwaggerConfig.class,RabbitmqConfig.class,MemcachedConfig.class, RedisConfig.class,SecurityConfig.class,CorsConfig.class,KafkaConfig.class})
 public class ChengfengConfig {
 
 

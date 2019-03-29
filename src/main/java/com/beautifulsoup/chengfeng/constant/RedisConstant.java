@@ -15,6 +15,7 @@ public class RedisConstant {
     public static final String PRODUCT_PREFIX_SKU="product_prefix_sku:";
     public static final String EMAIL_VALIDATE_CODE="email_validate_code";
     public static final String EMAIL_VALIDATE_CODE_PREFIX="email_validate_code_prefix:";
+    public static final String SALES_PURCHASEINFO="sales_purchaseinfo:";
     //帖子模块
     public static final String POST_NEWS_BELONGTO_ORDER="post_news_belongto_order:";
     public static final String POST_NEWS_BELONGTO="post_news_belongto:";
@@ -36,7 +37,8 @@ public class RedisConstant {
     public static final String COUNTER_COLLECTIONS="counter_collections:";
     public static final String COUNTER_POST_VOTE="counter_post_vote:";
     public static final String COUNTER_VOTE_OPTION_NUMS="counter_vote_option_nums:";
-    public static final String COUNTER_ORDER="COUNTER_ORDER:";
+    public static final String COUNTER_ORDER="counter_order:";
+    public static final String COUNTER_PURCHASEINFO="counter_purchaseinfo";
 
     public interface Redisson{
         String REDIS_ADDRESS="redis://47.95.244.237:6379";

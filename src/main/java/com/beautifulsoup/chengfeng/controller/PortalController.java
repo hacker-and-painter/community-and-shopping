@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.ValidateActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -107,4 +108,6 @@ public class PortalController {
     public ResponseResult<PortalVo> getAllInformation(){
         return ResponseResult.createBySuccess(portalService.getAllInformation());
     }
+
+
 }

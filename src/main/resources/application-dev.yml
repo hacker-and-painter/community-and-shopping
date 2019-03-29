@@ -78,3 +78,12 @@ rabbitmq:
   username: guest
   password: guest
 
+kafka:
+  brokerList: 123.207.157.129:9092
+  topic: topic-demo
+  pClientId: producer.client.id.demo
+  ackConfig: 1
+  retries: 10
+  cGroupId: group.demo
+  cClientId: consumer.client.id.demo
+  linger: 1

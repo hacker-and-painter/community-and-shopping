@@ -8,6 +8,8 @@ import com.beautifulsoup.chengfeng.enums.OrderStatus;
 import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.pojo.*;
 import com.beautifulsoup.chengfeng.service.PurchaseOrderService;
+import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
+import com.beautifulsoup.chengfeng.utils.AssemblyDataUtil;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
 import com.google.common.base.MoreObjects;
@@ -26,6 +28,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +74,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Autowired
     private PurchaseShippingMapper purchaseShippingMapper;
 
+    @Autowired
+    private KafkaTemplate<String, PurchaseInfoDto> kafkaTemplate;
+
+    @Autowired
+    private PurchaseCategoryMapper purchaseCategoryMapper;
     @Override
     public List<AssembleSimpleVo> listAllSimpleAssembleLists(Integer productId) {
         List<AssembleSimpleVo> assembleSimpleVos= Lists.newArrayList();
@@ -260,6 +268,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     purchaseOrderVo.setOrderItems(orderItemVos);
                     purchaseOrderVo.getOrderItems().add(orderItemVo);
                     PurchaseShipping shipping=purchaseShippingMapper.selectByPrimaryKey(shippingId);
+
+                PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+                PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+
+                kafkaTemplate.send("topic-demo",purchaseInfoDto);
                 ShippingVo shippingVo=new ShippingVo();
                 if (shipping != null) {
                     BeanUtils.copyProperties(shipping,shippingVo);
@@ -321,6 +334,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 RedisConstant.PRODUCT_PREFIX_SKU + skuId).toString());
         stringRedisTemplate.opsForHash().put(RedisConstant.PRODUCT_STOCKS,
                 RedisConstant.PRODUCT_PREFIX_SKU + skuId,String.valueOf(stock-count));
+
+        //记录数据
+
+        PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+        PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+
+        kafkaTemplate.send("topic-demo",purchaseInfoDto);
+
 
     }
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdvertiseServiceImpl implements AdvertiseService {
 
-    @Autowired
+//    @Autowired
     private ProductRepository productRepository;
 
     @Override

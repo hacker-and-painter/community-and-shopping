@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.elasticsearch;
 
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
+import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +28,8 @@ public class ElasticSearchTest {
     @Test
     public void createIndex(){
         System.setProperty("es.set.netty.runtime.available.processors", "false");//ElasticSearch启动报错
-        this.elasticsearchTemplate.createIndex(PurchaseProduct.class);
-        this.elasticsearchTemplate.putMapping(PurchaseProduct.class);
+        this.elasticsearchTemplate.createIndex(PurchaseInfoDto.class);
+        this.elasticsearchTemplate.putMapping(PurchaseInfoDto.class);
     }
 
 
