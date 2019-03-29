@@ -79,7 +79,7 @@ rabbitmq:
   password: guest
 
 kafka:
-  brokerList: 123.207.157.129:9092
+  brokerList: 127.0.0.1:9092
   topic: topic-demo
   pClientId: producer.client.id.demo
   ackConfig: 1
