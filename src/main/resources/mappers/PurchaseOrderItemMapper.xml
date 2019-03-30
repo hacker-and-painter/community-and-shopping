@@ -145,4 +145,12 @@
       total_price = #{totalPrice,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByIdAndNickname" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_purchase_order_item
+    where product_id=#{skuId}
+    and nickname=#{nickname}
+  </select>
 </mapper>

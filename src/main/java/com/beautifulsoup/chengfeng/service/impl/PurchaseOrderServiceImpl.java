@@ -7,6 +7,7 @@ import com.beautifulsoup.chengfeng.dao.*;
 import com.beautifulsoup.chengfeng.enums.OrderStatus;
 import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.pojo.*;
+import com.beautifulsoup.chengfeng.repository.ProductRepository;
 import com.beautifulsoup.chengfeng.service.PurchaseOrderService;
 import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
 import com.beautifulsoup.chengfeng.utils.AssemblyDataUtil;
@@ -79,6 +80,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Autowired
     private PurchaseCategoryMapper purchaseCategoryMapper;
+
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public List<AssembleSimpleVo> listAllSimpleAssembleLists(Integer productId) {
         List<AssembleSimpleVo> assembleSimpleVos= Lists.newArrayList();
@@ -270,6 +275,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     PurchaseShipping shipping=purchaseShippingMapper.selectByPrimaryKey(shippingId);
 
                 PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+                Optional<PurchaseProduct> optional = productRepository.findById(productSku.getPurchaseProduct().getId());
+                if (optional.isPresent()){
+                    PurchaseProduct purchaseProduct = optional.get();
+                    productSku.setPurchaseProduct(purchaseProduct);
+                }
                 PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
 
                 kafkaTemplate.send("topic-demo",purchaseInfoDto);
@@ -338,6 +348,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         //记录数据
 
         PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+        Optional<PurchaseProduct> optional = productRepository.findById(productSku.getPurchaseProduct().getId());
+        if (optional.isPresent()){
+            PurchaseProduct purchaseProduct = optional.get();
+            productSku.setPurchaseProduct(purchaseProduct);
+        }
         PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
 
         kafkaTemplate.send("topic-demo",purchaseInfoDto);

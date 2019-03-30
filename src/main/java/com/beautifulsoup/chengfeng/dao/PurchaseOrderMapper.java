@@ -20,4 +20,6 @@ public interface PurchaseOrderMapper {
     List<PurchaseOrder> selectByNickname(String nickname);
 
     List<PurchaseOrder> selectByAssembleId(Integer assembleId);
+
+
 }

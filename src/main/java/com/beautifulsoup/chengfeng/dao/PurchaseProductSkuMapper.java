@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.PurchaseProductSku;
+import org.springframework.data.repository.query.Param;
 
 public interface PurchaseProductSkuMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +17,6 @@ public interface PurchaseProductSkuMapper {
     int updateByPrimaryKey(PurchaseProductSku record);
 
     PurchaseProductSku selectAllByPrimaryKey(Integer id);
+
+
 }

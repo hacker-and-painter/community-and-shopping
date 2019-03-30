@@ -22,16 +22,23 @@ public class PurchaseEvaluation implements Serializable {
     private Integer id;
     @Field(type = FieldType.Keyword, index = false)
     private String nickname;
+    @Field(type = FieldType.Keyword, index = false)
+    private String avatar;
+
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
+
+    @Field(type = FieldType.Keyword, index = false)
+    private String imageUrl;
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeName;
 
     private Date evaluationTime;
 
     private Integer type;
 
     private Integer productId;
-    @Field(type = FieldType.Keyword, index = false)
-    private String avatar;
+
 
     public Integer getId() {
         return id;
@@ -87,5 +94,21 @@ public class PurchaseEvaluation implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
     }
 }

@@ -12,6 +12,7 @@ import com.beautifulsoup.chengfeng.pojo.PurchaseCategory;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProductSku;
 import com.beautifulsoup.chengfeng.pojo.User;
+import com.beautifulsoup.chengfeng.repository.ProductRepository;
 import com.beautifulsoup.chengfeng.service.PurchaseCartService;
 import com.beautifulsoup.chengfeng.service.dto.PurchaseCartItemDto;
 import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
@@ -32,6 +33,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import static com.beautifulsoup.chengfeng.constant.ChengfengConstant.RabbitMQ.MESSAGE_STOCK_UPDATE;
@@ -51,6 +53,9 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
 
     @Autowired
     private RedisTemplate<String, Serializable> redisTemplate;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -89,6 +94,11 @@ public class PurchaseCartServiceImpl implements PurchaseCartService {
                 PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);//sql已经在cache中
                 PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
                 //记录数据用于分析处理
+                Optional<PurchaseProduct> optional = productRepository.findById(productSku.getPurchaseProduct().getId());
+                if (optional.isPresent()){
+                    PurchaseProduct purchaseProduct = optional.get();
+                    productSku.setPurchaseProduct(purchaseProduct);
+                }
                 PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
 
                 kafkaTemplate.send("topic-demo",purchaseInfoDto);

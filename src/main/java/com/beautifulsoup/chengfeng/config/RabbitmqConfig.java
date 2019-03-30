@@ -91,6 +91,11 @@ public class RabbitmqConfig {
     }
 
     @Bean
+    public Queue productEvaluationQueue(){
+        return new Queue(QUEUE_NAME_EVALUATION,true);
+    }
+
+    @Bean
     public TopicExchange chengfengExchange(){
         return new TopicExchange(TOPIC_EXCHANGE,true,false);
     }
@@ -98,12 +103,8 @@ public class RabbitmqConfig {
     @Bean
     public FanoutExchange orderExchange(){return new FanoutExchange(ORDER_EXCHANGE,true,false);}
 
-    /*@Bean
-    public CustomExchange updateOrderExchange(){
-        Map<String, Object> args = new HashMap<>();
-        args.put("x-delayed-type", "direct");
-        return new CustomExchange(UPDATE_ORDER_EXCHANGE, "x-delayed-message",true, false,args);
-    }*/
+    @Bean
+    public FanoutExchange evaluationExchange(){return new FanoutExchange(EVALUATION_EXCHANGE,true,false);}
 
     @Bean
     public CustomExchange spellOrderDelayExchange() {
@@ -143,6 +144,7 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(stockQueue()).to(chengfengExchange()).with("topic.stock");
     }
 
+
     @Bean
     Binding bindingSpellOrderDelay() {
         return BindingBuilder.bind(spellOrderQueue()).to(spellOrderDelayExchange()).with("spell_order_delay_queue").noargs();
@@ -151,5 +153,10 @@ public class RabbitmqConfig {
     @Bean
     Binding bindingUpdateOrderDelay() {
        return BindingBuilder.bind(updateOrderQueue()).to(spellOrderDelayExchange()).with("update_order_queue").noargs();
+    }
+
+    @Bean
+    Binding bindingPurchaseEvaluation() {
+        return BindingBuilder.bind(productEvaluationQueue()).to(evaluationExchange());
     }
 }

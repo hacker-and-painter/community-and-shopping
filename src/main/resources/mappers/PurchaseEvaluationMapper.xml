@@ -4,18 +4,27 @@
   <resultMap id="BaseResultMap" type="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="attribute_name" property="attributeName" jdbcType="VARCHAR" />
     <result column="evaluation_time" property="evaluationTime" jdbcType="TIMESTAMP" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
-    id, nickname, content, evaluation_time, type, product_id, avatar
+    id, nickname, image_url, attribute_name, evaluation_time, type, product_id, avatar
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from tb_purchase_evaluation
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -24,14 +33,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
-    insert into tb_purchase_evaluation (id, nickname, content, 
-      evaluation_time, type, product_id, 
-      avatar)
-    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{evaluationTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
-      #{avatar,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" keyColumn="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_purchase_evaluation (id, nickname, image_url, 
+      attribute_name, evaluation_time, type, 
+      product_id, avatar, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{attributeName,jdbcType=VARCHAR},  now(), #{type,jdbcType=INTEGER},
+      #{productId,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
+    <selectKey keyProperty="id" keyColumn="id" resultType="java.lang.Integer" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into tb_purchase_evaluation
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -40,8 +57,11 @@
       <if test="nickname != null" >
         nickname,
       </if>
-      <if test="content != null" >
-        content,
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="attributeName != null" >
+        attribute_name,
       </if>
       <if test="evaluationTime != null" >
         evaluation_time,
@@ -55,6 +75,9 @@
       <if test="avatar != null" >
         avatar,
       </if>
+      <if test="content != null" >
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -63,11 +86,14 @@
       <if test="nickname != null" >
         #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="attributeName != null" >
+        #{attributeName,jdbcType=VARCHAR},
       </if>
       <if test="evaluationTime != null" >
-        #{evaluationTime,jdbcType=TIMESTAMP},
+       now(),
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
@@ -78,6 +104,9 @@
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
       </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
@@ -86,11 +115,14 @@
       <if test="nickname != null" >
         nickname = #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="attributeName != null" >
+        attribute_name = #{attributeName,jdbcType=VARCHAR},
       </if>
       <if test="evaluationTime != null" >
-        evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
+        evaluation_time =  now(),
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
@@ -101,23 +133,33 @@
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
+    update tb_purchase_evaluation
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      attribute_name = #{attributeName,jdbcType=VARCHAR},
+      evaluation_time =  now(),
+      type = #{type,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation" >
     update tb_purchase_evaluation
     set nickname = #{nickname,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      attribute_name = #{attributeName,jdbcType=VARCHAR},
+      evaluation_time =  now(),
       type = #{type,jdbcType=INTEGER},
       product_id = #{productId,jdbcType=INTEGER},
       avatar = #{avatar,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="getAllPurchaseEvaluations" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tb_purchase_evaluation
-  </select>
 </mapper>

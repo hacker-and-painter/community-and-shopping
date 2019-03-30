@@ -3,6 +3,7 @@ package com.beautifulsoup.chengfeng.initialize;
 import com.beautifulsoup.chengfeng.constant.RedisConstant;
 import com.beautifulsoup.chengfeng.dao.PurchaseProductMapper;
 import com.beautifulsoup.chengfeng.dao.UserMapper;
+import com.beautifulsoup.chengfeng.pojo.PurchaseEvaluation;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProduct;
 import com.beautifulsoup.chengfeng.pojo.PurchaseProductSku;
 import com.beautifulsoup.chengfeng.pojo.User;
@@ -36,6 +37,7 @@ public class ChengfengInit implements InitializingBean {
     @Autowired
     private PurchaseProductMapper productMapper;
 
+
     @Override
     public void afterPropertiesSet() throws Exception {
         List<User> users=userMapper.selectAllUsers();
@@ -62,6 +64,7 @@ public class ChengfengInit implements InitializingBean {
                     RedisConstant.PRODUCT_PREFIX_SKU+sku.getId(),
                     String.valueOf(sku.getStock()));
         });
+
     }
 
 
