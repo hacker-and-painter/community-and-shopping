@@ -26,7 +26,7 @@ public class JournalismController {
 
         List<Journalism> top5Journalisms= journalismService.getTop5JournalismsOrderByPublishTime();
 
-        return ResponseResult.createBySuccess(top5Journalisms);
+        return ResponseResult.createBySuccess("获取新闻信息成功",top5Journalisms);
     }
 
 
@@ -36,7 +36,7 @@ public class JournalismController {
 
         Journalism journalism= journalismService.getJournalismById(journalismId);
 
-        return ResponseResult.createBySuccess(journalism);
+        return ResponseResult.createBySuccess("获取新闻信息成功",journalism);
     }
 
     @GetMapping(value = "/all",produces = "application/json;charset=UTF-8")
@@ -47,7 +47,7 @@ public class JournalismController {
 
         List<Journalism> allJournalismsByPage= journalismService.getAllJournalismsByPage(pageNum,pageSize);
 
-        return ResponseResult.createBySuccess(allJournalismsByPage);
+        return ResponseResult.createBySuccess("获取新闻信息成功",allJournalismsByPage);
     }
 
     @GetMapping(value = "/hot",produces = "application/json;charset=UTF-8")
@@ -55,7 +55,7 @@ public class JournalismController {
     public ResponseResult<List<Journalism>> getHotJournalisms(
             @RequestParam(value = "num",defaultValue = "3",required = false)Integer num){
         List<Journalism> hotJournalisms = journalismService.getHotJournalisms(num);
-        return ResponseResult.createBySuccess(hotJournalisms);
+        return ResponseResult.createBySuccess("获取新闻信息成功",hotJournalisms);
     }
 
 }

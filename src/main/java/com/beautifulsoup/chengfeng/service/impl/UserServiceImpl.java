@@ -179,17 +179,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendEmail(String nickname,String email) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!StringUtils.equals(principal.getUsername(),nickname)){
-            throw new ParamException("当前用户昵称错误");
+        try {
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            if (!StringUtils.equals(user.getNickname(),nickname)){
+                throw new ParamException("当前用户昵称错误");
+            }
+            if (StringUtils.isBlank(user.getEmail())){
+                throw new ParamException("您还未绑定邮箱,请通过更新用户信息修改您的邮箱");
+            }
+            if (!StringUtils.equals(email,user.getEmail())){
+                throw new ParamException("当前邮箱和您绑定过的邮箱地址不一致");
+            }
+            ImmutableList<Integer> immutableList = ImmutableList.of(RandomUtils.nextInt(1,10)
+                    ,RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),
+                    RandomUtils.nextInt(1,10));
+            String validateCode = immutableList.parallelStream().map(String::valueOf).collect(Collectors.joining(""));
+            stringRedisTemplate.opsForValue().set(EMAIL_VALIDATE_CODE_PREFIX+nickname,validateCode);
+            stringRedisTemplate.expire(EMAIL_VALIDATE_CODE_PREFIX+nickname,10, TimeUnit.MINUTES);
+            mailSenderUtil.sendSimpleMail(email,"【城风网验证码】","亲，感谢您选择城风社区平台。您的本次验证码为:"+validateCode);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
-        ImmutableList<Integer> immutableList = ImmutableList.of(RandomUtils.nextInt(1,10)
-                ,RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),RandomUtils.nextInt(1,10),
-                RandomUtils.nextInt(1,10));
-        String validateCode = immutableList.parallelStream().map(String::valueOf).collect(Collectors.joining(""));
-        stringRedisTemplate.opsForValue().set(EMAIL_VALIDATE_CODE_PREFIX+nickname,validateCode);
-        stringRedisTemplate.expire(EMAIL_VALIDATE_CODE_PREFIX+nickname,10, TimeUnit.MINUTES);
-        mailSenderUtil.sendSimpleMail(email,"【城风网验证码】","亲，感谢您选择城风社区平台。您的本次验证码为:"+validateCode);
     }
 
 

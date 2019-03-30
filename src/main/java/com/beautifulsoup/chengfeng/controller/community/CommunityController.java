@@ -37,7 +37,7 @@ public class CommunityController {
     @ResponseBody
     public ResponseResult<List<CommunityVo>> getAllCommunities(){
         List<CommunityVo> communityVos = communityService.getAllCommunities();
-        return ResponseResult.createBySuccess(communityVos);
+        return ResponseResult.createBySuccess("获取社区列表成功",communityVos);
     }
 
 

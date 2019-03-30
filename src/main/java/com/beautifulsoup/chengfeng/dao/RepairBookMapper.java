@@ -2,6 +2,8 @@ package com.beautifulsoup.chengfeng.dao;
 
 import com.beautifulsoup.chengfeng.pojo.RepairBook;
 
+import java.util.List;
+
 public interface RepairBookMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface RepairBookMapper {
     int updateByPrimaryKeySelective(RepairBook record);
 
     int updateByPrimaryKey(RepairBook record);
+
+    List<RepairBook> selectByNickname(String nickname);
 }

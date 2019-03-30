@@ -7,14 +7,16 @@
     <result column="hope_time" property="hopeTime" jdbcType="TIMESTAMP" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, phone, hope_time, address, description, create_time, update_time
+    id, phone, hope_time, address, description, nickname, avatar, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_book_watersuply
     where id = #{id,jdbcType=INTEGER}
@@ -24,18 +26,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
-    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_book_watersuply (id, phone, hope_time, 
-      address, description, create_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{hopeTime,jdbcType=TIMESTAMP}, 
-      #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into tb_book_watersuply (id, phone, hope_time,
+      address, description, nickname,
+      avatar, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{hopeTime,jdbcType=TIMESTAMP},
+      #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{avatar,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
-    <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
+    <selectKey keyColumn="id" keyProperty="id" resultType="java.lang.Integer" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tb_book_watersuply
@@ -54,6 +58,12 @@
       </if>
       <if test="description != null" >
         description,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="avatar != null" >
+        avatar,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -78,6 +88,12 @@
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -101,6 +117,12 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -116,8 +138,53 @@
       hope_time = #{hopeTime,jdbcType=TIMESTAMP},
       address = #{address,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByNickname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_watersuply
+    where nickname = #{nickname,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="ALL_Column_List" >
+    w.id w_id, w.phone w_phone, w.hope_time w_hope_time, w.address w_address, w.description w_description,
+    w.nickname w_nickname, w.avatar w_avatar, w.create_time w_create_time, w.update_time w_update_time,
+    d.id d_id, d.suply_id d_suply_id, d.brand_id d_brand_id, d.water_nums d_water_nums,
+    b.id b_id,b.brand b_brand,b.price b_price
+  </sql>
+  <resultMap id="AllResultMap" type="com.beautifulsoup.chengfeng.pojo.WatersuplyBook" >
+    <id column="w_id" property="id" jdbcType="INTEGER" />
+    <result column="w_phone" property="phone" jdbcType="VARCHAR" />
+    <result column="w_hope_time" property="hopeTime" jdbcType="TIMESTAMP" />
+    <result column="w_address" property="address" jdbcType="VARCHAR" />
+    <result column="w_description" property="description" jdbcType="VARCHAR" />
+    <result column="w_nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="w_avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="w_create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="w_update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="details" column="id" ofType="com.beautifulsoup.chengfeng.pojo.WatersuplyDetails">
+      <id column="d_id" property="id" jdbcType="INTEGER" />
+      <result column="d_suply_id" property="suplyId" jdbcType="INTEGER" />
+      <result column="d_brand_id" property="brandId" jdbcType="INTEGER" />
+      <result column="d_water_nums" property="waterNums" jdbcType="INTEGER" />
+      <association property="waterBrand" javaType="com.beautifulsoup.chengfeng.pojo.WaterBrand" fetchType="lazy">
+        <id column="b_id" property="id" jdbcType="INTEGER" />
+        <result column="b_brand" property="brand" jdbcType="VARCHAR" />
+        <result column="b_price" property="price" jdbcType="DECIMAL" />
+      </association>
+    </collection>
+  </resultMap>
+
+  <select id="selectAllByNickname" resultMap="AllResultMap" parameterType="java.lang.String" >
+   select  <include refid="ALL_Column_List" />
+   from tb_book_watersuply w left join tb_watersuply_details d on w.id=d.suply_id
+   left join tb_brand_water b on d.brand_id=b.id
+   where w.nickname=#{nickname}
+  </select>
 </mapper>

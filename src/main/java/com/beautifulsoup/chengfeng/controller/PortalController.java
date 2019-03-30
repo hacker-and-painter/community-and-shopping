@@ -72,6 +72,33 @@ public class PortalController {
         return ResponseResult.createByError();
     }
 
+    @GetMapping(value = "/get/repair",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<RepairBookVo>> getRepairBookInfo(
+            @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize){
+        List<RepairBookVo> repairBookVos = portalService.findAllRepairBookInfo(pageNum,pageSize);
+        return ResponseResult.createBySuccess("报修信息获取成功",repairBookVos);
+    }
+
+    @GetMapping(value = "/get/water",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<WaterBookVo>> getWaterBookInfo(
+            @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize){
+        List<WaterBookVo> waterBookVos = portalService.findAllWaterBookInfo(pageNum,pageSize);
+        return ResponseResult.createBySuccess("送水信息获取成功",waterBookVos);
+    }
+
+    @GetMapping(value = "/get/secretary",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<SecretaryBookVo>> getSecretaryBookInfo(
+            @RequestParam(value = "pageNum",defaultValue = "1",required = false)Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize){
+        List<SecretaryBookVo> secretaryBookVos = portalService.findAllSecretaryBookInfo(pageNum,pageSize);
+        return ResponseResult.createBySuccess("找书记信息获取成功",secretaryBookVos);
+    }
+
     //找书记
     @PostMapping(value = "/book/secretary",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -100,13 +127,13 @@ public class PortalController {
     @ResponseBody
     public ResponseResult<List<BannerImage>> getCarousalImage(){
         List<BannerImage> bannerImages = portalService.findCarousalImages();
-        return ResponseResult.createBySuccess(bannerImages);
+        return ResponseResult.createBySuccess("首页轮播图获取成功",bannerImages);
     }
 
     @GetMapping(value = "/index",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseResult<PortalVo> getAllInformation(){
-        return ResponseResult.createBySuccess(portalService.getAllInformation());
+        return ResponseResult.createBySuccess("首页信息获取成功",portalService.getAllInformation());
     }
 
 

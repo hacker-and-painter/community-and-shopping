@@ -12,7 +12,9 @@ public class SecretaryBook implements Serializable {
 
     private String description;
 
-    private Integer userId;
+    private String nickname;
+
+    private String avatar;
 
     private Date createTime;
 
@@ -48,12 +50,20 @@ public class SecretaryBook implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Date getCreateTime() {

@@ -20,4 +20,7 @@ public interface PortalService {
     WaterBookVo bookWaterSuply(WatersuplyDto watersuplyDto,BindingResult bindingResult);
     List<BannerImage> findCarousalImages();
     PortalVo getAllInformation();
+    List<RepairBookVo> findAllRepairBookInfo(Integer pageNum, Integer pageSize);
+    List<WaterBookVo> findAllWaterBookInfo(Integer pageNum, Integer pageSize);
+    List<SecretaryBookVo> findAllSecretaryBookInfo(Integer pageNum, Integer pageSize);
 }

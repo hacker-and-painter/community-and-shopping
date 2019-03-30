@@ -15,11 +15,15 @@ public class WatersuplyBook implements Serializable {
 
     private String description;
 
-    private List<WatersuplyDetails> detailsList;
+    private String nickname;
+
+    private String avatar;
 
     private Date createTime;
 
     private Date updateTime;
+
+    private List<WatersuplyDetails> details;
 
     public Integer getId() {
         return id;
@@ -61,12 +65,20 @@ public class WatersuplyBook implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public List<WatersuplyDetails> getDetailsList() {
-        return detailsList;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setDetailsList(List<WatersuplyDetails> detailsList) {
-        this.detailsList = detailsList;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Date getCreateTime() {
@@ -83,5 +95,13 @@ public class WatersuplyBook implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<WatersuplyDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<WatersuplyDetails> details) {
+        this.details = details;
     }
 }

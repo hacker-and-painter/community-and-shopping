@@ -14,4 +14,6 @@ public interface WatersuplyDetailsMapper {
     int updateByPrimaryKeySelective(WatersuplyDetails record);
 
     int updateByPrimaryKey(WatersuplyDetails record);
+
+    WatersuplyDetails selectAllByPrimaryKey(Integer id);
 }

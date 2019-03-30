@@ -7,15 +7,16 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="hope_time" property="hopeTime" jdbcType="TIMESTAMP" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, telephone, address, description, hope_time, user_id, create_time, update_time
+    id, telephone, address, description, hope_time, nickname, avatar, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_book_repair
     where id = #{id,jdbcType=INTEGER}
@@ -25,12 +26,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.beautifulsoup.chengfeng.pojo.RepairBook" >
-    insert into tb_book_repair (id, telephone, address, 
-      description, hope_time, user_id, 
-      create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{hopeTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
-      now(), now())
+    insert into tb_book_repair (id, telephone, address,
+      description, hope_time, nickname,
+      avatar, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{hopeTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR},
+      #{avatar,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.beautifulsoup.chengfeng.pojo.RepairBook" >
     insert into tb_book_repair
@@ -50,8 +53,11 @@
       <if test="hopeTime != null" >
         hope_time,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="avatar != null" >
+        avatar,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -76,14 +82,17 @@
       <if test="hopeTime != null" >
         #{hopeTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-        now(),
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        now(),
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -102,14 +111,17 @@
       <if test="hopeTime != null" >
         hope_time = #{hopeTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-        create_time = now(),
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = now(),
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -120,9 +132,17 @@
       address = #{address,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       hope_time = #{hopeTime,jdbcType=TIMESTAMP},
-      user_id = #{userId,jdbcType=INTEGER},
-      create_time = now(),
-      update_time = now()
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByNickname" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_repair
+    where nickname = #{nickname,jdbcType=VARCHAR}
+  </select>
 </mapper>

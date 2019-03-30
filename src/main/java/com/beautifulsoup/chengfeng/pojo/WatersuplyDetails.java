@@ -4,6 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
 public class WatersuplyDetails implements Serializable {
     private Integer id;
 
@@ -14,6 +15,8 @@ public class WatersuplyDetails implements Serializable {
 
     @Min(value = 1,message = "数量不能少于1")
     private Integer waterNums;
+
+    private WaterBrand waterBrand;
 
     public Integer getId() {
         return id;
@@ -45,5 +48,13 @@ public class WatersuplyDetails implements Serializable {
 
     public void setWaterNums(Integer waterNums) {
         this.waterNums = waterNums;
+    }
+
+    public WaterBrand getWaterBrand() {
+        return waterBrand;
+    }
+
+    public void setWaterBrand(WaterBrand waterBrand) {
+        this.waterBrand = waterBrand;
     }
 }

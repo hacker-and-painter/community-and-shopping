@@ -24,12 +24,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.constraints.Size;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
@@ -173,7 +174,11 @@ public class PortalServiceImpl implements PortalService {
         try {
             RepairBook repairBook=new RepairBook();
             BeanUtils.copyProperties(repairBookDto,repairBook);
-            repairBook.setUserId(AuthenticationInfoUtil.getUser(userMapper,memcachedClient).getId());
+            User user = AuthenticationInfoUtil.getUser(userMapper, memcachedClient);
+            repairBook.setCreateTime(new Date());
+            repairBook.setUpdateTime(new Date());
+            repairBook.setNickname(user.getNickname());
+            repairBook.setAvatar(user.getAvatar());
             repairBookMapper.insert(repairBook);
             return "立即报修提交成功";
         } catch (Exception e) {
@@ -188,7 +193,10 @@ public class PortalServiceImpl implements PortalService {
         try {
             SecretaryBook secretaryBook=new SecretaryBook();
             BeanUtils.copyProperties(bookDto,secretaryBook);
-            secretaryBook.setUserId(AuthenticationInfoUtil.getUser(userMapper,memcachedClient).getId());
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            secretaryBook.setCreateTime(new Date());
+            secretaryBook.setNickname(user.getNickname());
+            secretaryBook.setAvatar(user.getAvatar());
             secretaryBookMapper.insert(secretaryBook);
             return "找书记提交成功";
         } catch (Exception e) {
@@ -222,30 +230,44 @@ public class PortalServiceImpl implements PortalService {
     public WaterBookVo bookWaterSuply(WatersuplyDto watersuplyDto, BindingResult bindingResult) {
         ParamValidatorUtil.validateBindingResult(bindingResult);
 
-        WaterBookVo waterBookVo=new WaterBookVo();
+        try {
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            WaterBookVo waterBookVo=new WaterBookVo();
 
-        WatersuplyBook watersuplyBook=new WatersuplyBook();
-        BeanUtils.copyProperties(watersuplyDto,watersuplyBook);
-        watersuplyBookMapper.insertSelective(watersuplyBook);
+            WatersuplyBook watersuplyBook=new WatersuplyBook();
+            BeanUtils.copyProperties(watersuplyDto,watersuplyBook);
+            watersuplyBook.setNickname(user.getNickname());
+            watersuplyBook.setAvatar(user.getAvatar());
+            watersuplyBook.setCreateTime(new Date());
+            watersuplyBook.setUpdateTime(new Date());
+            watersuplyBookMapper.insertSelective(watersuplyBook);
 
-        List<WatersuplyDetails> detailsList = watersuplyDto.getDetailsList();
+            List<WatersuplyDetails> detailsList = watersuplyDto.getDetailsList();
 
-        List<WatersuplyDetails> watersuplyDetails=Lists.newArrayList();
+            List<WatersuplyDetails> watersuplyDetails=Lists.newArrayList();
 
-        if (CollectionUtils.isEmpty(detailsList)){
-            throw new ParamException("所购水的数量不正确");
+            if (CollectionUtils.isEmpty(detailsList)){
+                throw new ParamException("所购水的数量不正确");
+            }
+
+            detailsList.stream().forEach(detail->{
+                WatersuplyDetails details=new WatersuplyDetails();
+                BeanUtils.copyProperties(detail,details);
+                details.setSuplyId(watersuplyBook.getId());
+                watersuplyDetailsMapper.insert(details);
+                watersuplyDetails.add(details);
+            });
+            BeanUtils.copyProperties(watersuplyBook,waterBookVo);
+            waterBookVo.setDetailsList(watersuplyDetails);
+            return waterBookVo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
         }
-
-        detailsList.stream().forEach(detail->{
-            WatersuplyDetails details=new WatersuplyDetails();
-            BeanUtils.copyProperties(detail,details);
-            details.setSuplyId(watersuplyBook.getId());
-            watersuplyDetailsMapper.insert(details);
-            watersuplyDetails.add(details);
-        });
-        BeanUtils.copyProperties(watersuplyBook,waterBookVo);
-        waterBookVo.setDetailsList(watersuplyDetails);
-        return waterBookVo;
+        return null;
     }
 
     @Override
@@ -262,6 +284,89 @@ public class PortalServiceImpl implements PortalService {
         portalVo.setProperNoticeVos(findLatestProperNoticeVos(3));
         portalVo.setJournalisms(journalismService.getTop5JournalismsOrderByPublishTime());
         return portalVo;
+    }
+
+    @Override
+    public List<RepairBookVo> findAllRepairBookInfo(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<RepairBookVo> repairBookVos=Lists.newArrayList();
+        try {
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            List<RepairBook> repairBooks=repairBookMapper.selectByNickname(user.getNickname());
+            repairBooks.stream().sorted(Comparator.comparing(RepairBook::getUpdateTime).reversed())
+                    .forEach(repairBook -> {
+                        RepairBookVo repairBookVo=new RepairBookVo();
+                        BeanUtils.copyProperties(repairBook,repairBookVo);
+                        repairBookVos.add(repairBookVo);
+                    });
+            return repairBookVos;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<WaterBookVo> findAllWaterBookInfo(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<WaterBookVo> waterBookVos=Lists.newArrayList();
+        try {
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            List<WatersuplyBook> watersuplyBooks=watersuplyBookMapper.selectAllByNickname(user.getNickname());
+            watersuplyBooks.stream().sorted(Comparator.comparing(WatersuplyBook::getUpdateTime).reversed())
+                    .forEach(watersuplyBook -> {
+                        WaterBookVo waterBookVo=new WaterBookVo();
+                        if (CollectionUtils.isEmpty(waterBookVo.getDetailsList())){
+                            List<WatersuplyDetails> watersuplyDetails=Lists.newArrayList();
+                            waterBookVo.setDetailsList(watersuplyDetails);
+                        }
+                        watersuplyBook.getDetails().parallelStream().forEach(watersuplyDetails -> {
+                            waterBookVo.getDetailsList().add(watersuplyDetails);
+                        });
+                        BeanUtils.copyProperties(watersuplyBook,waterBookVo);
+
+                        waterBookVos.add(waterBookVo);
+                    });
+            return waterBookVos;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<SecretaryBookVo> findAllSecretaryBookInfo(Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<SecretaryBookVo> secretaryBookVos=Lists.newArrayList();
+        try {
+            User user=AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
+            List<SecretaryBook> secretaryBooks=secretaryBookMapper.selectByNickname(user.getNickname());
+            secretaryBooks.stream().sorted(Comparator.comparing(SecretaryBook::getCreateTime).reversed())
+                    .forEach(secretaryBook -> {
+                        SecretaryBookVo secretaryBookVo=new SecretaryBookVo();
+
+                        BeanUtils.copyProperties(secretaryBook,secretaryBookVo);
+
+                        secretaryBookVos.add(secretaryBookVo);
+                    });
+            return secretaryBookVos;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (MemcachedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

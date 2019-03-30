@@ -14,7 +14,9 @@ public class RepairBook implements Serializable {
 
     private Date hopeTime;
 
-    private Integer userId;
+    private String nickname;
+
+    private String avatar;
 
     private Date createTime;
 
@@ -60,12 +62,20 @@ public class RepairBook implements Serializable {
         this.hopeTime = hopeTime;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Date getCreateTime() {

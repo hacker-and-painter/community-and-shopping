@@ -85,4 +85,28 @@
       water_nums = #{waterNums,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="AllResultMap" type="com.beautifulsoup.chengfeng.pojo.WatersuplyDetails" >
+    <id column="d_id" property="id" jdbcType="INTEGER" />
+    <result column="d_suply_id" property="suplyId" jdbcType="INTEGER" />
+    <result column="d_brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="d_water_nums" property="waterNums" jdbcType="INTEGER" />
+    <association property="waterBrand" javaType="com.beautifulsoup.chengfeng.pojo.WaterBrand" fetchType="lazy">
+      <id column="b_id" property="id" jdbcType="INTEGER" />
+      <result column="b_brand" property="brand" jdbcType="VARCHAR" />
+      <result column="b_price" property="price" jdbcType="DECIMAL" />
+    </association>
+  </resultMap>
+
+  <sql id="All_Column_List" >
+    d.id d_id, d.suply_id d_suply_id, d.brand_id d_brand_id, d.water_nums d_water_nums,
+    b.id b_id,b.brand b_brand,b.price b_price
+  </sql>
+
+  <select id="selectAllByPrimaryKey" resultMap="AllResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="All_Column_List" />
+    from tb_watersuply_details d left join tb_brand_water b on d.brand_id=b.id
+    where d.id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>
