@@ -13,16 +13,20 @@ import com.beautifulsoup.chengfeng.service.dto.EvaluationDto;
 import com.beautifulsoup.chengfeng.utils.AuthenticationInfoUtil;
 import com.beautifulsoup.chengfeng.utils.JsonSerializableUtil;
 import com.beautifulsoup.chengfeng.utils.ParamValidatorUtil;
+import com.google.common.collect.Lists;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -73,6 +77,7 @@ public class PurchaseEvaluationServiceImpl implements PurchaseEvaluationService 
             purchaseEvaluation.setAvatar(user.getAvatar());
             purchaseEvaluation.setProductId(productSku.getPurchaseProduct().getId());
             purchaseEvaluation.setAttributeName(productSku.getAttributeName());
+            purchaseEvaluation.setEvaluationTime(new Date());
             evaluationMapper.insert(purchaseEvaluation);
             evaluationRepository.save(purchaseEvaluation);
             //异步更新商品的评价信息
@@ -89,5 +94,29 @@ public class PurchaseEvaluationServiceImpl implements PurchaseEvaluationService 
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<EvaluationVo> getAllEvaluations(Integer productId,Integer pageNum,Integer pageSize) {
+        List<EvaluationVo> evaluationVos=Lists.newArrayList();
+        Sort.Order order=new Sort.Order(Sort.Direction.DESC,"evaluationTime");
+        Sort sort=Sort.by(Lists.newArrayList(order));
+        evaluationRepository.findByProductId(productId, PageRequest.of(pageNum-1,pageSize,sort)).forEach(purchaseEvaluation -> {
+            EvaluationVo evaluationVo=new EvaluationVo();
+            BeanUtils.copyProperties(purchaseEvaluation,evaluationVo);
+            evaluationVos.add(evaluationVo);
+        });
+        return evaluationVos;
+    }
+
+    @Override
+    public List<EvaluationVo> getGoodEvaluations(Integer productId,Integer pageNum,Integer pageSize) {
+        List<EvaluationVo> evaluationVos=Lists.newArrayList();
+        evaluationRepository.findByTypeAndProductIdOrderByEvaluationTimeDesc(1,productId,PageRequest.of(pageNum-1,pageSize)).forEach(purchaseEvaluation -> {
+            EvaluationVo evaluationVo=new EvaluationVo();
+            BeanUtils.copyProperties(purchaseEvaluation,evaluationVo);
+            evaluationVos.add(evaluationVo);
+        });
+        return evaluationVos;
     }
 }

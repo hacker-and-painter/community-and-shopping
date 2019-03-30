@@ -1,6 +1,8 @@
 package com.beautifulsoup.chengfeng.controller.vo;
 
+import com.beautifulsoup.chengfeng.serializable.Date2LongSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.util.Date;
@@ -18,6 +20,7 @@ public class EvaluationVo {
     private String content;
     private String imageUrl;
     private String attributeName;
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date evaluationTime;
     private Integer type;
 }
