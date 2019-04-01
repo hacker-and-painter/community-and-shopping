@@ -80,10 +80,10 @@ rabbitmq:
 
 kafka:
   brokerList: 123.207.157.129:9092
-  topic: topic-demo
-  pClientId: producer.client.id.demo
+  topic: topic-chengfeng
+  pClientId: producer.client.id.chengfeng
   ackConfig: 1
   retries: 10
-  cGroupId: group.demo
-  cClientId: consumer.client.id.demo
+  cGroupId: group.chengfeng
+  cClientId: consumer.client.id.chengfeng
   linger: 1
