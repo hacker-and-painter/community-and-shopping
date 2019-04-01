@@ -136,5 +136,10 @@ public class PortalController {
         return ResponseResult.createBySuccess("首页信息获取成功",portalService.getAllInformation());
     }
 
-
+    @GetMapping(value = "/recommend",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseResult<List<ProductSimpleVo>> getRecommendProducts(@RequestParam(value = "limit",defaultValue = "9",required = false)Integer limit){
+        List<ProductSimpleVo> productSimpleVos=portalService.getRecommendProducts(limit);
+        return ResponseResult.createBySuccess(productSimpleVos);
+    }
 }

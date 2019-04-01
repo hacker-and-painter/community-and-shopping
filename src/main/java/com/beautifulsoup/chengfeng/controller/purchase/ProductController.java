@@ -51,4 +51,7 @@ public class ProductController {
         List<ProductSimpleVo> products = purchaseProductService.findProductByBanner(pageNum,pageSize,keyword);
         return ResponseResult.createBySuccess(products);
     }
+
+
+
 }

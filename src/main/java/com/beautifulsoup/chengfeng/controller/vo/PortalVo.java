@@ -21,4 +21,6 @@ public class PortalVo {
     private List<CommunityNoticeVo> communityNoticeVos;
     private List<BannerImage> carousals;
     private List<Journalism> journalisms;
+    @JsonProperty(value = "products")
+    private List<ProductSimpleVo> simpleVos;
 }

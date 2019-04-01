@@ -36,14 +36,21 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         boolean saltCheck = stringRedisTemplate.hasKey(RedisConstant.TOKEN_SALT + authentication.getName()).booleanValue();
         if (saltCheck){
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            TokenConferUtil.warningAuthentication(response,"用户已经登录请勿重复登录");
-            return;
+           clearToken(authentication);
         }
 
         String token = userInfoService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         TokenConferUtil.conferToken(response,token);
+    }
+
+    protected void clearToken(Authentication authentication) {
+        if(authentication == null)
+            return;
+        SecurityContextHolder.getContext().setAuthentication(null);
+        UserDetails user = (UserDetails)authentication.getPrincipal();
+        if(user!=null && user.getUsername()!=null)
+            userInfoService.deleteUserLoginInfo(user.getUsername());
+
     }
 }

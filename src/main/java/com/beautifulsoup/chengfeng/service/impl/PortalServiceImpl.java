@@ -7,8 +7,13 @@ import com.beautifulsoup.chengfeng.dao.*;
 import com.beautifulsoup.chengfeng.exception.BaseException;
 import com.beautifulsoup.chengfeng.exception.ParamException;
 import com.beautifulsoup.chengfeng.pojo.*;
+import com.beautifulsoup.chengfeng.repository.ProductRepository;
+import com.beautifulsoup.chengfeng.repository.PurchaseInfoRepository;
 import com.beautifulsoup.chengfeng.service.JournalismService;
 import com.beautifulsoup.chengfeng.service.PortalService;
+import com.beautifulsoup.chengfeng.service.PurchaseInfoService;
+import com.beautifulsoup.chengfeng.service.PurchaseProductService;
+import com.beautifulsoup.chengfeng.service.dto.PurchaseInfoDto;
 import com.beautifulsoup.chengfeng.service.dto.RepairBookDto;
 import com.beautifulsoup.chengfeng.service.dto.SecretaryBookDto;
 import com.beautifulsoup.chengfeng.service.dto.WatersuplyDto;
@@ -34,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -75,6 +81,14 @@ public class PortalServiceImpl implements PortalService {
     @Autowired
     private JournalismService journalismService;
 
+    @Autowired
+    private PurchaseInfoService purchaseInfoService;
+
+    @Autowired
+    private PurchaseInfoRepository purchaseInfoRepository;
+
+    @Autowired
+    private PurchaseProductService purchaseProductService;
 
     @Override
     public List<CommunityNoticeVo> findAllCommunityNoticeVos(Integer pageNum, Integer pageSize){
@@ -283,6 +297,7 @@ public class PortalServiceImpl implements PortalService {
         portalVo.setCommunityNoticeVos(findLatestCommunityNoticeVos(3));
         portalVo.setProperNoticeVos(findLatestProperNoticeVos(3));
         portalVo.setJournalisms(journalismService.getTop5JournalismsOrderByPublishTime());
+        portalVo.setSimpleVos(getRecommendProducts(9));
         return portalVo;
     }
 
@@ -367,6 +382,25 @@ public class PortalServiceImpl implements PortalService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<ProductSimpleVo> getRecommendProducts(Integer limit) {
+        List<ProductSimpleVo> simpleVos=Lists.newArrayList();
+        List<PurchaseInfoVo> purchaseInfo = purchaseInfoService.getPurchaseInfo();
+        purchaseInfo.stream().sorted(Comparator.comparing(PurchaseInfoVo::getSales).reversed())
+                .limit(limit).map(PurchaseInfoVo::getName).forEach(subtitle->{
+            PurchaseInfoDto purchaseInfoDto = purchaseInfoRepository.findByDetail(subtitle);
+//              productSkuMapper.selectLikeSub
+            if (purchaseInfoDto != null) {
+                ProductSimpleVo productSimpleVo=new ProductSimpleVo();
+
+                BeanUtils.copyProperties(purchaseInfoDto,productSimpleVo);
+
+                simpleVos.add(productSimpleVo);
+            }
+            });
+        return simpleVos;
     }
 
 

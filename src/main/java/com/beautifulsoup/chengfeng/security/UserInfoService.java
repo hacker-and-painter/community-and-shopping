@@ -48,7 +48,7 @@ public class UserInfoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (StringUtils.isBlank(username)){
-            throw new ParamException("用户名或密码不正确");
+            throw new UserAuthenticationException("用户名或密码不正确");
         }
 
 

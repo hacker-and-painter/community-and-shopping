@@ -1,6 +1,7 @@
 package com.beautifulsoup.chengfeng.handler;
 
 import com.beautifulsoup.chengfeng.common.ResponseResult;
+import com.beautifulsoup.chengfeng.exception.UserAuthenticationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -17,11 +18,13 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
-        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),"用户认证失败");
+        ResponseResult responseResult=ResponseResult.createByError(HttpStatus.UNAUTHORIZED.value(),
+                "用户认证失败");
 
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(response.getWriter(),responseResult);
         response.getWriter().flush();
+//        throw new UserAuthenticationException(e.getMessage());
 //        response.getWriter().close();
     }
 }

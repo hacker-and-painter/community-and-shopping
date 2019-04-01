@@ -23,4 +23,5 @@ public interface PortalService {
     List<RepairBookVo> findAllRepairBookInfo(Integer pageNum, Integer pageSize);
     List<WaterBookVo> findAllWaterBookInfo(Integer pageNum, Integer pageSize);
     List<SecretaryBookVo> findAllSecretaryBookInfo(Integer pageNum, Integer pageSize);
+    List<ProductSimpleVo> getRecommendProducts(Integer limit);
 }

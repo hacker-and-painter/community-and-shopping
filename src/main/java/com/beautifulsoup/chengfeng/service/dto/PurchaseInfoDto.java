@@ -22,10 +22,10 @@ public class PurchaseInfoDto implements Serializable {
     @Field(type = FieldType.Keyword, index = false)
     private String category;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    @Field(type = FieldType.Keyword, index = false)
     private String name;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    @Field(type = FieldType.Keyword, index = false)
     private String subtitle;
 
     @Field(type = FieldType.Text, analyzer = "ik_max_word")

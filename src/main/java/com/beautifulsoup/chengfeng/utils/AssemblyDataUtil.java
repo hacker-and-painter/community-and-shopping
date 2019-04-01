@@ -15,6 +15,7 @@ public class AssemblyDataUtil {
         purchaseInfoDto.setSubtitle(productSku.getPurchaseProduct().getName()+" "+productSku.getAttributeName());
         purchaseInfoDto.setDetail(productSku.getPurchaseProduct().getName()+" "+productSku.getAttributeName());
         purchaseInfoDto.setCategory(category.getName());
+
         purchaseInfoDto.setGoodRatio(productSku.getPurchaseProduct().getGoodRatio());
         purchaseInfoDto.setMainImage(productSku.getPurchaseProduct().getMainImage());
         purchaseInfoDto.setSubImages(productSku.getPurchaseProduct().getSubImages());

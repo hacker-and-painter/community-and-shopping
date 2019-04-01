@@ -229,13 +229,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         RedissonClient redisson = Redisson.create(config);
         RLock lock = redisson.getLock(RedisConstant.Redisson.LOCK_SPELL_ORDER);
         boolean locked = false;
+        PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);
+        PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
         try{
             User user = AuthenticationInfoUtil.getUser(userMapper,memcachedClient);
             log.info("尝试获取下单锁");
             locked = lock.tryLock(10,TimeUnit.SECONDS);
             log.info("获取锁的状态:{}",locked);
             if(locked) {
-                    PurchaseProductSku productSku = productSkuMapper.selectAllByPrimaryKey(skuId);
+
                     Long orderNo=Long.parseLong(stringRedisTemplate.opsForValue().increment(RedisConstant.COUNTER_ORDER).toString());
                     PurchaseOrderItem purchaseOrderItem=new PurchaseOrderItem();
                     purchaseOrderItem.setCurrentUnitPrice(productSku.getPrice());
@@ -274,15 +276,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     purchaseOrderVo.getOrderItems().add(orderItemVo);
                     PurchaseShipping shipping=purchaseShippingMapper.selectByPrimaryKey(shippingId);
 
-                PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
+
                 Optional<PurchaseProduct> optional = productRepository.findById(productSku.getPurchaseProduct().getId());
                 if (optional.isPresent()){
                     PurchaseProduct purchaseProduct = optional.get();
                     productSku.setPurchaseProduct(purchaseProduct);
                 }
-                PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
 
-                kafkaTemplate.send("topic-demo",purchaseInfoDto);
                 ShippingVo shippingVo=new ShippingVo();
                 if (shipping != null) {
                     BeanUtils.copyProperties(shipping,shippingVo);
@@ -293,6 +293,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }catch (Exception e) {
             log.error("下单失败");
         }finally {
+            PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+
+            kafkaTemplate.send("topic-demo",purchaseInfoDto);
             log.info("释放锁");
             if(locked){
                 lock.unlock();
@@ -346,17 +349,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 RedisConstant.PRODUCT_PREFIX_SKU + skuId,String.valueOf(stock-count));
 
         //记录数据
-
         PurchaseCategory category=purchaseCategoryMapper.selectByPrimaryKey(productSku.getPurchaseProduct().getCategoryId());
         Optional<PurchaseProduct> optional = productRepository.findById(productSku.getPurchaseProduct().getId());
         if (optional.isPresent()){
             PurchaseProduct purchaseProduct = optional.get();
             productSku.setPurchaseProduct(purchaseProduct);
         }
-        PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
-
-        kafkaTemplate.send("topic-demo",purchaseInfoDto);
-
-
+        try{
+             PurchaseInfoDto purchaseInfoDto = AssemblyDataUtil.assemblyPurchaseInfo(productSku, count, category,stringRedisTemplate);
+             kafkaTemplate.send("topic-demo",purchaseInfoDto);
+         }catch (Exception e){
+             log.error(String.join(":","数据统计失败",e.getMessage()));
+         }
     }
 }
