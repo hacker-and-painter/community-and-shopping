@@ -59,7 +59,7 @@ public class UserInfoService implements UserDetailsService {
             }
 
             return  User.builder().username(user.getNickname())
-                    .password(passwordEncoder.encode(user.getCryptPassword().getCryptPassword())).authorities("/admin").build();
+                    .password(user.getCryptPassword().getCryptPassword()).authorities("/admin").build();
     }
 
     public UserDetails getUserLoginInfo(String username) {

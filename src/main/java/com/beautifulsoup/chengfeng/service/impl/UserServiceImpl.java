@@ -32,6 +32,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -74,6 +75,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MailSenderUtil mailSenderUtil;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -90,7 +93,8 @@ public class UserServiceImpl implements UserService {
         userMapper.insertSelective(user);
         CryptPassword cryptPassword=new CryptPassword();
         cryptPassword.setUserId(user.getId());
-        cryptPassword.setCryptPassword(userDto.getPassword());
+
+        cryptPassword.setCryptPassword(passwordEncoder.encode(userDto.getPassword()));
         cryptPasswordMapper.insertSelective(cryptPassword);
 
         stringRedisTemplate.opsForHash().put(RedisConstant.USERINFOS, user.getNickname(), JsonSerializableUtil.obj2String(user));
