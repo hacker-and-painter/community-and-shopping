@@ -5,15 +5,15 @@
 [https://juejin.im/post/5ca1b08fe51d455201119177](https://juejin.im/post/5ca1b08fe51d455201119177)
 
 ## Web端
-[https://github.com/hansonfang/community_and_shopping](https://github.com/hansonfang/community_and_shopping)
+[基于Vue端的Web前端系统](https://github.com/hansonfang/community_and_shopping)
 
-## Android
+## Android端
 
 ### 社区APP
-[https://github.com/Hanscang/AndroidCommunity](https://github.com/Hanscang/AndroidCommunity)
+[社区版Android APP](https://github.com/Hanscang/AndroidCommunity)
 
 ### 商城APP
-[https://juejin.im/post/5ca1b08fe51d455201119177](https://juejin.im/post/5ca1b08fe51d455201119177)
+[商城版A](https://juejin.im/post/5ca1b08fe51d455201119177)
 
 ## 技术包括
 
