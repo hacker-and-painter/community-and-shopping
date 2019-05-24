@@ -13,7 +13,7 @@
 [社区版Android APP](https://github.com/Hanscang/AndroidCommunity)
 
 ### 商城APP
-[商城版A](https://juejin.im/post/5ca1b08fe51d455201119177)
+[商城版Android APP](https://github.com/xiao212l/CommunityMarket)
 
 ## 技术包括
 
